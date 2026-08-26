@@ -1,85 +1,508 @@
 <!doctype html>
 <html lang="en">
+
 <head>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width,initial-scale=1">
-<title>John Lian — Online Easy Earning</title>
-<link rel="stylesheet" href="style.css">
+  <meta charset="utf-8">
+
+  <meta
+    name="viewport"
+    content="width=device-width, initial-scale=1"
+  >
+
+  <title>John Lian - Online Easy Earning</title>
+
+  <link rel="stylesheet" href="style.css">
+
+  <!-- Supabase -->
+  <script
+    src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"
+  ></script>
+
+  <!-- Your configuration -->
+  <script src="config.js"></script>
 </head>
+
 <body>
-<header class="nav">
-<a class="logo" href="#">John <span>Lian</span></a>
-<nav>
-<a href="#how">How It Works</a>
-<a href="#opportunities">Opportunities</a>
-<a href="#about">About</a>
-<a href="#login">Login</a>
-<a class="btn small" href="#register">Register</a>
-</nav>
-</header>
-<main>
-<section class="hero">
-<div>
-<p class="eyebrow">JOHN LIAN • ONLINE EASY EARNING</p>
-<h1 id="heroHeadline"></h1>
-<p id="heroText" class="lead"></p>
-<div class="actions">
-<a class="btn" href="#register" id="primaryButton"></a>
-<a class="btn outline" href="#how" id="secondaryButton"></a>
-</div>
-</div>
-<div class="hero-card">
-<div class="circle">JL</div>
-<h3>Your opportunity dashboard</h3>
-<p>Track available tasks, activity and approved earnings in one place.</p>
-</div>
-</section>
-<section id="how" class="section">
-<h2>How It Works</h2>
-<div class="grid three">
-<article><b>01</b><h3>Create an account</h3><p>Register with your details and keep your account secure.</p></article>
-<article><b>02</b><h3>Complete opportunities</h3><p>Choose legitimate tasks or services available on the platform.</p></article>
-<article><b>03</b><h3>Track your earnings</h3><p>View approved earnings and transaction history.</p></article>
-</div>
-</section>
-<section id="opportunities" class="section alt">
-<h2>Opportunities</h2>
-<div class="grid three">
-<article><h3>Online Tasks</h3><p>Participate in tasks made available by the platform.</p></article>
-<article><h3>Referral Program</h3><p>Invite users when an approved referral program is active.</p></article>
-<article><h3>Digital Services</h3><p>Find opportunities based on skills and services.</p></article>
-</div>
-</section>
-<section id="about" class="section">
-<h2>About John Lian</h2>
-<p class="center">A platform concept focused on connecting people with legitimate online earning opportunities. Earnings are not guaranteed; availability and amounts depend on each opportunity and its terms.</p>
-</section>
-<section id="register" class="section form-section">
-<h2>Create Your Account</h2>
-<form onsubmit="event.preventDefault();alert('Registration interface ready. A secure backend is required before collecting real user data.');">
-<input required placeholder="Full name">
-<input required type="email" placeholder="Email address">
-<input required type="password" placeholder="Password">
-<button class="btn">Register</button>
-</form>
-</section>
-<section id="login" class="section form-section alt">
-<h2>Login</h2>
-<form onsubmit="event.preventDefault();alert('Login interface ready. A secure backend is required before public use.');">
-<input required type="email" placeholder="Email address">
-<input required type="password" placeholder="Password">
-<button class="btn">Login</button>
-</form>
-</section>
-</main>
-<footer id="footer"></footer>
-<script src="config.js"></script>
-<script>
-document.getElementById("heroHeadline").textContent=SITE_CONFIG.heroHeadline;
-document.getElementById("heroText").textContent=SITE_CONFIG.heroText;
-document.getElementById("primaryButton").textContent=SITE_CONFIG.primaryButton;
-document.getElementById("secondaryButton").textContent=SITE_CONFIG.secondaryButton;
-document.getElementById("footer").textContent=SITE_CONFIG.footerText;
-</script>
+
+  <!-- =========================
+       NAVIGATION
+  ========================== -->
+
+  <header class="nav">
+
+    <a class="logo" href="#">
+      John <span>Lian</span>
+    </a>
+
+    <nav>
+
+      <a href="#how">How It Works</a>
+
+      <a href="#opportunities">
+        Opportunities
+      </a>
+
+      <a href="#about">
+        About
+      </a>
+
+      <a href="#login">
+        Login
+      </a>
+
+      <a
+        class="btn small"
+        href="#register"
+      >
+        Register
+      </a>
+
+    </nav>
+
+  </header>
+
+
+  <!-- =========================
+       HERO
+  ========================== -->
+
+  <section class="hero">
+
+    <div class="hero-content">
+
+      <p class="tagline">
+        Online Easy Earning
+      </p>
+
+      <h1>
+        Turn Your Time Into Opportunity
+      </h1>
+
+      <p>
+        Discover legitimate online opportunities,
+        complete available tasks, and track your
+        approved earnings.
+      </p>
+
+      <div>
+
+        <a
+          class="btn"
+          href="#register"
+        >
+          Create an Account
+        </a>
+
+        <a
+          class="btn secondary"
+          href="#how"
+        >
+          How It Works
+        </a>
+
+      </div>
+
+    </div>
+
+  </section>
+
+
+  <!-- =========================
+       HOW IT WORKS
+  ========================== -->
+
+  <section id="how">
+
+    <h2>How It Works</h2>
+
+    <div>
+
+      <article>
+        <h3>1. Create an Account</h3>
+        <p>
+          Register using your email address
+          and create your account.
+        </p>
+      </article>
+
+      <article>
+        <h3>2. Find Tasks</h3>
+        <p>
+          Browse available online tasks
+          and opportunities.
+        </p>
+      </article>
+
+      <article>
+        <h3>3. Complete Tasks</h3>
+        <p>
+          Complete approved tasks according
+          to the requirements.
+        </p>
+      </article>
+
+      <article>
+        <h3>4. Track Earnings</h3>
+        <p>
+          Keep track of your approved
+          tasks and earnings.
+        </p>
+      </article>
+
+    </div>
+
+  </section>
+
+
+  <!-- =========================
+       OPPORTUNITIES
+  ========================== -->
+
+  <section id="opportunities">
+
+    <h2>Opportunities</h2>
+
+    <p>
+      New opportunities can be added here.
+      Always check the requirements before
+      starting a task.
+    </p>
+
+  </section>
+
+
+  <!-- =========================
+       ABOUT
+  ========================== -->
+
+  <section id="about">
+
+    <h2>About John Lian</h2>
+
+    <p>
+      John Lian - Online Easy Earning is designed
+      to help users discover online opportunities,
+      complete tasks and keep track of their progress.
+    </p>
+
+  </section>
+
+
+  <!-- =========================
+       REGISTER
+  ========================== -->
+
+  <section id="register">
+
+    <h2>Create Your Account</h2>
+
+    <form id="register-form">
+
+      <input
+        type="email"
+        id="register-email"
+        placeholder="Email address"
+        required
+      >
+
+      <input
+        type="password"
+        id="register-password"
+        placeholder="Create password"
+        minlength="6"
+        required
+      >
+
+      <button type="submit">
+        Create Account
+      </button>
+
+    </form>
+
+    <p id="register-message"></p>
+
+  </section>
+
+
+  <!-- =========================
+       LOGIN
+  ========================== -->
+
+  <section id="login">
+
+    <h2>Login</h2>
+
+    <form id="login-form">
+
+      <input
+        type="email"
+        id="login-email"
+        placeholder="Email address"
+        required
+      >
+
+      <input
+        type="password"
+        id="login-password"
+        placeholder="Password"
+        required
+      >
+
+      <button type="submit">
+        Login
+      </button>
+
+    </form>
+
+    <button
+      id="logout-button"
+      type="button"
+      style="display:none;"
+    >
+      Logout
+    </button>
+
+    <p id="login-message"></p>
+
+  </section>
+
+
+  <!-- =========================
+       USER STATUS
+  ========================== -->
+
+  <section id="account">
+
+    <h2>Your Account</h2>
+
+    <p id="user-status">
+      You are not logged in.
+    </p>
+
+  </section>
+
+
+  <!-- =========================
+       FOOTER
+  ========================== -->
+
+  <footer>
+
+    <p>
+      © 2026 John Lian. All rights reserved.
+    </p>
+
+  </footer>
+
+
+  <!-- =========================
+       SUPABASE JAVASCRIPT
+  ========================== -->
+
+  <script>
+
+    // Create Supabase client
+    const supabaseClient =
+      window.supabase.createClient(
+        SUPABASE_URL,
+        SUPABASE_ANON_KEY
+      );
+
+
+    // =========================
+    // REGISTER
+    // =========================
+
+    const registerForm =
+      document.getElementById("register-form");
+
+    registerForm.addEventListener(
+      "submit",
+      async function(event) {
+
+        event.preventDefault();
+
+        const email =
+          document.getElementById(
+            "register-email"
+          ).value.trim();
+
+        const password =
+          document.getElementById(
+            "register-password"
+          ).value;
+
+        const message =
+          document.getElementById(
+            "register-message"
+          );
+
+        message.textContent =
+          "Creating your account...";
+
+        const {
+          data,
+          error
+        } =
+          await supabaseClient.auth.signUp({
+            email: email,
+            password: password
+          });
+
+        if (error) {
+
+          message.textContent =
+            error.message;
+
+          return;
+        }
+
+        message.textContent =
+          "Account created. Check your email if email confirmation is required.";
+
+        registerForm.reset();
+
+      }
+    );
+
+
+    // =========================
+    // LOGIN
+    // =========================
+
+    const loginForm =
+      document.getElementById("login-form");
+
+    loginForm.addEventListener(
+      "submit",
+      async function(event) {
+
+        event.preventDefault();
+
+        const email =
+          document.getElementById(
+            "login-email"
+          ).value.trim();
+
+        const password =
+          document.getElementById(
+            "login-password"
+          ).value;
+
+        const message =
+          document.getElementById(
+            "login-message"
+          );
+
+        message.textContent =
+          "Logging in...";
+
+        const {
+          data,
+          error
+        } =
+          await supabaseClient.auth.signInWithPassword({
+            email: email,
+            password: password
+          });
+
+        if (error) {
+
+          message.textContent =
+            error.message;
+
+          return;
+        }
+
+        message.textContent =
+          "Login successful.";
+
+        loginForm.reset();
+
+        updateUserStatus();
+
+      }
+    );
+
+
+    // =========================
+    // LOGOUT
+    // =========================
+
+    const logoutButton =
+      document.getElementById(
+        "logout-button"
+      );
+
+    logoutButton.addEventListener(
+      "click",
+      async function() {
+
+        await supabaseClient.auth.signOut();
+
+        updateUserStatus();
+
+        document.getElementById(
+          "login-message"
+        ).textContent =
+          "You have been logged out.";
+
+      }
+    );
+
+
+    // =========================
+    // CHECK USER
+    // =========================
+
+    async function updateUserStatus() {
+
+      const {
+        data
+      } =
+        await supabaseClient.auth.getUser();
+
+      const status =
+        document.getElementById(
+          "user-status"
+        );
+
+      if (data.user) {
+
+        status.textContent =
+          "Logged in as " +
+          data.user.email;
+
+        logoutButton.style.display =
+          "inline-block";
+
+      } else {
+
+        status.textContent =
+          "You are not logged in.";
+
+        logoutButton.style.display =
+          "none";
+
+      }
+
+    }
+
+
+    // Check login when page opens
+    updateUserStatus();
+
+
+    // Update automatically when
+    // authentication changes
+    supabaseClient.auth.onAuthStateChange(
+      function() {
+        updateUserStatus();
+      }
+    );
+
+  </script>
+
 </body>
+
 </html>
