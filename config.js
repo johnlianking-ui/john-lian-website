@@ -7,3 +7,6 @@ const SITE_CONFIG = {
   secondaryButton: "How It Works",
   footerText: "© 2026 John Lian. All rights reserved."
 };
+const SUPABASE_URL = "https://gjorrsnodebguodpylra.supabase.co";
+
+const SUPABASE_ANON_KEY = "sb_publishable_j_REHAT_oauXBZIjQ6AVJg_XRdJXf0D";
