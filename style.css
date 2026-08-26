@@ -1,6 +1,204 @@
+* {
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  margin: 0;
+  font-family: Arial, sans-serif;
+  color: #172033;
+  background: #ffffff;
+  line-height: 1.6;
+}
+
 /* =========================
-   AUTH FORMS
-   ========================= */
+   NAVIGATION
+========================= */
+
+.nav {
+  height: 72px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 6%;
+  border-bottom: 1px solid #edf0f5;
+  background: #ffffff;
+  position: sticky;
+  top: 0;
+  z-index: 100;
+}
+
+.logo {
+  font-size: 24px;
+  font-weight: 800;
+  color: #172033;
+  text-decoration: none;
+}
+
+.logo span {
+  color: #1d72f2;
+}
+
+.nav nav {
+  display: flex;
+  gap: 22px;
+  align-items: center;
+}
+
+.nav nav a {
+  color: #4b5565;
+  text-decoration: none;
+  font-weight: 500;
+}
+
+.nav nav a:hover {
+  color: #1d72f2;
+}
+
+/* =========================
+   BUTTONS
+========================= */
+
+.btn {
+  display: inline-block;
+  border: 0;
+  border-radius: 10px;
+  background: #1d72f2;
+  color: #ffffff;
+  padding: 13px 22px;
+  font-weight: 700;
+  text-decoration: none;
+  cursor: pointer;
+  transition: 0.2s ease;
+}
+
+.btn:hover {
+  background: #155dcc;
+  transform: translateY(-1px);
+}
+
+.btn.outline {
+  background: #ffffff;
+  color: #1d72f2;
+  border: 1px solid #cbd8ef;
+}
+
+.btn.small {
+  padding: 9px 16px;
+}
+
+/* =========================
+   HERO
+========================= */
+
+.hero {
+  padding: 90px 8%;
+  display: grid;
+  grid-template-columns: 1.3fr 0.7fr;
+  gap: 60px;
+  align-items: center;
+  background: linear-gradient(135deg, #f5f9ff, #ffffff);
+}
+
+.eyebrow {
+  font-size: 13px;
+  font-weight: 800;
+  letter-spacing: 1.5px;
+  color: #1d72f2;
+}
+
+.hero h1 {
+  font-size: clamp(42px, 6vw, 72px);
+  line-height: 1.05;
+  margin: 15px 0;
+}
+
+.lead {
+  font-size: 19px;
+  color: #5e6879;
+  max-width: 650px;
+}
+
+.actions {
+  display: flex;
+  gap: 14px;
+  margin-top: 30px;
+}
+
+.hero-card {
+  padding: 38px;
+  border-radius: 24px;
+  background: #172033;
+  color: #ffffff;
+  box-shadow: 0 20px 50px rgba(23, 32, 51, 0.15);
+}
+
+.circle {
+  width: 90px;
+  height: 90px;
+  border-radius: 50%;
+  display: grid;
+  place-items: center;
+  background: #1d72f2;
+  font-size: 28px;
+  font-weight: 800;
+  margin-bottom: 30px;
+}
+
+/* =========================
+   SECTIONS
+========================= */
+
+.section {
+  padding: 75px 8%;
+  max-width: 1250px;
+  margin: auto;
+}
+
+.section h2 {
+  text-align: center;
+  font-size: 36px;
+  margin-top: 0;
+}
+
+.alt {
+  max-width: none;
+  background: #f7f9fc;
+}
+
+.grid {
+  display: grid;
+  gap: 20px;
+}
+
+.three {
+  grid-template-columns: repeat(3, 1fr);
+}
+
+article {
+  padding: 28px;
+  background: #ffffff;
+  border: 1px solid #e8edf4;
+  border-radius: 16px;
+}
+
+article b {
+  color: #1d72f2;
+}
+
+.center {
+  max-width: 800px;
+  margin: auto;
+  text-align: center;
+  color: #5e6879;
+}
+
+/* =========================
+   REGISTER / LOGIN
+========================= */
 
 #register,
 #login {
@@ -23,14 +221,13 @@
 #register input,
 #login input {
   width: 100%;
-  box-sizing: border-box;
   padding: 14px 16px;
   margin-bottom: 14px;
   border: 1px solid #d6dbe5;
   border-radius: 10px;
   font-size: 16px;
   outline: none;
-  transition: border-color 0.2s, box-shadow 0.2s;
+  transition: 0.2s ease;
 }
 
 #register input:focus,
@@ -46,11 +243,11 @@
   border: none;
   border-radius: 10px;
   background: #2474ed;
-  color: white;
+  color: #ffffff;
   font-size: 16px;
   font-weight: 600;
   cursor: pointer;
-  transition: background 0.2s, transform 0.2s;
+  transition: 0.2s ease;
 }
 
 #register button:hover,
@@ -59,7 +256,45 @@
   transform: translateY(-1px);
 }
 
-/* Account status */
+/* =========================
+   PASSWORD SHOW / HIDE
+========================= */
+
+.password-wrap {
+  position: relative;
+  width: 100%;
+}
+
+.password-wrap input {
+  padding-right: 50px !important;
+}
+
+.toggle-password {
+  position: absolute;
+  right: 12px;
+  top: 50%;
+  transform: translateY(-50%);
+  width: auto !important;
+  padding: 6px 8px !important;
+  margin: 0 !important;
+  background: transparent !important;
+  color: #667085 !important;
+  border: none !important;
+  font-size: 18px !important;
+  cursor: pointer;
+  box-shadow: none !important;
+}
+
+.toggle-password:hover {
+  background: transparent !important;
+  color: #1d72f2 !important;
+  transform: translateY(-50%) !important;
+}
+
+/* =========================
+   ACCOUNT
+========================= */
+
 #account {
   max-width: 600px;
   margin: 40px auto;
@@ -73,11 +308,77 @@
   color: #17213a;
 }
 
-@media (max-width: 700px) {
+/* =========================
+   GENERAL FORMS
+========================= */
+
+.form-section form {
+  max-width: 500px;
+  margin: auto;
+  display: grid;
+  gap: 14px;
+}
+
+.form-section input {
+  padding: 14px;
+  border: 1px solid #d6dce7;
+  border-radius: 9px;
+  font-size: 16px;
+}
+
+.form-section button {
+  width: max-content;
+}
+
+/* =========================
+   FOOTER
+========================= */
+
+footer {
+  padding: 30px;
+  text-align: center;
+  background: #172033;
+  color: #cbd2df;
+}
+
+/* =========================
+   MOBILE
+========================= */
+
+@media (max-width: 800px) {
+  .nav {
+    padding: 0 4%;
+  }
+
+  .nav nav a:not(.btn) {
+    display: none;
+  }
+
+  .hero {
+    grid-template-columns: 1fr;
+    padding: 65px 6%;
+  }
+
+  .three {
+    grid-template-columns: 1fr;
+  }
+
+  .section {
+    padding: 55px 6%;
+  }
+
   #register,
   #login,
   #account {
     margin: 25px 15px;
     padding: 22px;
+  }
+
+  .actions {
+    flex-direction: column;
+  }
+
+  .actions .btn {
+    text-align: center;
   }
 }
