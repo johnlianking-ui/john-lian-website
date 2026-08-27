@@ -415,3 +415,6 @@ footer {
   background: transparent !important;
   color: #155dcc !important;
 }
+.password-field + button[type="submit"] {
+  margin-top: 18px !important;
+}
