@@ -421,61 +421,41 @@ footer {
 /* FINAL PASSWORD SHOW BUTTON */
 .password-field {
   position: relative !important;
+  width: 100% !important;
 }
 
 .password-field .password-toggle {
+  all: unset !important;
+
   position: absolute !important;
   right: 12px !important;
   top: 50% !important;
   transform: translateY(-50%) !important;
 
+  display: block !important;
   width: auto !important;
-  height: auto !important;
   min-width: 0 !important;
+  height: auto !important;
 
-  margin: 0 !important;
   padding: 2px 4px !important;
+  margin: 0 !important;
 
   background: transparent !important;
   color: #2474ed !important;
-  border: none !important;
 
+  font-family: Arial, sans-serif !important;
   font-size: 13px !important;
   font-weight: 600 !important;
+
+  border: none !important;
   cursor: pointer !important;
-  z-index: 20 !important;
-}
-
-.password-field .password-toggle::after {
-  content: " 👁";
-  font-size: 13px;
-}
-#register .password-field .password-toggle,
-#login .password-field .password-toggle {
-  width: auto !important;
-  min-width: 0 !important;
-  max-width: none !important;
-  height: auto !important;
-
-  position: absolute !important;
-  right: 12px !important;
-  top: 50% !important;
-  transform: translateY(-50%) !important;
-
-  display: inline-block !important;
-  padding: 2px 4px !important;
-  margin: 0 !important;
-
-  background: transparent !important;
-  color: #2474ed !important;
-  border: none !important;
-
-  font-size: 13px !important;
-  font-weight: 600 !important;
   z-index: 100 !important;
 }
 
-#register .password-field .password-toggle::after,
-#login .password-field .password-toggle::after {
-  content: " 👁";
+.password-field .password-toggle:hover {
+  color: #155dcc !important;
+}
+
+.password-field + button[type="submit"] {
+  margin-top: 18px !important;
 }
