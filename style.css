@@ -381,10 +381,11 @@ footer {
   .actions .btn {
     text-align: center;
     }
-/* Password field and Show/Hide control */
 .password-field {
-    position: relative;
-    width: 100%;
+  position: relative;
+  width: 100%;
+  margin-bottom: 10px;
+}
 }
 
 .password-field input {
