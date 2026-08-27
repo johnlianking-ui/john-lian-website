@@ -197,14 +197,7 @@
 
     <form id="register-form">
 
-      <input
-        type="email"
-        id="register-email"
-        placeholder="Email address"
-        required
-      >
-
-    <div class="password-field">
+      <div class="password-field">
 
   <input
     type="password"
@@ -214,6 +207,19 @@
     required
   >
 
+  <button
+    type="button"
+    class="password-toggle"
+    onclick="togglePassword('register-password', this)"
+  >
+    Show
+  </button>
+
+</div>
+
+<button type="submit">
+  Create Account
+</button>
   <button
     type="button"
     class="password-toggle"
