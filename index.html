@@ -204,17 +204,23 @@
         required
       >
 
-      <input
-  type="password"
-  id="register-password"
-  placeholder="Create password"
-  minlength="6"
-  required
->
+    <div class="password-field">
 
-<button type="button" class="password-toggle" onclick="togglePassword('register-password', this)">
-  Show
-</button>
+  <input
+    type="password"
+    id="register-password"
+    placeholder="Create password"
+    minlength="6"
+    required
+  >
+
+  <button
+    type="button"
+    class="password-toggle"
+    onclick="togglePassword('register-password', this)"
+  >Show</button>
+
+</div>
 
       <button type="submit">
         Create Account
@@ -252,13 +258,16 @@
     required
   >
   <button
-    type="button"
-    class="password-toggle"
-    onclick="togglePassword('login-password', this)"
-  >Show</button>
-</div>
-        Login
-      </button>
+  type="button"
+  class="password-toggle"
+  onclick="togglePassword('login-password', this)"
+>
+  Show
+</button>
+
+<button type="submit">
+  Login
+</button>
 
     </form>
 
