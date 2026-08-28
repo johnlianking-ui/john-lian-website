@@ -519,3 +519,87 @@ footer {
 
   cursor: pointer !important;
 }
+/* =========================================
+   FINAL DASHBOARD LAYOUT FIX
+   ========================================= */
+
+#user-dashboard {
+  display: block !important;
+
+  position: relative !important;
+  float: none !important;
+  clear: both !important;
+
+  width: calc(100% - 40px) !important;
+  max-width: 480px !important;
+
+  margin: 40px auto !important;
+  padding: 30px !important;
+
+  box-sizing: border-box !important;
+
+  background: #ffffff !important;
+  border-radius: 16px !important;
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.08) !important;
+
+  text-align: left !important;
+}
+
+/* Make dashboard take its own row */
+#user-dashboard {
+  grid-column: 1 / -1 !important;
+  flex-basis: 100% !important;
+}
+
+/* Dashboard title */
+#user-dashboard h2 {
+  text-align: center !important;
+  margin: 0 0 15px 0 !important;
+}
+
+/* Dashboard email */
+#dashboard-email {
+  text-align: center !important;
+  margin: 0 0 25px 0 !important;
+}
+
+/* Individual dashboard cards */
+#user-dashboard .dashboard-card {
+  display: block !important;
+
+  width: 100% !important;
+  box-sizing: border-box !important;
+
+  margin: 15px 0 !important;
+  padding: 18px !important;
+
+  background: #f5f8ff !important;
+  border-radius: 12px !important;
+}
+
+/* Remove strange positioning from dashboard contents */
+#user-dashboard h3,
+#user-dashboard p,
+#user-dashboard button {
+  position: static !important;
+  float: none !important;
+}
+
+/* View Tasks button */
+#user-dashboard .dashboard-card button {
+  display: block !important;
+  width: 100% !important;
+
+  padding: 11px !important;
+  margin-top: 12px !important;
+
+  box-sizing: border-box !important;
+
+  border: none !important;
+  border-radius: 8px !important;
+
+  background: #2474ed !important;
+  color: white !important;
+
+  cursor: pointer !important;
+}
