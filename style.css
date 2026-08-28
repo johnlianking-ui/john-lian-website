@@ -463,3 +463,59 @@ footer {
   width: 100% !important;
   padding-right: 70px !important;
 }
+/* ================================
+   USER DASHBOARD
+   ================================ */
+
+#user-dashboard {
+  width: 100% !important;
+  max-width: 480px !important;
+  margin: 30px auto !important;
+  padding: 28px !important;
+  box-sizing: border-box !important;
+
+  background: #ffffff !important;
+  border-radius: 16px !important;
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.08) !important;
+}
+
+#user-dashboard h2 {
+  margin-top: 0 !important;
+  margin-bottom: 10px !important;
+  text-align: center !important;
+}
+
+#dashboard-email {
+  text-align: center !important;
+  margin-bottom: 25px !important;
+}
+
+.dashboard-card {
+  margin-top: 18px !important;
+  padding: 18px !important;
+
+  background: #f5f8ff !important;
+  border-radius: 12px !important;
+}
+
+.dashboard-card h3 {
+  margin-top: 0 !important;
+  margin-bottom: 8px !important;
+}
+
+.dashboard-card p {
+  margin-bottom: 12px !important;
+}
+
+.dashboard-card button {
+  width: 100% !important;
+  padding: 10px !important;
+
+  border: none !important;
+  border-radius: 8px !important;
+
+  background: #2474ed !important;
+  color: white !important;
+
+  cursor: pointer !important;
+}
