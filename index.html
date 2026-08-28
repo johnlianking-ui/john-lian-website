@@ -462,8 +462,7 @@ Show 👁
 
         loginForm.reset();
 
-        updateUserStatus();
-
+       showDashboard();
       }
     );
 
@@ -493,7 +492,25 @@ logoutButton.addEventListener(
 
   }
 );
+// =========================
+// SHOW / HIDE DASHBOARD
+// =========================
 
+function showDashboard() {
+  const dashboard = document.getElementById("user-dashboard");
+
+  if (dashboard) {
+    dashboard.style.display = "block";
+  }
+}
+
+function hideDashboard() {
+  const dashboard = document.getElementById("user-dashboard");
+
+  if (dashboard) {
+    dashboard.style.display = "none";
+  }
+}
 
     // =========================
     // CHECK USER
