@@ -283,7 +283,33 @@ Show 👁
 
   </section>
 
+<!-- =========================
+     USER DASHBOARD
+========================== -->
 
+<section id="user-dashboard" style="display:none;">
+
+  <h2>Welcome to Your Dashboard</h2>
+
+  <p id="dashboard-email"></p>
+
+  <div class="dashboard-card">
+    <h3>Available Tasks</h3>
+    <p>New earning opportunities will appear here.</p>
+    <button type="button">View Tasks</button>
+  </div>
+
+  <div class="dashboard-card">
+    <h3>My Earnings</h3>
+    <p id="dashboard-earnings">$0.00</p>
+  </div>
+
+  <div class="dashboard-card">
+    <h3>Completed Tasks</h3>
+    <p id="dashboard-completed">0</p>
+  </div>
+
+</section>
   <!-- =========================
        USER STATUS
   ========================== -->
@@ -442,30 +468,31 @@ Show 👁
     );
 
 
-    // =========================
-    // LOGOUT
-    // =========================
+// =========================
+// LOGOUT
+// =========================
 
-    const logoutButton =
-      document.getElementById(
-        "logout-button"
-      );
+const logoutButton =
+  document.getElementById(
+    "logout-button"
+  );
 
-    logoutButton.addEventListener(
-      "click",
-      async function() {
+logoutButton.addEventListener(
+  "click",
+  async function() {
 
-        await supabaseClient.auth.signOut();
+    await supabaseClient.auth.signOut();
 
-        updateUserStatus();
+    updateUserStatus();
+    showDashboard();
 
-        document.getElementById(
-          "login-message"
-        ).textContent =
-          "You have been logged out.";
+    document.getElementById(
+      "login-message"
+    ).textContent =
+      "You have been logged out.";
 
-      }
-    );
+  }
+);
 
 
     // =========================
