@@ -493,3 +493,57 @@ footer {
   background: transparent !important;
   color: #155dcc !important;
 }
+/* ================================
+   FINAL SHOW / HIDE PASSWORD BUTTON
+   ================================ */
+
+#register .password-field,
+#login .password-field {
+  position: relative !important;
+}
+
+#register .password-field > .password-toggle,
+#login .password-field > .password-toggle {
+  position: absolute !important;
+  right: 12px !important;
+  top: 50% !important;
+  transform: translateY(-50%) !important;
+
+  width: auto !important;
+  min-width: 0 !important;
+  max-width: none !important;
+  height: auto !important;
+
+  display: inline-flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+
+  margin: 0 !important;
+  padding: 2px 4px !important;
+
+  background: transparent !important;
+  border: none !important;
+  border-radius: 0 !important;
+
+  color: #2474ed !important;
+  font-family: Arial, sans-serif !important;
+  font-size: 12px !important;
+  font-weight: 600 !important;
+
+  cursor: pointer !important;
+  z-index: 999 !important;
+}
+
+/* Eye icon */
+#register .password-field > .password-toggle::after,
+#login .password-field > .password-toggle::after {
+  content: " 👁" !important;
+  font-size: 12px !important;
+}
+
+/* Hover */
+#register .password-field > .password-toggle:hover,
+#login .password-field > .password-toggle:hover {
+  background: transparent !important;
+  color: #155dcc !important;
+}
