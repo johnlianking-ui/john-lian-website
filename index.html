@@ -484,7 +484,7 @@ logoutButton.addEventListener(
     await supabaseClient.auth.signOut();
 
     updateUserStatus();
-    showDashboard();
+    hideDashboard();
 
     document.getElementById(
       "login-message"
