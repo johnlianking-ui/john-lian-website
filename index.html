@@ -585,15 +585,241 @@ async function loadTasks() {
         $${Number(task.reward).toFixed(2)}
       </p>
 
-      <button type="button">
+      <button
+        type="button"
+        class="start-task-button"
+        data-task-id="${task.id}"
+      >
         Start Task
       </button>
+
+      <div
+        class="task-submission-form"
+        id="submission-form-${task.id}"
+        style="display:none;"
+      >
+
+        <hr>
+
+        <h4>Submit Task Proof</h4>
+
+        <p>
+          Complete the task, then provide your proof below.
+        </p>
+
+        <label>
+          Screenshot proof
+        </label>
+
+        <input
+          type="file"
+          accept="image/*"
+          class="proof-image"
+        >
+
+        <label>
+          Additional details
+        </label>
+
+        <textarea
+          class="proof-text"
+          placeholder="Tell us anything important about your completed task..."
+          rows="4"
+        ></textarea>
+
+        <button
+          type="button"
+          class="submit-proof-button"
+          data-task-id="${task.id}"
+        >
+          Submit Proof
+        </button>
+
+        <p class="submission-message"></p>
+
+      </div>
     `;
 
     tasksList.appendChild(taskCard);
 
   });
+
+  setupTaskButtons();
+
 }
+// =========================
+// TASK SUBMISSION
+// =========================
+
+function setupTaskButtons() {
+
+  // START TASK BUTTONS
+  document
+    .querySelectorAll(".start-task-button")
+    .forEach(function(button) {
+
+      button.addEventListener("click", function() {
+
+        const taskId =
+          button.getAttribute("data-task-id");
+
+        const form =
+          document.getElementById(
+            "submission-form-" + taskId
+          );
+
+        if (form) {
+          form.style.display = "block";
+          button.style.display = "none";
+        }
+
+      });
+
+    });
+
+
+  // SUBMIT PROOF BUTTONS
+  document
+    .querySelectorAll(".submit-proof-button")
+    .forEach(function(button) {
+
+      button.addEventListener("click", async function() {
+
+        const taskId =
+          button.getAttribute("data-task-id");
+
+        const form =
+          document.getElementById(
+            "submission-form-" + taskId
+          );
+
+        if (!form) {
+          return;
+        }
+
+        const fileInput =
+          form.querySelector(".proof-image");
+
+        const proofText =
+          form.querySelector(".proof-text");
+
+        const message =
+          form.querySelector(".submission-message");
+
+        const file =
+          fileInput.files[0];
+
+        if (!file) {
+
+          message.textContent =
+            "Please select a screenshot first.";
+
+          return;
+        }
+
+        message.textContent =
+          "Submitting proof...";
+
+        button.disabled = true;
+
+
+        // GET CURRENT USER
+        const {
+          data: {
+            user
+          },
+          error: userError
+        } =
+          await supabaseClient.auth.getUser();
+
+        if (userError || !user) {
+
+          message.textContent =
+            "Please log in again.";
+
+          button.disabled = false;
+
+          return;
+        }
+
+
+        // CREATE UNIQUE FILE NAME
+        const fileName =
+          user.id +
+          "/" +
+          Date.now() +
+          "-" +
+          file.name;
+
+
+        // UPLOAD SCREENSHOT
+        const {
+          error: uploadError
+        } =
+          await supabaseClient.storage
+            .from("task-proofs")
+            .upload(
+              fileName,
+              file
+            );
+
+
+        if (uploadError) {
+
+          console.error(uploadError);
+
+          message.textContent =
+            "Screenshot upload failed.";
+
+          button.disabled = false;
+
+          return;
+        }
+
+
+        // SAVE SUBMISSION
+        const {
+          error: submissionError
+        } =
+          await supabaseClient
+            .from("task_submissions")
+            .insert({
+              user_id: user.id,
+              task_id: Number(taskId),
+              proof_text: proofText.value,
+              proof_image_url: fileName,
+              status: "pending"
+            });
+
+
+        if (submissionError) {
+
+          console.error(submissionError);
+
+          message.textContent =
+            "Could not submit the task.";
+
+          button.disabled = false;
+
+          return;
+        }
+
+
+        // SUCCESS
+        message.textContent =
+          "Task submitted successfully. Waiting for approval.";
+
+        button.style.display = "none";
+
+        fileInput.disabled = true;
+        proofText.disabled = true;
+
+      });
+
+    });
+
+}
+tasksList.appendChild(taskCard);
     // =========================
     // CHECK USER
     // =========================
