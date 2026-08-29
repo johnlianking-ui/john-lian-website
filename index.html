@@ -315,6 +315,25 @@ Show 👁
   </div>
 </section>
   <!-- =========================
+     ADMIN DASHBOARD
+========================= -->
+
+<section class="section" id="admin-dashboard" style="display:none;">
+
+  <h2>Admin Dashboard</h2>
+
+  <p>
+    Review submitted tasks and manage approvals.
+  </p>
+
+  <div id="admin-submissions">
+
+    <p>Loading submissions...</p>
+
+  </div>
+
+</section>
+  <!-- =========================
        USER STATUS
   ========================== -->
 
@@ -826,6 +845,267 @@ const fileName =
 
 }
 tasksList.appendChild(taskCard);
+// =========================
+// ADMIN DASHBOARD
+// =========================
+
+async function loadAdminDashboard() {
+
+  const adminDashboard =
+    document.getElementById("admin-dashboard");
+
+  const submissionsList =
+    document.getElementById("admin-submissions");
+
+  if (!adminDashboard || !submissionsList) {
+    return;
+  }
+
+  // Check the currently logged-in user
+  const {
+    data: {
+      user
+    },
+    error: userError
+  } =
+    await supabaseClient.auth.getUser();
+
+  if (userError || !user) {
+    return;
+  }
+
+  // Check admin role
+  const role =
+    user.app_metadata?.role;
+
+  if (role !== "admin") {
+    adminDashboard.style.display = "none";
+    return;
+  }
+
+  // Show admin dashboard
+  adminDashboard.style.display = "block";
+
+  submissionsList.innerHTML =
+    "<p>Loading submissions...</p>";
+
+  // Load pending submissions
+  const {
+    data: submissions,
+    error
+  } =
+    await supabaseClient
+      .from("task_submissions")
+      .select(`
+        id,
+        user_id,
+        task_id,
+        proof_text,
+        proof_image_url,
+        status,
+        submitted_at
+      `)
+      .eq("status", "pending")
+      .order("submitted_at", {
+        ascending: false
+      });
+
+  if (error) {
+
+    console.error(
+      "Error loading submissions:",
+      error
+    );
+
+    submissionsList.innerHTML =
+      "<p>Unable to load submissions.</p>";
+
+    return;
+  }
+
+  if (!submissions || submissions.length === 0) {
+
+    submissionsList.innerHTML =
+      "<p>No pending submissions.</p>";
+
+    return;
+  }
+
+  submissionsList.innerHTML = "";
+
+  submissions.forEach(function(submission) {
+
+    const card =
+      document.createElement("div");
+
+    card.className =
+      "dashboard-card";
+
+    card.innerHTML = `
+      <h3>Task Submission</h3>
+
+      <p>
+        <strong>User ID:</strong>
+        ${submission.user_id}
+      </p>
+
+      <p>
+        <strong>Task ID:</strong>
+        ${submission.task_id}
+      </p>
+
+      <p>
+        <strong>Proof:</strong>
+        ${submission.proof_text || "No additional details."}
+      </p>
+
+      <p>
+        <strong>Status:</strong>
+        ${submission.status}
+      </p>
+
+      <p>
+        <strong>Submitted:</strong>
+        ${new Date(
+          submission.submitted_at
+        ).toLocaleString()}
+      </p>
+
+      <button
+        type="button"
+        class="admin-approve-button"
+        data-submission-id="${submission.id}"
+      >
+        Approve
+      </button>
+
+      <button
+        type="button"
+        class="admin-reject-button"
+        data-submission-id="${submission.id}"
+      >
+        Reject
+      </button>
+    `;
+
+   submissionsList.appendChild(card);
+
+});
+
+setupAdminButtons();
+  
+  }
+    // =========================
+// ADMIN APPROVE / REJECT
+// =========================
+
+function setupAdminButtons() {
+
+  document
+    .querySelectorAll(".admin-approve-button")
+    .forEach(function(button) {
+
+      button.addEventListener("click", async function() {
+
+        const submissionId =
+          button.getAttribute("data-submission-id");
+
+        button.disabled = true;
+        button.textContent = "Approving...";
+
+        const {
+          error
+        } =
+          await supabaseClient
+            .from("task_submissions")
+            .update({
+              status: "approved",
+              reviewed_at: new Date().toISOString()
+            })
+            .eq("id", submissionId);
+
+        if (error) {
+
+          console.error(error);
+
+          alert(
+            "Unable to approve this submission."
+          );
+
+          button.disabled = false;
+          button.textContent = "Approve";
+
+          return;
+        }
+
+        alert(
+          "Submission approved successfully."
+        );
+
+        loadAdminDashboard();
+
+      });
+
+    });
+
+
+  document
+    .querySelectorAll(".admin-reject-button")
+    .forEach(function(button) {
+
+      button.addEventListener("click", async function() {
+
+        const submissionId =
+          button.getAttribute("data-submission-id");
+
+        const confirmed =
+          confirm(
+            "Are you sure you want to reject this submission?"
+          );
+
+        if (!confirmed) {
+          return;
+        }
+
+        button.disabled = true;
+        button.textContent = "Rejecting...";
+
+        const {
+          error
+        } =
+          await supabaseClient
+            .from("task_submissions")
+            .update({
+              status: "rejected",
+              reviewed_at: new Date().toISOString()
+            })
+            .eq("id", submissionId);
+
+        if (error) {
+
+          console.error(error);
+
+          alert(
+            "Unable to reject this submission."
+          );
+
+          button.disabled = false;
+          button.textContent = "Reject";
+
+          return;
+        }
+
+        alert(
+          "Submission rejected."
+        );
+
+        loadAdminDashboard();
+
+      });
+
+    });
+
+}
     // =========================
     // CHECK USER
     // =========================
