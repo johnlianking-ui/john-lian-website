@@ -481,12 +481,13 @@ Show 👁
         }
 
         message.textContent =
-          "Login successful.";
+  "Login successful.";
 
-        loginForm.reset();
+loginForm.reset();
 
-       showDashboard();
-        loadTasks();
+showDashboard();
+loadTasks();
+loadAdminDashboard();
       }
     );
 
@@ -1148,13 +1149,19 @@ function setupAdminButtons() {
     updateUserStatus();
 
 
-    // Update automatically when
-    // authentication changes
-    supabaseClient.auth.onAuthStateChange(
-      function() {
-        updateUserStatus();
-      }
-    );
+   // =========================
+// AUTHENTICATION CHANGES
+// =========================
+
+supabaseClient.auth.onAuthStateChange(
+  async function() {
+
+    updateUserStatus();
+
+    loadAdminDashboard();
+
+  }
+);
 
 function togglePassword(inputId, button) {
   const passwordInput = document.getElementById(inputId);
