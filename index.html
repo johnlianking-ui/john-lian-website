@@ -744,12 +744,18 @@ function setupTaskButtons() {
 
 
         // CREATE UNIQUE FILE NAME
-        const fileName =
-          user.id +
-          "/" +
-          Date.now() +
-          "-" +
-          file.name;
+        const safeFileName =
+  file.name.replace(
+    /[^a-zA-Z0-9._-]/g,
+    "_"
+  );
+
+const fileName =
+  user.id +
+  "/" +
+  Date.now() +
+  "-" +
+  safeFileName;
 
 
         // UPLOAD SCREENSHOT
