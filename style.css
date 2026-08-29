@@ -608,7 +608,7 @@ footer {
 ================================ */
 
 #user-dashboard {
-  display: block !important;
+  display: none;
   width: 100% !important;
   max-width: 700px !important;
   margin: 40px auto !important;
