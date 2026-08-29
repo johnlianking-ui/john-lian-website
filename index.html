@@ -295,10 +295,12 @@ Show 👁
   <p id="dashboard-email"></p>
 
   <div class="dashboard-card">
-    <h3>Available Tasks</h3>
-    <p>New earning opportunities will appear here.</p>
-    <button type="button">View Tasks</button>
+  <h3>Available Tasks</h3>
+
+  <div id="tasks-list">
+    <p>Loading tasks...</p>
   </div>
+</div>
 
   <div class="dashboard-card">
     <h3>My Earnings</h3>
@@ -465,6 +467,7 @@ Show 👁
         loginForm.reset();
 
        showDashboard();
+        loadTasks();
       }
     );
 
@@ -513,7 +516,84 @@ function hideDashboard() {
     dashboard.style.display = "none";
   }
 }
+// =========================
+// LOAD AVAILABLE TASKS
+// =========================
 
+async function loadTasks() {
+
+  const tasksList =
+    document.getElementById("tasks-list");
+
+  if (!tasksList) {
+    return;
+  }
+
+  tasksList.innerHTML =
+    "<p>Loading tasks...</p>";
+
+  const {
+    data: tasks,
+    error
+  } =
+    await supabaseClient
+      .from("Tasks")
+      .select("id, title, description, reward, status")
+      .eq("status", "active")
+      .order("id", {
+        ascending: true
+      });
+
+  if (error) {
+
+    console.error(
+      "Error loading tasks:",
+      error
+    );
+
+    tasksList.innerHTML =
+      "<p>Unable to load tasks.</p>";
+
+    return;
+  }
+
+  if (!tasks || tasks.length === 0) {
+
+    tasksList.innerHTML =
+      "<p>No tasks are available right now.</p>";
+
+    return;
+  }
+
+  tasksList.innerHTML = "";
+
+  tasks.forEach(function(task) {
+
+    const taskCard =
+      document.createElement("div");
+
+    taskCard.className =
+      "task-item";
+
+    taskCard.innerHTML = `
+      <h4>${task.title}</h4>
+
+      <p>${task.description}</p>
+
+      <p>
+        <strong>Reward:</strong>
+        $${Number(task.reward).toFixed(2)}
+      </p>
+
+      <button type="button">
+        Start Task
+      </button>
+    `;
+
+    tasksList.appendChild(taskCard);
+
+  });
+}
     // =========================
     // CHECK USER
     // =========================
