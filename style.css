@@ -603,3 +603,62 @@ footer {
 
   cursor: pointer !important;
 }
+/* ================================
+   DASHBOARD FINAL STYLE
+================================ */
+
+#user-dashboard {
+  display: block !important;
+  width: 100% !important;
+  max-width: 700px !important;
+  margin: 40px auto !important;
+  padding: 30px !important;
+  box-sizing: border-box !important;
+
+  background: #ffffff !important;
+  border-radius: 16px !important;
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.08) !important;
+
+  text-align: center !important;
+}
+
+#user-dashboard h2 {
+  text-align: center !important;
+  margin: 0 0 20px 0 !important;
+}
+
+#user-dashboard #dashboard-email {
+  text-align: center !important;
+  margin-bottom: 25px !important;
+}
+
+#user-dashboard .dashboard-card {
+  display: block !important;
+  width: 100% !important;
+  margin: 15px 0 !important;
+  padding: 20px !important;
+  box-sizing: border-box !important;
+
+  background: #f5f8ff !important;
+  border-radius: 12px !important;
+}
+
+#user-dashboard .dashboard-card h3 {
+  margin-top: 0 !important;
+}
+
+#user-dashboard .dashboard-card button {
+  display: block !important;
+  width: 100% !important;
+  padding: 12px !important;
+  margin-top: 12px !important;
+  box-sizing: border-box !important;
+
+  border: none !important;
+  border-radius: 8px !important;
+
+  background: #2474ed !important;
+  color: white !important;
+
+  cursor: pointer !important;
+}
