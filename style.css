@@ -662,3 +662,57 @@ footer {
 
   cursor: pointer !important;
 }
+/* =========================
+   ADMIN SUBMISSIONS TABLE
+   ========================= */
+
+.admin-submissions-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 20px;
+  background: #ffffff;
+}
+
+.admin-submissions-table th,
+.admin-submissions-table td {
+  border: 1px solid #ddd;
+  padding: 12px;
+  text-align: left;
+  vertical-align: top;
+}
+
+.admin-submissions-table th {
+  font-weight: 700;
+  white-space: nowrap;
+}
+
+.admin-submissions-table td {
+  word-break: break-word;
+}
+
+.admin-submissions-table button {
+  margin: 3px;
+  padding: 8px 12px;
+  cursor: pointer;
+}
+
+.admin-reviewed-status {
+  font-weight: 700;
+  text-transform: capitalize;
+}
+
+/* Mobile support */
+@media (max-width: 768px) {
+
+  .admin-submissions-table {
+    display: block;
+    overflow-x: auto;
+    white-space: nowrap;
+  }
+
+  .admin-submissions-table th,
+  .admin-submissions-table td {
+    padding: 10px;
+  }
+
+}
