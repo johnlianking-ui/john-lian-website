@@ -994,18 +994,22 @@ async function loadAdminDashboard() {
 });
 
 setupAdminButtons();
-  
-  }
-    // =========================
+
+}
+
+
+// =========================
 // ADMIN APPROVE / REJECT
 // =========================
 
 function setupAdminButtons() {
 
+  // =========================
+  // APPROVE BUTTON
+  // =========================
+  
   document
     .querySelectorAll(".admin-approve-button")
-    .forEach(function(button) {
-
       button.addEventListener("click", async function() {
 
         const submissionId =
@@ -1014,9 +1018,7 @@ function setupAdminButtons() {
         button.disabled = true;
         button.textContent = "Approving...";
 
-        const {
-          error
-        } =
+        const { error } =
           await supabaseClient
             .from("task_submissions")
             .update({
@@ -1050,6 +1052,10 @@ function setupAdminButtons() {
     });
 
 
+  // =========================
+  // REJECT BUTTON
+  // =========================
+
   document
     .querySelectorAll(".admin-reject-button")
     .forEach(function(button) {
@@ -1059,21 +1065,10 @@ function setupAdminButtons() {
         const submissionId =
           button.getAttribute("data-submission-id");
 
-        const confirmed =
-          confirm(
-            "Are you sure you want to reject this submission?"
-          );
-
-        if (!confirmed) {
-          return;
-        }
-
         button.disabled = true;
         button.textContent = "Rejecting...";
 
-        const {
-          error
-        } =
+        const { error } =
           await supabaseClient
             .from("task_submissions")
             .update({
@@ -1097,7 +1092,7 @@ function setupAdminButtons() {
         }
 
         alert(
-          "Submission rejected."
+          "Submission rejected successfully."
         );
 
         loadAdminDashboard();
