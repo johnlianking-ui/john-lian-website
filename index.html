@@ -997,8 +997,7 @@ setupAdminButtons();
 
 }
 
-
-// =========================
+/ =========================
 // ADMIN APPROVE / REJECT
 // =========================
 
@@ -1007,9 +1006,11 @@ function setupAdminButtons() {
   // =========================
   // APPROVE BUTTON
   // =========================
-  
+
   document
     .querySelectorAll(".admin-approve-button")
+    .forEach(function(button) {
+
       button.addEventListener("click", async function() {
 
         const submissionId =
