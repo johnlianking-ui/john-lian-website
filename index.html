@@ -932,82 +932,104 @@ async function loadAdminDashboard() {
     return;
   }
 
-  submissionsList.innerHTML = "";
+   submissionsList.innerHTML = "";
+
+  const table = document.createElement("table");
+  table.className = "admin-submissions-table";
+
+  table.innerHTML = `
+    <thead>
+      <tr>
+        <th>User ID</th>
+        <th>Task ID</th>
+        <th>Proof</th>
+        <th>Status</th>
+        <th>Submitted</th>
+        <th>Action</th>
+      </tr>
+    </thead>
+
+    <tbody></tbody>
+  `;
+
+  const tableBody = table.querySelector("tbody");
 
   submissions.forEach(function(submission) {
 
-    const card =
-      document.createElement("div");
+    const row = document.createElement("tr");
 
-    card.className =
-      "dashboard-card";
+    const status =
+      submission.status || "pending";
 
-    card.innerHTML = `
-      <h3>Task Submission</h3>
+    let actionHTML = "";
 
-      <p>
-        <strong>User ID:</strong>
+    if (status === "pending") {
+
+      actionHTML = `
+        <button
+          type="button"
+          class="admin-approve-button"
+          data-submission-id="${submission.id}"
+        >
+          Approve
+        </button>
+
+        <button
+          type="button"
+          class="admin-reject-button"
+          data-submission-id="${submission.id}"
+        >
+          Reject
+        </button>
+      `;
+
+    } else {
+
+      actionHTML = `
+        <span class="admin-reviewed-status">
+          ${status}
+        </span>
+      `;
+
+    }
+
+    row.innerHTML = `
+      <td data-label="User ID">
         ${submission.user_id}
-      </p>
+      </td>
 
-      <p>
-        <strong>Task ID:</strong>
+      <td data-label="Task ID">
         ${submission.task_id}
-      </p>
+      </td>
 
-      <p>
-        <strong>Proof:</strong>
+      <td data-label="Proof">
         ${submission.proof_text || "No additional details."}
-      </p>
+      </td>
 
-      <p>
-        <strong>Status:</strong>
-        ${submission.status}
-      </p>
+      <td data-label="Status">
+        <strong>${status}</strong>
+      </td>
 
-      <p>
-        <strong>Submitted:</strong>
+      <td data-label="Submitted">
         ${new Date(
           submission.submitted_at
         ).toLocaleString()}
-      </p>
+      </td>
 
-            ${
-        submission.status === "pending"
-          ? `
-            <button
-              type="button"
-              class="admin-approve-button"
-              data-submission-id="${submission.id}"
-            >
-              Approve
-            </button>
-
-            <button
-              type="button"
-              class="admin-reject-button"
-              data-submission-id="${submission.id}"
-            >
-              Reject
-            </button>
-          `
-          : `
-            <p>
-              <strong>Reviewed:</strong>
-              ${submission.status}
-            </p>
-          `
-      }
+      <td data-label="Action">
+        ${actionHTML}
+      </td>
     `;
 
-   submissionsList.appendChild(card);
+    tableBody.appendChild(row);
 
-});
+  });
 
-setupAdminButtons();
+   submissionsList.appendChild(table);
+
+  setupAdminButtons();
 
 }
-
 // =========================
 // ADMIN APPROVE / REJECT
 // =========================
