@@ -907,7 +907,6 @@ async function loadAdminDashboard() {
         status,
         submitted_at
       `)
-      .eq("status", "pending")
       .order("submitted_at", {
         ascending: false
       });
@@ -928,7 +927,7 @@ async function loadAdminDashboard() {
   if (!submissions || submissions.length === 0) {
 
     submissionsList.innerHTML =
-      "<p>No pending submissions.</p>";
+     "<p>No submissions found.</p>";
 
     return;
   }
@@ -973,21 +972,32 @@ async function loadAdminDashboard() {
         ).toLocaleString()}
       </p>
 
-      <button
-        type="button"
-        class="admin-approve-button"
-        data-submission-id="${submission.id}"
-      >
-        Approve
-      </button>
+            ${
+        submission.status === "pending"
+          ? `
+            <button
+              type="button"
+              class="admin-approve-button"
+              data-submission-id="${submission.id}"
+            >
+              Approve
+            </button>
 
-      <button
-        type="button"
-        class="admin-reject-button"
-        data-submission-id="${submission.id}"
-      >
-        Reject
-      </button>
+            <button
+              type="button"
+              class="admin-reject-button"
+              data-submission-id="${submission.id}"
+            >
+              Reject
+            </button>
+          `
+          : `
+            <p>
+              <strong>Reviewed:</strong>
+              ${submission.status}
+            </p>
+          `
+      }
     `;
 
    submissionsList.appendChild(card);
