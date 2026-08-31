@@ -663,7 +663,7 @@ footer {
   cursor: pointer !important;
 }
 /* =========================
-   ADMIN DASHBOARD TABLE
+   FINAL ADMIN TABLE FIX
    ========================= */
 
 #admin-submissions {
@@ -672,67 +672,76 @@ footer {
   margin-top: 20px;
 }
 
-.admin-submissions-table {
-  width: 100%;
-  min-width: 900px;
-  border-collapse: separate;
-  border-spacing: 0;
-  background: #ffffff;
-  border: 1px solid #d9d9d9;
-  border-radius: 8px;
-  overflow: hidden;
+#admin-submissions .admin-submissions-table {
+  display: table !important;
+  width: 100% !important;
+  min-width: 900px !important;
+  table-layout: auto !important;
+  border-collapse: collapse !important;
+  border-spacing: 0 !important;
 }
 
-.admin-submissions-table th {
-  padding: 14px 16px;
-  text-align: left;
-  font-weight: 700;
-  border-bottom: 2px solid #d9d9d9;
-  white-space: nowrap;
+#admin-submissions .admin-submissions-table thead {
+  display: table-header-group !important;
 }
 
-.admin-submissions-table td {
-  padding: 14px 16px;
-  text-align: left;
-  vertical-align: top;
-  border-bottom: 1px solid #e5e5e5;
+#admin-submissions .admin-submissions-table tbody {
+  display: table-row-group !important;
 }
 
-.admin-submissions-table tr:last-child td {
-  border-bottom: none;
+#admin-submissions .admin-submissions-table tr {
+  display: table-row !important;
 }
 
-.admin-submissions-table th:nth-child(1) {
+#admin-submissions .admin-submissions-table th,
+#admin-submissions .admin-submissions-table td {
+  display: table-cell !important;
+  padding: 14px 18px !important;
+  border: 1px solid #ddd !important;
+  text-align: left !important;
+  vertical-align: top !important;
+}
+
+#admin-submissions .admin-submissions-table th {
+  font-weight: 700 !important;
+  white-space: nowrap !important;
+}
+
+#admin-submissions .admin-submissions-table td {
+  word-break: break-word;
+}
+
+#admin-submissions .admin-submissions-table th:nth-child(1),
+#admin-submissions .admin-submissions-table td:nth-child(1) {
   min-width: 230px;
 }
 
-.admin-submissions-table th:nth-child(2) {
+#admin-submissions .admin-submissions-table th:nth-child(2),
+#admin-submissions .admin-submissions-table td:nth-child(2) {
   min-width: 80px;
 }
 
-.admin-submissions-table th:nth-child(3) {
+#admin-submissions .admin-submissions-table th:nth-child(3),
+#admin-submissions .admin-submissions-table td:nth-child(3) {
   min-width: 180px;
 }
 
-.admin-submissions-table th:nth-child(4) {
+#admin-submissions .admin-submissions-table th:nth-child(4),
+#admin-submissions .admin-submissions-table td:nth-child(4) {
   min-width: 110px;
 }
 
-.admin-submissions-table th:nth-child(5) {
+#admin-submissions .admin-submissions-table th:nth-child(5),
+#admin-submissions .admin-submissions-table td:nth-child(5) {
   min-width: 190px;
 }
 
-.admin-submissions-table th:nth-child(6) {
+#admin-submissions .admin-submissions-table th:nth-child(6),
+#admin-submissions .admin-submissions-table td:nth-child(6) {
   min-width: 180px;
 }
 
-.admin-submissions-table button {
-  margin: 2px 4px 2px 0;
+#admin-submissions .admin-submissions-table button {
+  margin: 3px 6px 3px 0;
   padding: 8px 12px;
-  cursor: pointer;
-}
-
-.admin-reviewed-status {
-  font-weight: 700;
-  text-transform: capitalize;
 }
