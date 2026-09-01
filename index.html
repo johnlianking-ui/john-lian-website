@@ -303,16 +303,20 @@ Show 👁
 </div>
 
   <div class="dashboard-card">
-    <h3>My Earnings</h3>
-    <p id="dashboard-earnings">$0.00</p>
-  </div>
+  <h3>My Earnings</h3>
+  <p id="dashboard-earnings">$0.00</p>
+</div>
 
-  <div class="dashboard-card">
-    <h3>Completed Tasks</h3>
-    <p id="dashboard-completed">0</p>
-  </div>
+<div class="dashboard-card">
+  <h3>Available Balance</h3>
+  <p id="dashboard-balance">$0.00</p>
+</div>
 
-  </div>
+<div class="dashboard-card">
+  <h3>Completed Tasks</h3>
+  <p id="dashboard-completed">0</p>
+</div>
+</div>
 </section>
   <!-- =========================
      ADMIN DASHBOARD
@@ -833,12 +837,15 @@ async function loadDashboardStats() {
   const earningsElement =
     document.getElementById("dashboard-earnings");
 
+  const balanceElement =
+    document.getElementById("dashboard-balance");
+
   const completedElement =
     document.getElementById("dashboard-completed");
 
-  if (!earningsElement || !completedElement) {
-    return;
-  }
+ if (!earningsElement || !balanceElement || !completedElement) {
+  return;
+}
 
   // Get current logged-in user
   const {
@@ -878,14 +885,15 @@ async function loadDashboardStats() {
       : 0;
 
   // If there are no completed tasks
-  if (!approvedSubmissions || approvedSubmissions.length === 0) {
+ if (!approvedSubmissions || approvedSubmissions.length === 0) {
 
-    earningsElement.textContent = "$0.00";
-    completedElement.textContent = "0";
+  earningsElement.textContent = "$0.00";
+  balanceElement.textContent = "$0.00";
+  completedElement.textContent = "0";
 
-    return;
-  }
-
+  return;
+}
+  
   // Get the task IDs that were approved
   const taskIds =
     approvedSubmissions.map(function(submission) {
@@ -926,12 +934,15 @@ async function loadDashboardStats() {
 
   }
 
-  // Update dashboard
-  earningsElement.textContent =
-    "$" + totalEarnings.toFixed(2);
+ // Update dashboard
+earningsElement.textContent =
+  "$" + totalEarnings.toFixed(2);
 
-  completedElement.textContent =
-    completedCount;
+balanceElement.textContent =
+  "$" + totalEarnings.toFixed(2);
+
+completedElement.textContent =
+  completedCount;
 }
 // =========================
 // TASK SUBMISSION
