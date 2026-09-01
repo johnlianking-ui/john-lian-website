@@ -487,6 +487,7 @@ loginForm.reset();
 
 showDashboard();
 loadTasks();
+loadDashboardStats();
 loadAdminDashboard();
       }
     );
@@ -824,6 +825,110 @@ tasks.forEach(function(task) {
 });
 
 setupTaskButtons();
+ async function loadDashboardStats() {
+
+  const earningsElement =
+    document.getElementById("dashboard-earnings");
+
+  const completedElement =
+    document.getElementById("dashboard-completed");
+
+  if (!earningsElement || !completedElement) {
+    return;
+  }
+
+  // Get current logged-in user
+  const {
+    data: { user },
+    error: userError
+  } = await supabaseClient.auth.getUser();
+
+  if (userError || !user) {
+    return;
+  }
+
+  // Load this user's approved submissions
+  const {
+    data: approvedSubmissions,
+    error: submissionsError
+  } =
+    await supabaseClient
+      .from("task_submissions")
+      .select("task_id, status")
+      .eq("user_id", user.id)
+      .eq("status", "approved");
+
+  if (submissionsError) {
+
+    console.error(
+      "Error loading approved submissions:",
+      submissionsError
+    );
+
+    return;
+  }
+
+  // Number of completed tasks
+  const completedCount =
+    approvedSubmissions
+      ? approvedSubmissions.length
+      : 0;
+
+  // If there are no completed tasks
+  if (!approvedSubmissions || approvedSubmissions.length === 0) {
+
+    earningsElement.textContent = "$0.00";
+    completedElement.textContent = "0";
+
+    return;
+  }
+
+  // Get the task IDs that were approved
+  const taskIds =
+    approvedSubmissions.map(function(submission) {
+      return submission.task_id;
+    });
+
+  // Load the rewards for those tasks
+  const {
+    data: completedTasks,
+    error: tasksError
+  } =
+    await supabaseClient
+      .from("Tasks")
+      .select("id, reward")
+      .in("id", taskIds);
+
+  if (tasksError) {
+
+    console.error(
+      "Error loading completed task rewards:",
+      tasksError
+    );
+
+    return;
+  }
+
+  // Calculate total earnings
+  let totalEarnings = 0;
+
+  if (completedTasks) {
+
+    completedTasks.forEach(function(task) {
+
+      totalEarnings +=
+        Number(task.reward) || 0;
+
+    });
+
+  }
+
+  // Update dashboard
+  earningsElement.textContent =
+    "$" + totalEarnings.toFixed(2);
+
+  completedElement.textContent =
+    completedCount;
 }
 // =========================
 // TASK SUBMISSION
