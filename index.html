@@ -542,69 +542,212 @@ function hideDashboard() {
 
 async function loadTasks() {
 
-  const tasksList =
-    document.getElementById("tasks-list");
+ const tasksList =
+  document.getElementById("tasks-list");
 
-  if (!tasksList) {
-    return;
-  }
+if (!tasksList) {
+  return;
+}
+
+tasksList.innerHTML =
+  "<p>Loading tasks...</p>";
+
+// Get current logged-in user
+const {
+  data: { user },
+  error: userError
+} = await supabaseClient.auth.getUser();
+
+if (userError || !user) {
+  tasksList.innerHTML =
+    "<p>Please log in to view available tasks.</p>";
+  return;
+}
+
+// Load active tasks
+const {
+  data: tasks,
+  error
+} =
+  await supabaseClient
+    .from("Tasks")
+    .select("id, title, description, reward, status")
+    .eq("status", "active")
+    .order("id", {
+      ascending: true
+    });
+
+if (error) {
+
+  console.error(
+    "Error loading tasks:",
+    error
+  );
 
   tasksList.innerHTML =
-    "<p>Loading tasks...</p>";
+    "<p>Unable to load tasks.</p>";
 
-  const {
-    data: tasks,
-    error
-  } =
-    await supabaseClient
-      .from("Tasks")
-      .select("id, title, description, reward, status")
-      .eq("status", "active")
-      .order("id", {
-        ascending: true
-      });
+  return;
+}
 
-  if (error) {
+if (!tasks || tasks.length === 0) {
 
-    console.error(
-      "Error loading tasks:",
-      error
-    );
+  tasksList.innerHTML =
+    "<p>No tasks are available right now.</p>";
 
-    tasksList.innerHTML =
-      "<p>Unable to load tasks.</p>";
+  return;
+}
 
-    return;
-  }
+// Load this user's submissions
+const {
+  data: submissions,
+  error: submissionsError
+} =
+  await supabaseClient
+    .from("task_submissions")
+    .select("task_id, status")
+    .eq("user_id", user.id);
 
-  if (!tasks || tasks.length === 0) {
+if (submissionsError) {
 
-    tasksList.innerHTML =
-      "<p>No tasks are available right now.</p>";
+  console.error(
+    "Error loading task submissions:",
+    submissionsError
+  );
 
-    return;
-  }
+  tasksList.innerHTML =
+    "<p>Unable to load your task status.</p>";
 
-  tasksList.innerHTML = "";
+  return;
+}
 
-  tasks.forEach(function(task) {
+tasksList.innerHTML = "";
 
-    const taskCard =
-      document.createElement("div");
+tasks.forEach(function(task) {
 
-    taskCard.className =
-      "task-item";
+  const taskCard =
+    document.createElement("div");
 
-    taskCard.innerHTML = `
-      <h4>${task.title}</h4>
+  taskCard.className =
+    "task-item";
 
-      <p>${task.description}</p>
+  // Find this user's submission for this task
+  const submission =
+    submissions?.find(function(item) {
+      return Number(item.task_id) === Number(task.id);
+    });
 
+  let taskStatusHTML = "";
+  let actionHTML = "";
+
+  // APPROVED
+  if (submission && submission.status === "approved") {
+
+    taskStatusHTML = `
       <p>
-        <strong>Reward:</strong>
-        $${Number(task.reward).toFixed(2)}
+        <strong>Status:</strong>
+        <span>✅ Completed</span>
       </p>
+    `;
 
+    actionHTML = `
+      <p>
+        <strong>Task completed and approved.</strong>
+      </p>
+    `;
+
+  }
+
+  // PENDING
+  else if (submission && submission.status === "pending") {
+
+    taskStatusHTML = `
+      <p>
+        <strong>Status:</strong>
+        <span>⏳ Pending Approval</span>
+      </p>
+    `;
+
+    actionHTML = `
+      <p>
+        Your submission is waiting for admin approval.
+      </p>
+    `;
+
+  }
+
+  // REJECTED
+  else if (submission && submission.status === "rejected") {
+
+    taskStatusHTML = `
+      <p>
+        <strong>Status:</strong>
+        <span>❌ Rejected</span>
+      </p>
+    `;
+
+    actionHTML = `
+      <button
+        type="button"
+        class="start-task-button"
+        data-task-id="${task.id}"
+      >
+        Try Again
+      </button>
+
+      <div
+        class="task-submission-form"
+        id="submission-form-${task.id}"
+        style="display:none;"
+      >
+
+        <hr>
+
+        <h4>Submit Task Proof</h4>
+
+        <p>
+          Complete the task, then provide your proof below.
+        </p>
+
+        <label>
+          Screenshot proof
+        </label>
+
+        <input
+          type="file"
+          accept="image/*"
+          class="proof-image"
+        >
+
+        <label>
+          Additional details
+        </label>
+
+        <textarea
+          class="proof-text"
+          placeholder="Tell us anything important about your completed task..."
+          rows="4"
+        ></textarea>
+
+        <button
+          type="button"
+          class="submit-proof-button"
+          data-task-id="${task.id}"
+        >
+          Submit Proof
+        </button>
+
+        <p class="submission-message"></p>
+
+      </div>
+    `;
+
+  }
+
+  // NOT SUBMITTED
+  else {
+
+    actionHTML = `
       <button
         type="button"
         class="start-task-button"
@@ -659,13 +802,28 @@ async function loadTasks() {
 
       </div>
     `;
+  }
 
-    tasksList.appendChild(taskCard);
+  taskCard.innerHTML = `
+    <h4>${task.title}</h4>
 
-  });
+    <p>${task.description}</p>
 
-  setupTaskButtons();
+    <p>
+      <strong>Reward:</strong>
+      $${Number(task.reward).toFixed(2)}
+    </p>
 
+    ${taskStatusHTML}
+
+    ${actionHTML}
+  `;
+
+  tasksList.appendChild(taskCard);
+
+});
+
+setupTaskButtons();
 }
 // =========================
 // TASK SUBMISSION
