@@ -1458,9 +1458,42 @@ async function loadAdminWithdrawals() {
       document.createElement("tr");
 
     const status =
-      withdrawal.status || "pending";
+  withdrawal.status || "pending";
 
-    row.innerHTML = `
+let actionHTML = "";
+
+if (status === "pending") {
+
+  actionHTML = `
+    <button
+      type="button"
+      class="admin-withdraw-approve-button"
+      data-withdrawal-id="${withdrawal.id}"
+    >
+      Approve
+    </button>
+
+    <button
+      type="button"
+      class="admin-withdraw-reject-button"
+      data-withdrawal-id="${withdrawal.id}"
+    >
+      Reject
+    </button>
+  `;
+
+} else {
+
+  actionHTML = `
+    <span class="admin-reviewed-status">
+      ${status}
+    </span>
+  `;
+
+}
+
+row.innerHTML = `
+
       <td data-label="User ID">
         ${withdrawal.user_id}
       </td>
