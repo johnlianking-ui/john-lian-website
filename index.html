@@ -387,7 +387,15 @@ Show 👁
     <p>Loading submissions...</p>
 
   </div>
+  <hr>
 
+  <h3>Withdrawal Requests</h3>
+
+  <div id="admin-withdrawals">
+
+    <p>Loading withdrawal requests...</p>
+
+  </div>
 </section>
   <!-- =========================
        USER STATUS
@@ -545,6 +553,7 @@ showDashboard();
 loadTasks();
 loadDashboardStats();
 loadAdminDashboard();
+loadAdminWithdrawals();
       }
     );
 
@@ -1365,6 +1374,124 @@ async function loadAdminDashboard() {
 
 }
 // =========================
+// LOAD ADMIN WITHDRAWALS
+// =========================
+
+async function loadAdminWithdrawals() {
+
+  const withdrawalsList =
+    document.getElementById("admin-withdrawals");
+
+  if (!withdrawalsList) {
+    return;
+  }
+
+  withdrawalsList.innerHTML =
+    "<p>Loading withdrawal requests...</p>";
+
+  const {
+    data: withdrawals,
+    error
+  } =
+    await supabaseClient
+      .from("withdrawals")
+      .select(`
+        id,
+        user_id,
+        amount,
+        payment_method,
+        status,
+        created_at
+      `)
+      .order("created_at", {
+        ascending: false
+      });
+
+  if (error) {
+
+    console.error(
+      "Error loading withdrawals:",
+      error
+    );
+
+    withdrawalsList.innerHTML =
+      "<p>Unable to load withdrawal requests.</p>";
+
+    return;
+  }
+
+  if (!withdrawals || withdrawals.length === 0) {
+
+    withdrawalsList.innerHTML =
+      "<p>No withdrawal requests found.</p>";
+
+    return;
+  }
+
+  withdrawalsList.innerHTML = "";
+
+  const table = document.createElement("table");
+
+  table.className =
+    "admin-withdrawals-table";
+
+  table.innerHTML = `
+    <thead>
+      <tr>
+        <th>User ID</th>
+        <th>Amount</th>
+        <th>Payment Method</th>
+        <th>Status</th>
+        <th>Requested</th>
+      </tr>
+    </thead>
+
+    <tbody></tbody>
+  `;
+
+  const tableBody =
+    table.querySelector("tbody");
+
+  withdrawals.forEach(function(withdrawal) {
+
+    const row =
+      document.createElement("tr");
+
+    const status =
+      withdrawal.status || "pending";
+
+    row.innerHTML = `
+      <td data-label="User ID">
+        ${withdrawal.user_id}
+      </td>
+
+      <td data-label="Amount">
+        $${Number(withdrawal.amount).toFixed(2)}
+      </td>
+
+      <td data-label="Payment Method">
+        ${withdrawal.payment_method}
+      </td>
+
+      <td data-label="Status">
+        <strong>${status}</strong>
+      </td>
+
+      <td data-label="Requested">
+        ${new Date(
+          withdrawal.created_at
+        ).toLocaleString()}
+      </td>
+    `;
+
+    tableBody.appendChild(row);
+
+  });
+
+  withdrawalsList.appendChild(table);
+
+}    
+// =========================
 // ADMIN APPROVE / REJECT
 // =========================
 
@@ -1518,11 +1645,9 @@ function setupAdminButtons() {
 
 supabaseClient.auth.onAuthStateChange(
   async function() {
-
     updateUserStatus();
-
     loadAdminDashboard();
-
+    loadAdminWithdrawals();
   }
 );
 
