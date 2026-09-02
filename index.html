@@ -322,7 +322,47 @@ Show 👁
     Withdraw Earnings
   </button>
 
-  <p id="withdraw-message"></p>
+  <div
+    id="withdraw-form"
+    style="display:none;"
+  >
+
+    <hr>
+
+    <h4>Withdrawal Request</h4>
+
+    <label for="withdraw-amount">
+      Amount
+    </label>
+
+    <input
+      type="number"
+      id="withdraw-amount"
+      min="1"
+      step="0.01"
+      placeholder="Enter amount"
+    >
+
+    <label for="withdraw-method">
+      Payment Method
+    </label>
+
+    <select id="withdraw-method">
+      <option value="">Select payment method</option>
+      <option value="mobile_money">Mobile Money</option>
+      <option value="bank">Bank Transfer</option>
+    </select>
+
+    <button
+      type="button"
+      id="submit-withdrawal-button"
+    >
+      Submit Withdrawal Request
+    </button>
+
+    <p id="withdraw-message"></p>
+
+  </div>
 </div>
 <div class="dashboard-card">
   <h3>Completed Tasks</h3>
@@ -1497,7 +1537,26 @@ function togglePassword(inputId, button) {
     button.textContent = "Show";
   }
 }
+// =========================
+// WITHDRAW BUTTON
+// =========================
 
+const withdrawButton =
+  document.getElementById("withdraw-button");
+
+const withdrawForm =
+  document.getElementById("withdraw-form");
+
+if (withdrawButton && withdrawForm) {
+
+  withdrawButton.addEventListener("click", function() {
+
+    withdrawForm.style.display = "block";
+    withdrawButton.style.display = "none";
+
+  });
+
+}
   </script>
 
 </body>
