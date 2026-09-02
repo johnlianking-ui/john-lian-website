@@ -1,8 +1,7 @@
 <!doctype html>
 <html lang="en">
 
-<head>
-  <meta charset="utf-8">
+<head>  
 
   <meta
     name="viewport"
@@ -1443,6 +1442,7 @@ async function loadAdminWithdrawals() {
         <th>Payment Method</th>
         <th>Status</th>
         <th>Requested</th>
+        <th>Action</th>
       </tr>
     </thead>
 
@@ -1477,10 +1477,14 @@ async function loadAdminWithdrawals() {
         <strong>${status}</strong>
       </td>
 
-      <td data-label="Requested">
+           <td data-label="Requested">
         ${new Date(
           withdrawal.created_at
         ).toLocaleString()}
+      </td>
+
+      <td data-label="Action">
+        ${actionHTML}
       </td>
     `;
 
