@@ -1557,6 +1557,76 @@ if (withdrawButton && withdrawForm) {
   });
 
 }
+  // =========================
+// SUBMIT WITHDRAWAL REQUEST
+// =========================
+
+const submitWithdrawalButton =
+  document.getElementById("submit-withdrawal-button");
+
+if (submitWithdrawalButton) {
+
+  submitWithdrawalButton.addEventListener("click", async function() {
+
+    const amount =
+      document.getElementById("withdraw-amount").value;
+
+    const paymentMethod =
+      document.getElementById("withdraw-method").value;
+
+    const withdrawMessage =
+      document.getElementById("withdraw-message");
+
+    if (!amount || Number(amount) <= 0) {
+      withdrawMessage.textContent =
+        "Please enter a valid withdrawal amount.";
+      return;
+    }
+
+    if (!paymentMethod) {
+      withdrawMessage.textContent =
+        "Please select a payment method.";
+      return;
+    }
+
+    const {
+      data: { user },
+      error: userError
+    } = await supabaseClient.auth.getUser();
+
+    if (userError || !user) {
+      withdrawMessage.textContent =
+        "You must be logged in to request a withdrawal.";
+      return;
+    }
+
+    const { error } =
+      await supabaseClient
+        .from("withdrawals")
+        .insert({
+          user_id: user.id,
+          amount: Number(amount),
+          payment_method: paymentMethod
+        });
+
+    if (error) {
+      console.error("Withdrawal error:", error);
+
+      withdrawMessage.textContent =
+        "Withdrawal request failed. Please try again.";
+
+      return;
+    }
+
+    withdrawMessage.textContent =
+      "Withdrawal request submitted successfully.";
+
+    document.getElementById("withdraw-amount").value = "";
+    document.getElementById("withdraw-method").value = "";
+
+  });
+
+}  
   </script>
 
 </body>
