@@ -1527,7 +1527,59 @@ row.innerHTML = `
 
   withdrawalsList.appendChild(table);
 
-}    
+  setupWithdrawalButtons();
+
+}
+
+ // =========================
+// WITHDRAWAL BUTTONS
+// =========================
+
+function setupWithdrawalButtons() {
+
+  document
+    .querySelectorAll(".admin-withdraw-approve-button")
+    .forEach(function(button) {
+
+      button.addEventListener("click", async function() {
+
+        const withdrawalId =
+          button.getAttribute("data-withdrawal-id");
+
+        const { error } =
+          await supabaseClient
+            .from("withdrawals")
+            .update({
+              status: "approved"
+            })
+            .eq("id", withdrawalId);
+
+        if (error) {
+
+          console.error(
+            "Withdrawal approval error:",
+            error
+          );
+
+          alert(
+            "Unable to approve withdrawal."
+          );
+
+          return;
+        }
+
+        alert(
+          "Withdrawal approved successfully."
+        );
+
+        loadAdminWithdrawals();
+
+      });
+
+    });
+
+}   
+
 // =========================
 // ADMIN APPROVE / REJECT
 // =========================
