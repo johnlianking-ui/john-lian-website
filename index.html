@@ -1577,7 +1577,46 @@ function setupWithdrawalButtons() {
       });
 
     });
+  document
+    .querySelectorAll(".admin-withdraw-reject-button")
+    .forEach(function(button) {
 
+      button.addEventListener("click", async function() {
+
+        const withdrawalId =
+          button.getAttribute("data-withdrawal-id");
+
+        const { error } =
+          await supabaseClient
+            .from("withdrawals")
+            .update({
+              status: "rejected"
+            })
+            .eq("id", withdrawalId);
+
+        if (error) {
+
+          console.error(
+            "Withdrawal rejection error:",
+            error
+          );
+
+          alert(
+            "Unable to reject withdrawal."
+          );
+
+          return;
+        }
+
+        alert(
+          "Withdrawal rejected successfully."
+        );
+
+        loadAdminWithdrawals();
+
+      });
+
+    });
 }   
 
 // =========================
