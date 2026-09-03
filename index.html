@@ -1881,7 +1881,12 @@ const availableBalance =
   Number(
     balanceText.replace("$", "")
   ) || 0;
-
+    
+console.log(
+  "Withdrawal check:",
+  "Amount =", Number(amount),
+  "Available Balance =", availableBalance
+);
 if (Number(amount) > availableBalance) {
   withdrawMessage.textContent =
     "Withdrawal amount cannot exceed your available balance.";
