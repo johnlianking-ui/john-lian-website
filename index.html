@@ -1874,7 +1874,19 @@ if (submitWithdrawalButton) {
         "Please enter a valid withdrawal amount.";
       return;
     }
+const balanceText =
+  document.getElementById("dashboard-balance").textContent;
 
+const availableBalance =
+  Number(
+    balanceText.replace("$", "")
+  ) || 0;
+
+if (Number(amount) > availableBalance) {
+  withdrawMessage.textContent =
+    "Withdrawal amount cannot exceed your available balance.";
+  return;
+}
     if (!paymentMethod) {
       withdrawMessage.textContent =
         "Please select a payment method.";
