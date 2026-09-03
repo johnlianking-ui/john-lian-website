@@ -995,11 +995,50 @@ async function loadDashboardStats() {
   }
 
  // Update dashboard
+const {
+  data: approvedWithdrawals,
+  error: withdrawalsError
+} =
+  await supabaseClient
+    .from("withdrawals")
+    .select("amount")
+    .eq("user_id", user.id)
+    .eq("status", "approved");
+
+if (withdrawalsError) {
+
+  console.error(
+    "Error loading approved withdrawals:",
+    withdrawalsError
+  );
+
+  return;
+}
+
+let totalWithdrawn = 0;
+
+if (approvedWithdrawals) {
+
+  approvedWithdrawals.forEach(function(withdrawal) {
+
+    totalWithdrawn +=
+      Number(withdrawal.amount) || 0;
+
+  });
+
+}
+
+const availableBalance =
+  Math.max(
+    totalEarnings - totalWithdrawn,
+    0
+  );
+
 earningsElement.textContent =
   "$" + totalEarnings.toFixed(2);
 
 balanceElement.textContent =
-  "$" + totalEarnings.toFixed(2);
+  "$" + availableBalance.toFixed(2);
 
 completedElement.textContent =
   completedCount;
