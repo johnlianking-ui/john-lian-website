@@ -467,17 +467,25 @@ registerForm.addEventListener(
       );
 
     const ageCheckbox =
-      document.getElementById(
-        "register-age"
-      );
+  document.getElementById(
+    "register-age"
+  );
 
-    if (!ageCheckbox.checked) {
+if (!ageCheckbox) {
 
-      message.textContent =
-        "You must confirm that you are 18 years old or older to create an account.";
+  message.textContent =
+    "Age confirmation is required.";
 
-      return;
-    }
+  return;
+}
+
+if (!ageCheckbox.checked) {
+
+  message.textContent =
+    "You must confirm that you are 18 years old or older to create an account.";
+
+  return;
+}
 
     message.textContent =
       "Creating your account...";
