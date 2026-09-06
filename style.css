@@ -387,29 +387,7 @@ footer {
   width: 100% !important;
   margin-bottom: 18px !important;
 }
-.password-field input {
-  width: 100% !important;
-  padding-right: 75px !important;}
- .password-field .password-toggle {
-  position: absolute !important;
-  right: 10px;
-  top: 50%;
-  transform: translateY(-50%);
-  width: auto !important;
-  min-width: 0 !important;
-  height: auto !important;
-  display: inline-block !important;
-  margin: 0 !important;
-  padding: 4px 8px !important;
-  background: transparent !important;
-  color: #2474ed !important;
-  border: none !important;
-  border-radius: 4px !important;
-  font-size: 14px !important;
-  font-weight: 600 !important;
-  cursor: pointer;
-  z-index: 10;
-}
+
 .password-field .password-toggle:hover {
   background: transparent !important;
   color: #155dcc !important;
@@ -417,52 +395,7 @@ footer {
 .password-field + button[type="submit"] {
   margin-top: 18px !important;
 }
-/* PASSWORD SHOW / HIDE BUTTON */
 
-.password-field {
-  position: relative !important;
-  width: 100% !important;
-}
-
-.password-field .password-toggle {
-  position: absolute !important;
-  right: 12px !important;
-  top: 50% !important;
-  transform: translateY(-50%) !important;
-
-  width: auto !important;
-  min-width: 0 !important;
-  max-width: none !important;
-  height: auto !important;
-
-  display: inline-block !important;
-
-  margin: 0 !important;
-  padding: 2px 4px !important;
-
-  background: transparent !important;
-  color: #2474ed !important;
-
-  border: 0 !important;
-  border-radius: 0 !important;
-
-  font-family: Arial, sans-serif !important;
-  font-size: 12px !important;
-  font-weight: 600 !important;
-
-  cursor: pointer !important;
-  z-index: 999 !important;
-}
-
-.password-field .password-toggle:hover {
-  background: transparent !important;
-  color: #155dcc !important;
-}
-
-.password-field input {
-  width: 100% !important;
-  padding-right: 70px !important;
-}
 /* ================================
    USER DASHBOARD
    ================================ */
