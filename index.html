@@ -478,12 +478,17 @@ registerForm.addEventListener(
 
     event.preventDefault();
 
-    const email =
-      document.getElementById(
-        "register-email"
-      ).value.trim();
+   const email =
+  document.getElementById(
+    "register-email"
+  ).value.trim();
 
-    const password =
+const invitationCode =
+  document.getElementById(
+    "register-invitation"
+  ).value.trim();
+
+const password =
   document.getElementById(
     "register-password"
   ).value;
@@ -533,11 +538,16 @@ if (!ageCheckbox.checked) {
       error
     } =
       await supabaseClient.auth.signUp({
-        email: email,
-        password: password
-      });
+  email: email,
+  password: password,
+  options: {
+    data: {
+      invitation_code: invitationCode
+    }
+  }
+});
 
-    if (error) {
+   if (error) {
 
       message.textContent =
         error.message;
