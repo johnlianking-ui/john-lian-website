@@ -236,8 +236,8 @@ article b {
   box-shadow: 0 0 0 3px rgba(36, 116, 237, 0.12);
 }
 
-#register button,
-#login button {
+#register > form > button[type="submit"],
+#login > form > button[type="submit"] {
   width: 100%;
   padding: 14px 20px;
   border: none;
