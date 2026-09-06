@@ -291,6 +291,44 @@ article b {
   transform: translateY(-50%) !important;
 }
 
+/* PASSWORD FIELD */
+
+.password-field {
+  position: relative;
+  width: 100%;
+}
+
+.password-field input {
+  width: 100%;
+  box-sizing: border-box;
+  padding-right: 70px;
+}
+
+.password-field .password-toggle {
+  position: absolute;
+  right: 12px;
+  top: 50%;
+  transform: translateY(-50%);
+
+  width: auto !important;
+  min-width: 0 !important;
+  margin: 0 !important;
+  padding: 3px 5px !important;
+
+  background: transparent !important;
+  color: #2474ed !important;
+  border: none !important;
+
+  font-size: 12px !important;
+  font-weight: 600 !important;
+  cursor: pointer;
+  z-index: 10;
+}
+
+.password-field .password-toggle:hover {
+  background: transparent !important;
+  color: #155dcc !important;
+}
 /* =========================
    ACCOUNT
 ========================= */
