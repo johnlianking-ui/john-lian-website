@@ -676,13 +676,54 @@ logoutButton.addEventListener(
 // =========================
 // SHOW / HIDE DASHBOARD
 // =========================
+    
+async function loadInvitationCode() {
+  const codeElement =
+    document.getElementById("dashboard-invitation-code");
 
+  if (!codeElement) {
+    return;
+  }
+
+  const {
+    data: { user },
+    error: userError
+  } = await supabaseClient.auth.getUser();
+
+  if (userError || !user) {
+    return;
+  }
+
+  const {
+    data: profile,
+    error
+  } = await supabaseClient
+    .from("profiles")
+    .select("invitation_code")
+    .eq("id", user.id)
+    .single();
+
+  if (error) {
+    console.error(
+      "Error loading invitation code:",
+      error
+    );
+
+    codeElement.textContent =
+      "Unable to load code.";
+
+    return;
+  }
+
+  codeElement.textContent =
+    profile.invitation_code;
+}
 function showDashboard() {
   const dashboard = document.getElementById("user-dashboard");
 
-  if (dashboard) {
-    dashboard.style.display = "block";
-  }
+ if (dashboard) {
+  dashboard.style.display = "block";
+  loadInvitationCode();
 }
 
 function hideDashboard() {
