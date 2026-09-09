@@ -718,12 +718,41 @@ async function loadInvitationCode() {
   codeElement.textContent =
     profile.invitation_code;
 }
+    
+const copyInvitationButton =
+  document.getElementById("copy-invitation-button");
+
+if (copyInvitationButton) {
+  copyInvitationButton.addEventListener(
+    "click",
+    async function() {
+
+      const code =
+        document.getElementById(
+          "dashboard-invitation-code"
+        ).textContent.trim();
+
+      if (!code || code === "Loading...") {
+        return;
+      }
+
+      await navigator.clipboard.writeText(code);
+
+      document.getElementById(
+        "invitation-message"
+      ).textContent =
+        "Invitation code copied.";
+    }
+  );
+}
+    
 function showDashboard() {
   const dashboard = document.getElementById("user-dashboard");
 
  if (dashboard) {
   dashboard.style.display = "block";
   loadInvitationCode();
+  }
 }
 
 function hideDashboard() {
