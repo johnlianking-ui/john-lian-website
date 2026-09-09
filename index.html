@@ -745,7 +745,52 @@ if (copyInvitationButton) {
     }
   );
 }
-    
+ 
+// SHARE INVITATION
+const shareInvitationButton =
+  document.getElementById("share-invitation-button");
+
+if (shareInvitationButton) {
+  shareInvitationButton.addEventListener(
+    "click",
+    async function() {
+
+      const code =
+        document.getElementById(
+          "dashboard-invitation-code"
+        ).textContent.trim();
+
+      if (!code || code === "Loading...") {
+        return;
+      }
+
+      const shareText =
+        "Join John Lian - Online Easy Earning. Use my invitation code: " +
+        code;
+
+      if (navigator.share) {
+        try {
+          await navigator.share({
+            title: "Join John Lian",
+            text: shareText
+          });
+        } catch (error) {
+          if (error.name !== "AbortError") {
+            console.error(error);
+          }
+        }
+      } else {
+        await navigator.clipboard.writeText(shareText);
+
+        document.getElementById(
+          "invitation-message"
+        ).textContent =
+          "Invitation message copied. You can paste it into WhatsApp, Telegram, SMS, or another app.";
+      }
+    }
+  );
+}
+
 function showDashboard() {
   const dashboard = document.getElementById("user-dashboard");
 
