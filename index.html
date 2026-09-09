@@ -703,17 +703,17 @@ async function loadInvitationCode() {
     .eq("id", user.id)
     .single();
 
-  if (error) {
-    console.error(
-      "Error loading invitation code:",
-      error
-    );
+ if (error) {
+  console.error(
+    "Error loading invitation code:",
+    error
+  );
 
-    codeElement.textContent =
-      "Unable to load code.";
+  codeElement.textContent =
+    "Unable to load code: " + error.message;
 
-    return;
-  }
+  return;
+}
 
   codeElement.textContent =
     profile.invitation_code;
