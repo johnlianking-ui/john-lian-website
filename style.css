@@ -801,3 +801,34 @@ footer {
   cursor: pointer !important;
   z-index: 9999 !important;
 }
+/* =========================
+   DASHBOARD TOP NAVIGATION
+========================= */
+
+.dashboard-nav {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-bottom: 25px;
+  justify-content: center;
+}
+
+.dashboard-nav button {
+  flex: 1 1 150px;
+  padding: 11px 14px !important;
+  margin: 0 !important;
+
+  border: none !important;
+  border-radius: 8px !important;
+
+  background: #2474ed !important;
+  color: white !important;
+
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.dashboard-nav button:hover {
+  background: #155dcc !important;
+}
