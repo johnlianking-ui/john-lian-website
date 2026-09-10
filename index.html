@@ -318,10 +318,13 @@
 
 <div class="dashboard-nav">
 
-  <button type="button">
-    Deposit
-  </button>
-
+  <button
+  type="button"
+  id="deposit-nav-button"
+>
+  Deposit
+</button>
+  
   <button type="button">
     Withdrawal
   </button>
@@ -380,6 +383,28 @@
 <div class="dashboard-card">
   <h3>Available Balance</h3>
   <p id="dashboard-balance">$0.00</p>
+</div>
+
+  <div
+  class="dashboard-card"
+  id="deposit-section"
+  style="display:none;"
+>
+  <h3>Deposit</h3>
+
+   <p>
+  Choose a deposit method to add funds to your account.
+</p>
+
+<p id="deposit-message"></p>
+
+</div> 
+
+  <p>
+    Choose a deposit method to add funds to your account.
+  </p>
+
+  <p id="deposit-message"></p>
 </div>
     
 <div class="dashboard-card">
@@ -820,6 +845,29 @@ function showDashboard() {
   }
 }
 
+// DEPOSIT NAVIGATION
+
+const depositNavButton =
+  document.getElementById("deposit-nav-button");
+
+const depositSection =
+  document.getElementById("deposit-section");
+
+if (depositNavButton && depositSection) {
+  depositNavButton.addEventListener(
+    "click",
+    function() {
+
+      depositSection.style.display = "block";
+
+      depositSection.scrollIntoView({
+        behavior: "smooth"
+      });
+
+    }
+  );
+}
+    
 function hideDashboard() {
   const dashboard = document.getElementById("user-dashboard");
 
