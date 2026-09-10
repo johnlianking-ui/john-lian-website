@@ -832,3 +832,37 @@ footer {
 .dashboard-nav button:hover {
   background: #155dcc !important;
 }
+  
+/* =========================
+   BANK TRANSFER DETAILS
+========================= */
+
+.bank-transfer-details {
+  margin-top: 18px;
+  padding: 18px;
+  background: #f8fafc;
+  border: 1px solid #e2e8f0;
+  border-radius: 12px;
+}
+
+.bank-transfer-details p {
+  margin: 10px 0;
+  padding-bottom: 10px;
+  border-bottom: 1px solid #e5e7eb;
+  font-size: 14px;
+}
+
+.bank-transfer-details p:last-child {
+  border-bottom: none;
+  padding-bottom: 0;
+}
+
+.bank-transfer-details strong {
+  display: inline-block;
+  min-width: 130px;
+  color: #17213a;
+}
+
+.bank-transfer-details span {
+  color: #374151;
+}
