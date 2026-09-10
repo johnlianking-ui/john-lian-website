@@ -887,6 +887,25 @@ if (depositNavButton && depositSection) {
     }
   );
 }
+
+// DEPOSIT METHOD BUTTON
+
+const depositMethodButton =
+  document.getElementById("deposit-method-button");
+
+const depositMethods =
+  document.getElementById("deposit-methods");
+
+if (depositMethodButton && depositMethods) {
+  depositMethodButton.addEventListener(
+    "click",
+    function() {
+
+      depositMethods.style.display = "block";
+
+    }
+  );
+}
     
 function hideDashboard() {
   const dashboard = document.getElementById("user-dashboard");
