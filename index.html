@@ -430,32 +430,33 @@
 
     <p>
       <strong>Bank:</strong>
-      <span id="deposit-bank">[Bank Name]</span>
+     <span id="deposit-bank">Equity Bank Uganda</span>
+
     </p>
 
     <p>
       <strong>Account Name:</strong>
-      <span id="deposit-account-name">[Account Name]</span>
+     <span id="deposit-account-name">Amara</span>
     </p>
 
     <p>
       <strong>Account Number:</strong>
-      <span id="deposit-account-number">[Account Number]</span>
+     <span id="deposit-account-number">1175658236365</span>
     </p>
 
     <p>
       <strong>SWIFT/BIC:</strong>
-      <span id="deposit-swift">[SWIFT/BIC]</span>
+    <span id="deposit-swift">EQBLUKAXXXXX</span>
     </p>
 
     <p>
       <strong>Currency:</strong>
-      <span id="deposit-currency">[Currency]</span>
+      <span id="deposit-currency">UGX</span>
     </p>
 
     <p>
       <strong>Reference:</strong>
-      <span id="deposit-reference">[Reference]</span>
+      <span id="deposit-reference">CUSTOMER-REFERENCE</span>
     </p>
 
   </div>
@@ -906,11 +907,30 @@ if (shareInvitationButton) {
 }
 
 function showDashboard() {
-  const dashboard = document.getElementById("user-dashboard");
+  const dashboard =
+    document.getElementById("user-dashboard");
 
- if (dashboard) {
-  dashboard.style.display = "block";
-  loadInvitationCode();
+  if (dashboard) {
+    dashboard.style.display = "block";
+
+    loadInvitationCode();
+
+    const referenceElement =
+      document.getElementById("deposit-reference");
+
+    if (referenceElement) {
+      supabaseClient.auth.getUser()
+        .then(function(result) {
+
+          const user = result.data.user;
+
+          if (user) {
+            referenceElement.textContent =
+              "USER-" + user.id.substring(0, 8).toUpperCase();
+          }
+
+        });
+    }
   }
 }
 
