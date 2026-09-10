@@ -415,6 +415,21 @@
     Bank Transfer
   </button>
 
+  <div
+  id="bank-transfer-section"
+  style="display:none;"
+>
+
+  <h4>Bank Transfer</h4>
+
+  <p>
+    Deposit funds using the bank transfer details provided below.
+  </p>
+
+  <p id="bank-transfer-message"></p>
+
+</div>
+
   <button
     type="button"
     id="mobile-money-deposit-button"
@@ -888,6 +903,29 @@ if (depositNavButton && depositSection) {
   );
 }
 
+// BANK TRANSFER BUTTON
+
+const bankDepositButton =
+  document.getElementById("bank-deposit-button");
+
+const bankTransferSection =
+  document.getElementById("bank-transfer-section");
+
+if (bankDepositButton && bankTransferSection) {
+  bankDepositButton.addEventListener(
+    "click",
+    function() {
+
+      bankTransferSection.style.display = "block";
+
+      bankTransferSection.scrollIntoView({
+        behavior: "smooth"
+      });
+
+    }
+  );
+}
+    
 // DEPOSIT METHOD BUTTON
 
 const depositMethodButton =
