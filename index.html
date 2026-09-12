@@ -822,7 +822,104 @@ loadAdminWithdrawals();
       }
     );
 
+ // LOAD WITHDRAWAL TRANSACTION HISTORY
 
+async function loadWithdrawalHistory() {
+
+  const historyList =
+    document.getElementById("transaction-history-list");
+
+  if (!historyList) {
+    return;
+  }
+
+  const {
+    data: { user },
+    error: userError
+  } = await supabaseClient.auth.getUser();
+
+  if (userError || !user) {
+    historyList.innerHTML =
+      "<p>Please log in to view your transactions.</p>";
+    return;
+  }
+
+  const {
+    data: withdrawals,
+    error
+  } = await supabaseClient
+    .from("withdrawals")
+    .select("id, amount, payment_method, status, created_at")
+    .eq("user_id", user.id)
+    .order("created_at", {
+      ascending: false
+    });
+
+  if (error) {
+    console.error(
+      "Error loading withdrawal history:",
+      error
+    );
+
+    historyList.innerHTML =
+      "<p>Unable to load transaction history.</p>";
+
+    return;
+  }
+
+  if (!withdrawals || withdrawals.length === 0) {
+    historyList.innerHTML =
+      "<p>No withdrawal transactions yet.</p>";
+    return;
+  }
+
+  historyList.innerHTML = "";
+
+  withdrawals.forEach(function(withdrawal) {
+
+    const transaction =
+      document.createElement("div");
+
+    transaction.className =
+      "transaction-history-item";
+
+    transaction.innerHTML =
+      "<p><strong>Withdrawal</strong></p>" +
+      "<p>Amount: $" +
+      Number(withdrawal.amount).toFixed(2) +
+      "</p>" +
+      "<p>Method: " +
+      withdrawal.payment_method +
+      "</p>" +
+      "<p>Status: " +
+      withdrawal.status +
+      "</p>" +
+      "<p>Date: " +
+      new Date(withdrawal.created_at)
+        .toLocaleString() +
+      "</p>";
+
+    historyList.appendChild(transaction);
+
+  });
+}
+
+// TRANSACTION HISTORY BUTTON
+
+const transactionHistoryButton =
+  document.getElementById("transaction-history-button");
+
+if (transactionHistoryButton) {
+  transactionHistoryButton.addEventListener(
+    "click",
+    function() {
+
+      loadWithdrawalHistory();
+
+    }
+  );
+}
+    
 // =========================
 // LOGOUT
 // =========================
