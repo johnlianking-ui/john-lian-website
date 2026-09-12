@@ -333,9 +333,12 @@
   Withdrawal
 </button>
 
-  <button type="button">
-    Transaction History
-  </button>
+ <button
+  type="button"
+  id="transaction-history-button"
+>
+  Transaction History
+</button>
 
   <button type="button">
     Internal Transfer
@@ -513,7 +516,27 @@
     
   <p id="deposit-message"></p>
 </div>
-    
+
+<!-- TRANSACTION HISTORY -->
+
+<div
+  class="dashboard-card"
+  id="transaction-history-section"
+  style="display:none;"
+>
+
+  <h3>Transaction History</h3>
+
+  <p>
+    View your recent account transactions below.
+  </p>
+
+  <div id="transaction-history-list">
+    <p>No transactions yet.</p>
+  </div>
+
+</div>
+  
 <div class="dashboard-card">
   <h3>Withdraw Earnings</h3>
 
@@ -987,6 +1010,32 @@ if (depositNavButton && depositSection) {
       depositSection.style.display = "block";
 
       depositSection.scrollIntoView({
+        behavior: "smooth"
+      });
+
+    }
+  );
+}
+
+// TRANSACTION HISTORY NAVIGATION
+
+const transactionHistoryButton =
+  document.getElementById("transaction-history-button");
+
+const transactionHistorySection =
+  document.getElementById("transaction-history-section");
+
+if (
+  transactionHistoryButton &&
+  transactionHistorySection
+) {
+  transactionHistoryButton.addEventListener(
+    "click",
+    function() {
+
+      transactionHistorySection.style.display = "block";
+
+      transactionHistorySection.scrollIntoView({
         behavior: "smooth"
       });
 
