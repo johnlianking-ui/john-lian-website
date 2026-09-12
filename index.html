@@ -956,29 +956,6 @@ if (depositNavButton && depositSection) {
     }
   );
 }
-
-// WITHDRAWAL NAVIGATION
-
-const withdrawalNavButton =
-  document.getElementById("withdrawal-nav-button");
-
-const withdrawButton =
-  document.getElementById("withdraw-button");
-
-if (withdrawalNavButton && withdrawButton) {
-  withdrawalNavButton.addEventListener(
-    "click",
-    function() {
-
-      withdrawButton.scrollIntoView({
-        behavior: "smooth"
-      });
-
-      withdrawButton.click();
-
-    }
-  );
-}
     
 // BANK TRANSFER BUTTON
 
