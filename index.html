@@ -854,7 +854,30 @@ async function loadWithdrawalHistory() {
     .order("created_at", {
       ascending: false
     });
+  
+  const {
+    data: deposits,
+    error: depositError
+  } = await supabaseClient
+    .from("deposits")
+    .select("id, amount, payment_method, status, created_at")
+    .eq("user_id", user.id)
+    .order("created_at", {
+      ascending: false
+    });
+  
+if (depositError) {
+  console.error(
+    "Error loading deposit history:",
+    depositError
+  );
 
+  historyList.innerHTML =
+    "<p>Unable to load deposit history.</p>";
+
+  return;
+}
+  
   if (error) {
     console.error(
       "Error loading withdrawal history:",
@@ -867,15 +890,42 @@ async function loadWithdrawalHistory() {
     return;
   }
 
-  if (!withdrawals || withdrawals.length === 0) {
-    historyList.innerHTML =
-      "<p>No withdrawal transactions yet.</p>";
-    return;
-  }
+ const transactions = [
+  ...(deposits || []).map(function(deposit) {
+    return {
+      type: "Deposit",
+      amount: deposit.amount,
+      payment_method: deposit.payment_method,
+      status: deposit.status,
+      created_at: deposit.created_at
+    };
+  }),
+
+  ...(withdrawals || []).map(function(withdrawal) {
+    return {
+      type: "Withdrawal",
+      amount: withdrawal.amount,
+      payment_method: withdrawal.payment_method,
+      status: withdrawal.status,
+      created_at: withdrawal.created_at
+    };
+  })
+];
+
+transactions.sort(function(a, b) {
+  return new Date(b.created_at) -
+         new Date(a.created_at);
+});
+
+if (transactions.length === 0) {
+  historyList.innerHTML =
+    "<p>No transactions yet.</p>";
+  return;
+}
 
   historyList.innerHTML = "";
 
-  withdrawals.forEach(function(withdrawal) {
+ transactions.forEach(function(transactionData) {
 
     const transaction =
       document.createElement("div");
@@ -884,18 +934,20 @@ async function loadWithdrawalHistory() {
       "transaction-history-item";
 
     transaction.innerHTML =
-      "<p><strong>Withdrawal</strong></p>" +
-      "<p>Amount: $" +
-      Number(withdrawal.amount).toFixed(2) +
+  "<p><strong>" +
+  transactionData.type +
+  "</strong></p>" +
+  "<p>Amount: $" +
+    Number(transactionData.amount).toFixed(2) +
       "</p>" +
       "<p>Method: " +
-      withdrawal.payment_method +
+      transactionData.payment_method +
       "</p>" +
       "<p>Status: " +
-      withdrawal.status +
+      transactionData.status +
       "</p>" +
       "<p>Date: " +
-      new Date(withdrawal.created_at)
+      new Date(transactionData.created_at)
         .toLocaleString() +
       "</p>";
 
