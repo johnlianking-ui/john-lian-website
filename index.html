@@ -340,10 +340,12 @@
   Transaction History
 </button>
 
-  <button type="button">
-    Internal Transfer
-  </button>
-
+ <button
+  type="button"
+  id="internal-transfer-button"
+>
+  Internal Transfer
+</button>
 </div>
 
 <h2>Welcome to Your Dashboard</h2>
@@ -534,6 +536,56 @@
   <div id="transaction-history-list">
     <p>No transactions yet.</p>
   </div>
+
+</div>
+
+
+<!-- INTERNAL TRANSFER -->
+
+<div
+  class="dashboard-card"
+  id="internal-transfer-section"
+  style="display:none;"
+>
+
+  <h3>Internal Transfer</h3>
+
+  <p>
+    Transfer available funds to another John Lian user.
+  </p>
+
+  <input
+    type="text"
+    id="transfer-recipient"
+    placeholder="Recipient reference"
+    required
+  >
+
+  <input
+    type="number"
+    id="transfer-amount"
+    placeholder="Enter amount"
+    min="0.01"
+    step="0.01"
+    required
+  >
+
+  <button
+    type="button"
+    id="submit-transfer-button"
+  >
+    Send Transfer
+  </button>
+
+  <p id="transfer-message"></p>
+
+ <p>
+  View your recent account transactions below.
+</p>
+
+<div id="transaction-history-list">
+  <p>No transactions yet.</p>
+</div>
 
 </div>
   
