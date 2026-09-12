@@ -476,6 +476,39 @@
     Mobile Money
   </button>
 
+<div
+  id="mobile-money-section"
+  style="display:none;"
+>
+
+  <h4>Mobile Money</h4>
+
+  <p>
+    Deposit funds using the mobile money details provided below.
+  </p>
+
+  <p>
+    <strong>Provider:</strong>
+    <span id="deposit-mobile-provider">[Mobile Money Provider]</span>
+  </p>
+
+  <p>
+    <strong>Phone Number:</strong>
+    <span id="deposit-mobile-number">[Mobile Money Number]</span>
+  </p>
+
+  <p>
+    <strong>Account Name:</strong>
+    <span id="deposit-mobile-name">[Account Name]</span>
+  </p>
+
+  <p>
+    <strong>Reference:</strong>
+    <span id="deposit-mobile-reference">CUSTOMER-REFERENCE</span>
+  </p>
+
+</div>
+  
 </div>
     
   <p id="deposit-message"></p>
@@ -977,6 +1010,29 @@ if (bankDepositButton && bankTransferSection) {
       bankTransferSection.style.display = "block";
 
       bankTransferSection.scrollIntoView({
+        behavior: "smooth"
+      });
+
+    }
+  );
+}
+
+// MOBILE MONEY DEPOSIT BUTTON
+
+const mobileMoneyDepositButton =
+  document.getElementById("mobile-money-deposit-button");
+
+const mobileMoneySection =
+  document.getElementById("mobile-money-section");
+
+if (mobileMoneyDepositButton && mobileMoneySection) {
+  mobileMoneyDepositButton.addEventListener(
+    "click",
+    function() {
+
+      mobileMoneySection.style.display = "block";
+
+      mobileMoneySection.scrollIntoView({
         behavior: "smooth"
       });
 
