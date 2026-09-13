@@ -1229,6 +1229,32 @@ if (
     }
   );
 }
+
+// INTERNAL TRANSFER NAVIGATION
+
+const internalTransferButton =
+  document.getElementById("internal-transfer-button");
+
+const internalTransferSection =
+  document.getElementById("internal-transfer-section");
+
+if (
+  internalTransferButton &&
+  internalTransferSection
+) {
+  internalTransferButton.addEventListener(
+    "click",
+    function() {
+
+      internalTransferSection.style.display = "block";
+
+      internalTransferSection.scrollIntoView({
+        behavior: "smooth"
+      });
+
+    }
+  );
+}
     
 // BANK TRANSFER BUTTON
 
