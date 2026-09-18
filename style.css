@@ -523,6 +523,7 @@ footer {
   margin-bottom: 8px !important;
 }
 
+  \
 .dashboard-card p {
   margin-bottom: 12px !important;
 }
@@ -584,7 +585,7 @@ footer {
 }
 
 /* Individual dashboard cards */
-#user-dashboard .dashboard-card {
+#user-dashboard .dashboard-card:not([style*="display:none"]) {
   display: block !important;
 
   width: 100% !important;
@@ -606,7 +607,7 @@ footer {
 }
 
 /* View Tasks button */
-#user-dashboard .dashboard-card button {
+#user-dashboard .dashboard-card:not([style*="display:none"]) {
   display: block !important;
   width: 100% !important;
 
