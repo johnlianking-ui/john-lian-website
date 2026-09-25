@@ -1715,9 +1715,13 @@ async function loadDashboardStats() {
   const completedElement =
     document.getElementById("dashboard-completed");
 
- if (!earningsElement || !balanceElement || !completedElement) {
-  return;
-}
+  if (
+    !earningsElement ||
+    !balanceElement ||
+    !completedElement
+  ) {
+    return;
+  }
 
   // Get current logged-in user
   const {
@@ -1756,110 +1760,96 @@ async function loadDashboardStats() {
       ? approvedSubmissions.length
       : 0;
 
-  // If there are no completed tasks
- if (!approvedSubmissions || approvedSubmissions.length === 0) {
+  // Calculate total task earnings
+  let totalEarnings = 0;
 
-  earningsElement.textContent = "$0.00";
-  balanceElement.textContent = "$0.00";
-  completedElement.textContent = "0";
+  if (
+    approvedSubmissions &&
+    approvedSubmissions.length > 0
+  ) {
 
-  return;
-}
-  
-  // Get the task IDs that were approved
-  const taskIds =
-    approvedSubmissions.map(function(submission) {
-      return submission.task_id;
-    });
+    const taskIds =
+      approvedSubmissions.map(function(submission) {
+        return submission.task_id;
+      });
 
-  // Load the rewards for those tasks
+    // Load rewards for approved tasks
+    const {
+      data: completedTasks,
+      error: tasksError
+    } =
+      await supabaseClient
+        .from("Tasks")
+        .select("id, reward")
+        .in("id", taskIds);
+
+    if (tasksError) {
+
+      console.error(
+        "Error loading completed task rewards:",
+        tasksError
+      );
+
+      return;
+    }
+
+    if (completedTasks) {
+
+      completedTasks.forEach(function(task) {
+
+        totalEarnings +=
+          Number(task.reward) || 0;
+
+      });
+
+    }
+  }
+
+  // Load the user's real account balance
   const {
-    data: completedTasks,
-    error: tasksError
+    data: balanceAccount,
+    error: balanceError
   } =
     await supabaseClient
-      .from("Tasks")
-      .select("id, reward")
-      .in("id", taskIds);
+      .from("account_balances")
+      .select("balance")
+      .eq("user_id", user.id)
+      .single();
 
-  if (tasksError) {
+  if (balanceError) {
 
     console.error(
-      "Error loading completed task rewards:",
-      tasksError
+      "Error loading account balance:",
+      balanceError
     );
 
     return;
   }
 
-  // Calculate total earnings
-  let totalEarnings = 0;
+  const availableBalance =
+    Number(balanceAccount.balance) || 0;
 
-  if (completedTasks) {
+  // Update dashboard
+  earningsElement.textContent =
+    "$" + totalEarnings.toFixed(2);
 
-    completedTasks.forEach(function(task) {
+  balanceElement.textContent =
+    "$" + availableBalance.toFixed(2);
 
-      totalEarnings +=
-        Number(task.reward) || 0;
+  completedElement.textContent =
+    completedCount;
 
-    });
-
-  }
-
- // Update dashboard
-const {
-  data: approvedWithdrawals,
-  error: withdrawalsError
-} =
-  await supabaseClient
-    .from("withdrawals")
-    .select("amount")
-    .eq("user_id", user.id)
-    .eq("status", "approved");
-
-if (withdrawalsError) {
-
-  console.error(
-    "Error loading approved withdrawals:",
-    withdrawalsError
+  console.log(
+    "Dashboard earnings:",
+    totalEarnings
   );
 
-  return;
-}
-
-let totalWithdrawn = 0;
-
-if (approvedWithdrawals) {
-
-  approvedWithdrawals.forEach(function(withdrawal) {
-
-    totalWithdrawn +=
-      Number(withdrawal.amount) || 0;
-
-  });
-
-}
-
-const availableBalance =
-  Math.max(
-    totalEarnings - totalWithdrawn,
-    0
+  console.log(
+    "Dashboard available balance:",
+    availableBalance
   );
-
-earningsElement.textContent =
-  "$" + totalEarnings.toFixed(2);
-
-balanceElement.textContent =
-  "$" + availableBalance.toFixed(2);
-
-completedElement.textContent =
-  completedCount;
-
-console.log(
-  "Dashboard balance:",
-  totalEarnings
-);
 }
+    
 // =========================
 // TASK SUBMISSION
 // =========================
