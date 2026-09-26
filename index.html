@@ -2388,12 +2388,12 @@ function setupWithdrawalButtons() {
           button.getAttribute("data-withdrawal-id");
 
         const { error } =
-          await supabaseClient
-            .from("withdrawals")
-            .update({
-              status: "approved"
-            })
-            .eq("id", withdrawalId);
+          await supabaseClient.rpc(
+            "approve_withdrawal",
+            {
+              withdrawal_id: withdrawalId
+            }
+          );
 
         if (error) {
 
@@ -2403,7 +2403,7 @@ function setupWithdrawalButtons() {
           );
 
           alert(
-            "Unable to approve withdrawal."
+            error.message
           );
 
           return;
@@ -2418,6 +2418,7 @@ function setupWithdrawalButtons() {
       });
 
     });
+
   document
     .querySelectorAll(".admin-withdraw-reject-button")
     .forEach(function(button) {
@@ -2450,16 +2451,16 @@ function setupWithdrawalButtons() {
         }
 
         alert(
-        "Withdrawal rejected successfully."
-     );
+          "Withdrawal rejected successfully."
+        );
 
-    await loadAdminWithdrawals();
+        await loadAdminWithdrawals();
 
       });
 
     });
-}   
-
+}
+    
 // =========================
 // ADMIN APPROVE / REJECT
 // =========================
