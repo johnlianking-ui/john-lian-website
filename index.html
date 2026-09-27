@@ -2495,9 +2495,10 @@ function setupAdminButtons() {
 
           console.error(error);
 
-          alert(
-            "Unable to approve this submission."
-          );
+         alert(
+          "Unable to approve this submission: " +
+          error.message
+        );
 
           button.disabled = false;
           button.textContent = "Approve";
