@@ -2294,7 +2294,6 @@ async function loadAdminWithdrawals() {
         <th>Payment Method</th>
         <th>Status</th>
         <th>Requested</th>
-        <th>Action</th>
       </tr>
     </thead>
 
@@ -2453,7 +2452,8 @@ async function loadAdminDeposits() {
         <th>Amount</th>
         <th>Payment Method</th>
         <th>Status</th>
-        <th>Requested</th>
+       <th>Requested</th>
+       <th>Action</th>
       </tr>
     </thead>
 
@@ -2469,9 +2469,41 @@ async function loadAdminDeposits() {
       document.createElement("tr");
 
     const status =
-      deposit.status || "pending";
+  deposit.status || "pending";
 
-    row.innerHTML = `
+let actionHTML = "";
+
+if (status === "pending") {
+
+  actionHTML = `
+    <button
+      type="button"
+      class="admin-deposit-approve-button"
+      data-deposit-id="${deposit.id}"
+    >
+      Approve
+    </button>
+
+    <button
+      type="button"
+      class="admin-deposit-reject-button"
+      data-deposit-id="${deposit.id}"
+    >
+      Reject
+    </button>
+  `;
+
+} else {
+
+  actionHTML = `
+    <span class="admin-reviewed-status">
+      ${status}
+    </span>
+  `;
+
+}
+
+row.innerHTML = `
 
       <td data-label="User ID">
         ${deposit.user_id}
@@ -2494,6 +2526,10 @@ async function loadAdminDeposits() {
           deposit.created_at
         ).toLocaleString()}
       </td>
+      
+    <td data-label="Action">
+  ${actionHTML}
+ </td>
 
     `;
 
