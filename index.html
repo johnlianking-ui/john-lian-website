@@ -672,9 +672,19 @@
 
   <div id="admin-withdrawals">
 
-    <p>Loading withdrawal requests...</p>
+  <p>Loading withdrawal requests...</p>
 
-  </div>
+</div>
+
+<hr>
+
+<h3>Deposit Requests</h3>
+
+<div id="admin-deposits">
+
+  <p>Loading deposit requests...</p>
+
+</div>
 </section>
   <!-- =========================
        USER STATUS
@@ -2372,6 +2382,128 @@ row.innerHTML = `
 
 }
 
+// =========================
+// LOAD ADMIN DEPOSITS
+// =========================
+
+async function loadAdminDeposits() {
+
+  const depositsList =
+    document.getElementById("admin-deposits");
+
+  if (!depositsList) {
+    return;
+  }
+
+  depositsList.innerHTML =
+    "<p>Loading deposit requests...</p>";
+
+  const {
+    data: deposits,
+    error
+  } =
+    await supabaseClient
+      .from("deposits")
+      .select(`
+        id,
+        user_id,
+        amount,
+        payment_method,
+        status,
+        created_at
+      `)
+      .order("created_at", {
+        ascending: false
+      });
+
+  if (error) {
+
+    console.error(
+      "Error loading deposits:",
+      error
+    );
+
+    depositsList.innerHTML =
+      "<p>Unable to load deposit requests.</p>";
+
+    return;
+  }
+
+  if (!deposits || deposits.length === 0) {
+
+    depositsList.innerHTML =
+      "<p>No deposit requests found.</p>";
+
+    return;
+  }
+
+  depositsList.innerHTML = "";
+
+  const table =
+    document.createElement("table");
+
+  table.className =
+    "admin-deposits-table";
+
+  table.innerHTML = `
+    <thead>
+      <tr>
+        <th>User ID</th>
+        <th>Amount</th>
+        <th>Payment Method</th>
+        <th>Status</th>
+        <th>Requested</th>
+      </tr>
+    </thead>
+
+    <tbody></tbody>
+  `;
+
+  const tableBody =
+    table.querySelector("tbody");
+
+  deposits.forEach(function(deposit) {
+
+    const row =
+      document.createElement("tr");
+
+    const status =
+      deposit.status || "pending";
+
+    row.innerHTML = `
+
+      <td data-label="User ID">
+        ${deposit.user_id}
+      </td>
+
+      <td data-label="Amount">
+        $${Number(deposit.amount).toFixed(2)}
+      </td>
+
+      <td data-label="Payment Method">
+        ${deposit.payment_method}
+      </td>
+
+      <td data-label="Status">
+        <strong>${status}</strong>
+      </td>
+
+      <td data-label="Requested">
+        ${new Date(
+          deposit.created_at
+        ).toLocaleString()}
+      </td>
+
+    `;
+
+    tableBody.appendChild(row);
+
+  });
+
+  depositsList.appendChild(table);
+
+}
+    
  // =========================
 // WITHDRAWAL BUTTONS
 // =========================
