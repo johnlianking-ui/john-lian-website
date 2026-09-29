@@ -2537,7 +2537,121 @@ row.innerHTML = `
 
   });
 
-  depositsList.appendChild(table);
+ depositsList.appendChild(table);
+
+setupDepositButtons();
+
+}
+
+// =========================
+// SETUP ADMIN DEPOSIT BUTTONS
+// =========================
+
+function setupDepositButtons() {
+
+  document
+    .querySelectorAll(".admin-deposit-approve-button")
+    .forEach(function(button) {
+
+      button.addEventListener(
+        "click",
+        async function() {
+
+          const depositId =
+            button.getAttribute(
+              "data-deposit-id"
+            );
+
+          button.disabled = true;
+          button.textContent =
+            "Approving...";
+
+          const { error } =
+            await supabaseClient.rpc(
+              "approve_deposit",
+              {
+                deposit_id: depositId
+              }
+            );
+
+          if (error) {
+
+            console.error(
+              "Deposit approval error:",
+              error
+            );
+
+            alert(
+              "Unable to approve deposit: " +
+              error.message
+            );
+
+            button.disabled = false;
+            button.textContent =
+              "Approve";
+
+            return;
+          }
+
+          alert(
+            "Deposit approved successfully."
+          );
+
+          loadAdminDeposits();
+          loadDashboardStats();
+
+        }
+      );
+
+    });
+
+
+  document
+    .querySelectorAll(".admin-deposit-reject-button")
+    .forEach(function(button) {
+
+      button.addEventListener(
+        "click",
+        async function() {
+
+          const depositId =
+            button.getAttribute(
+              "data-deposit-id"
+            );
+
+          const { error } =
+            await supabaseClient
+              .from("deposits")
+              .update({
+                status: "rejected"
+              })
+              .eq("id", depositId);
+
+          if (error) {
+
+            console.error(
+              "Deposit rejection error:",
+              error
+            );
+
+            alert(
+              "Unable to reject deposit: " +
+              error.message
+            );
+
+            return;
+          }
+
+          alert(
+            "Deposit rejected successfully."
+          );
+
+          loadAdminDeposits();
+
+        }
+      );
+
+    });
 
 }
     
