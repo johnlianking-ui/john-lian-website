@@ -2558,9 +2558,14 @@ function setupDepositButtons() {
         async function() {
 
           const depositId =
-            button.getAttribute(
-              "data-deposit-id"
-            );
+             button.getAttribute(
+               "data-deposit-id"
+              );
+
+         console.log(
+        "Approve deposit ID:",
+        depositId
+        );
 
           button.disabled = true;
           button.textContent =
