@@ -1515,12 +1515,6 @@ tasks.forEach(function(task) {
 
   console.log("TASK DATA:", task);
 
-  const taskCard =
-    document.createElement("div");
-
-  taskCard.className =
-    "task-item";
-
   // Find this user's submission for this task
   const submission =
     submissions?.find(function(item) {
