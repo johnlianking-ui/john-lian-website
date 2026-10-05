@@ -1430,8 +1430,10 @@ function hideDashboard() {
 
 async function loadTasks() {
 
- const tasksList =
-  document.getElementById("tasks-list");
+  console.log("LOAD TASKS STARTED");
+
+  const tasksList =
+    document.getElementById("tasks-list");
 
 if (!tasksList) {
   return;
