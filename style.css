@@ -772,3 +772,27 @@ footer {
   opacity: 0.6;
   cursor: wait;
 }
+
+/* Email verification signup */
+#register form[hidden] {
+  display: none;
+}
+
+#register label[for] {
+  display: block;
+  margin-bottom: 8px;
+}
+
+#registration-code-form button {
+  margin: 8px 0;
+  padding: 12px;
+}
+
+#register button:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+#register-message {
+  overflow-wrap: anywhere;
+}
