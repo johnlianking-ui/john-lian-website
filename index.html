@@ -2,7 +2,6 @@
 <html lang="en">
 
 <head>
-  <link rel="stylesheet" href="style.css">
 
  <meta
     name="viewport"
@@ -319,6 +318,10 @@
 
 <div class="dashboard-nav">
 
+  <button type="button" id="available-tasks-button" aria-controls="available-tasks-section">
+    Available Tasks
+  </button>
+
   <button
   type="button"
   id="deposit-nav-button"
@@ -378,7 +381,7 @@
   <p id="invitation-message"></p>
 </div>
     
-  <div class="dashboard-card">
+  <div class="dashboard-card" id="available-tasks-section" tabindex="-1">
   <h3>Available Tasks</h3>
 
   <div id="tasks-list">
@@ -1193,6 +1196,16 @@ function showDashboard() {
   }
 }
 
+// AVAILABLE TASKS NAVIGATION
+
+const availableTasksButton = document.getElementById("available-tasks-button");
+const availableTasksSection = document.getElementById("available-tasks-section");
+
+availableTasksButton.addEventListener("click", function() {
+  availableTasksSection.focus({ preventScroll: true });
+  availableTasksSection.scrollIntoView({ behavior: "smooth", block: "start" });
+});
+
 // DEPOSIT NAVIGATION
 
 const depositNavButton =
@@ -1515,6 +1528,9 @@ if (submissionsError) {
 tasksList.innerHTML = "";
 
 tasks.forEach(function(task) {
+
+  const taskCard = document.createElement("article");
+  taskCard.className = "task-card";
 
   console.log("TASK DATA:", task);
 
@@ -2873,6 +2889,12 @@ function setupAdminButtons() {
 
       if (data.user) {
 
+        if (document.getElementById("user-dashboard").style.display === "none") {
+          showDashboard();
+          loadTasks();
+          loadDashboardStats();
+        }
+
         status.textContent =
           "Logged in as " +
           data.user.email;
@@ -2881,6 +2903,8 @@ function setupAdminButtons() {
           "inline-block";
 
       } else {
+
+        hideDashboard();
 
         status.textContent =
           "You are not logged in.";
@@ -2902,10 +2926,13 @@ function setupAdminButtons() {
 // =========================
 
 supabaseClient.auth.onAuthStateChange(
-  async function() {
-    updateUserStatus();
-    loadAdminDashboard();
-    loadAdminWithdrawals();
+  function() {
+    // Run Supabase queries after the auth callback releases its session lock.
+    setTimeout(function() {
+      updateUserStatus();
+      loadAdminDashboard();
+      loadAdminWithdrawals();
+    }, 0);
   }
 );
 

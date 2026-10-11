@@ -439,7 +439,9 @@ footer {
 
   .actions .btn {
     text-align: center;
-    }
+  }
+}
+
 .password-field {
   position: relative !important;
   display: block !important;
@@ -485,204 +487,58 @@ footer {
 
 /* ================================
    USER DASHBOARD
-   ================================ */
-
-#user-dashboard {
-  width: 100% !important;
-  max-width: 480px !important;
-  margin: 30px auto !important;
-  padding: 28px !important;
-  box-sizing: border-box !important;
-
-  background: #ffffff !important;
-  border-radius: 16px !important;
-  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.08) !important;
-}
-
-#user-dashboard h2 {
-  margin-top: 0 !important;
-  margin-bottom: 10px !important;
-  text-align: center !important;
-}
-
-#dashboard-email {
-  text-align: center !important;
-  margin-bottom: 25px !important;
-}
-
-.dashboard-card {
-  margin-top: 18px !important;
-  padding: 18px !important;
-
-  background: #f5f8ff !important;
-  border-radius: 12px !important;
-}
-
-.dashboard-card h3 {
-  margin-top: 0 !important;
-  margin-bottom: 8px !important;
-}
-
-  \
-.dashboard-card p {
-  margin-bottom: 12px !important;
-}
-
-.dashboard-card button {
-  width: 100% !important;
-  padding: 10px !important;
-
-  border: none !important;
-  border-radius: 8px !important;
-
-  background: #2474ed !important;
-  color: white !important;
-
-  cursor: pointer !important;
-}
-/* =========================================
-   FINAL DASHBOARD LAYOUT FIX
-   ========================================= */
-
-#user-dashboard {
-  display: block !important;
-
-  position: relative !important;
-  float: none !important;
-  clear: both !important;
-
-  width: calc(100% - 40px) !important;
-  max-width: 480px !important;
-
-  margin: 40px auto !important;
-  padding: 30px !important;
-
-  box-sizing: border-box !important;
-
-  background: #ffffff !important;
-  border-radius: 16px !important;
-  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.08) !important;
-
-  text-align: left !important;
-}
-
-/* Make dashboard take its own row */
-#user-dashboard {
-  grid-column: 1 / -1 !important;
-  flex-basis: 100% !important;
-}
-
-/* Dashboard title */
-#user-dashboard h2 {
-  text-align: center !important;
-  margin: 0 0 15px 0 !important;
-}
-
-/* Dashboard email */
-#dashboard-email {
-  text-align: center !important;
-  margin: 0 0 25px 0 !important;
-}
-
-/* Individual dashboard cards */
-#user-dashboard .dashboard-card:not([style*="display:none"]) {
-  display: block !important;
-
-  width: 100% !important;
-  box-sizing: border-box !important;
-
-  margin: 15px 0 !important;
-  padding: 18px !important;
-
-  background: #f5f8ff !important;
-  border-radius: 12px !important;
-}
-
-/* Remove strange positioning from dashboard contents */
-#user-dashboard h3,
-#user-dashboard p,
-#user-dashboard button {
-  position: static !important;
-  float: none !important;
-}
-
-/* View Tasks button */
-#user-dashboard .dashboard-card:not([style*="display:none"]) {
-  display: block !important;
-  width: 100% !important;
-
-  padding: 11px !important;
-  margin-top: 12px !important;
-
-  box-sizing: border-box !important;
-
-  border: none !important;
-  border-radius: 8px !important;
-
-  background: #2474ed !important;
-  color: white !important;
-
-  cursor: pointer !important;
-}
-/* ================================
-   DASHBOARD FINAL STYLE
 ================================ */
 
 #user-dashboard {
   display: none;
-  width: 100% !important;
-  max-width: 700px !important;
-  margin: 40px auto !important;
-  padding: 30px !important;
-  box-sizing: border-box !important;
-
-  background: #ffffff !important;
-  border-radius: 16px !important;
-  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.08) !important;
-
-  text-align: center !important;
+  width: 100%;
+  max-width: 700px;
+  margin: 40px auto;
+  padding: 30px;
+  background: #ffffff;
+  border-radius: 16px;
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.08);
+  text-align: center;
 }
 
 #user-dashboard h2 {
-  text-align: center !important;
-  margin: 0 0 20px 0 !important;
+  margin: 0 0 20px;
 }
 
-#user-dashboard #dashboard-email {
-  text-align: center !important;
-  margin-bottom: 25px !important;
+#dashboard-email {
+  margin-bottom: 25px;
+  overflow-wrap: anywhere;
 }
 
 #user-dashboard .dashboard-card {
-  display: block !important;
-  width: 100% !important;
-  margin: 15px 0 !important;
-  padding: 20px !important;
-  box-sizing: border-box !important;
-
-  background: #f5f8ff !important;
-  border-radius: 12px !important;
+  width: 100%;
+  margin: 15px 0;
+  padding: 20px;
+  background: #f5f8ff;
+  border-radius: 12px;
+  overflow-wrap: anywhere;
 }
 
 #user-dashboard .dashboard-card h3 {
-  margin-top: 0 !important;
+  margin-top: 0;
+}
+
+#user-dashboard .dashboard-card p {
+  margin-bottom: 12px;
 }
 
 #user-dashboard .dashboard-card button {
-  display: block !important;
-  width: 100% !important;
-  padding: 12px !important;
-  margin-top: 12px !important;
-  box-sizing: border-box !important;
-
-  border: none !important;
-  border-radius: 8px !important;
-
-  background: #2474ed !important;
-  color: white !important;
-
-  cursor: pointer !important;
+  display: block;
+  width: 100%;
+  padding: 12px;
+  margin-top: 12px;
+  border: none;
+  border-radius: 8px;
+  background: #2474ed;
+  color: white;
+  cursor: pointer;
 }
+
 /* =========================
    FINAL ADMIN TABLE FIX
    ========================= */
@@ -866,4 +722,8 @@ footer {
 
 .bank-transfer-details span {
   color: #374151;
+}
+
+#available-tasks-section {
+  scroll-margin-top: 90px;
 }
