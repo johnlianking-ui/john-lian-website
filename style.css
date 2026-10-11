@@ -727,3 +727,48 @@ footer {
 #available-tasks-section {
   scroll-margin-top: 90px;
 }
+
+/* Client deposit forms */
+.deposit-form {
+  margin-top: 24px;
+  padding: 20px;
+  border: 1px solid #d6dbe5;
+  border-radius: 12px;
+  text-align: left;
+}
+
+.deposit-form label {
+  display: block;
+  margin-bottom: 8px;
+  font-weight: 600;
+}
+
+.deposit-form input {
+  width: 100%;
+  min-width: 0;
+  padding: 12px;
+  border: 1px solid #d6dbe5;
+  border-radius: 8px;
+  font: inherit;
+}
+
+.deposit-form-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+#user-dashboard .deposit-form-actions button {
+  flex: 1 1 140px;
+  width: auto;
+}
+
+#user-dashboard .deposit-form button[type="reset"] {
+  background: #e2e8f0;
+  color: #172033;
+}
+
+.deposit-form button:disabled {
+  opacity: 0.6;
+  cursor: wait;
+}

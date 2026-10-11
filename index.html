@@ -435,7 +435,7 @@
   <h4>Bank Transfer</h4>
 
   <p>
-    Deposit funds using the bank transfer details provided below.
+    Receiving bank details are shown below. Deposit setup is still in progress.
   </p>
 
   <div class="bank-transfer-details">
@@ -463,7 +463,7 @@
 
     <p>
       <strong>Currency:</strong>
-      <span id="deposit-currency">UGX</span>
+      <span id="deposit-currency">To be confirmed</span>
     </p>
 
     <p>
@@ -473,7 +473,17 @@
 
   </div>
 
-  <p id="bank-transfer-message"></p>
+<form id="bank-deposit-form" class="deposit-form" data-payment-method="Bank Transfer">
+  <h4>Your Deposit Details</h4>
+  <p id="bank-currency-note">Currency is not confirmed yet. Use sample amounts only; do not send money.</p>
+  <label for="bank-deposit-amount">Deposit amount (example)</label>
+  <input id="bank-deposit-amount" name="amount" type="number" min="0.01" step="0.01" inputmode="decimal" required aria-describedby="bank-currency-note">
+  <div class="deposit-form-actions">
+    <button type="submit">Submit Deposit Request</button>
+    <button type="reset">Clear</button>
+  </div>
+  <p class="deposit-form-message" role="status" aria-live="polite"></p>
+</form>
 
 </div>
 
@@ -492,7 +502,7 @@
   <h4>Mobile Money</h4>
 
   <p>
-    Deposit funds using the mobile money details provided below.
+    Receiving mobile money details will be confirmed before deposits are enabled for real payments.
   </p>
 
   <p>
@@ -514,6 +524,18 @@
     <strong>Reference:</strong>
     <span id="deposit-mobile-reference">CUSTOMER-REFERENCE</span>
   </p>
+
+<form id="mobile-deposit-form" class="deposit-form" data-payment-method="Mobile Money">
+  <h4>Your Deposit Details</h4>
+  <p id="mobile-currency-note">Currency is not confirmed yet. Use sample amounts only; do not send money.</p>
+  <label for="mobile-deposit-amount">Deposit amount (example)</label>
+  <input id="mobile-deposit-amount" name="amount" type="number" min="0.01" step="0.01" inputmode="decimal" required aria-describedby="mobile-currency-note">
+  <div class="deposit-form-actions">
+    <button type="submit">Submit Deposit Request</button>
+    <button type="reset">Clear</button>
+  </div>
+  <p class="deposit-form-message" role="status" aria-live="polite"></p>
+</form>
 
 </div>
   
@@ -1242,6 +1264,67 @@ function bindPanelToggle(button, panel, options = {}) {
   bindPanelToggle(document.getElementById(buttonId), document.getElementById(panelId), {
     scroll: true,
     onOpen: onOpen
+  });
+});
+
+// CLIENT DEPOSIT REQUESTS
+
+document.querySelectorAll(".deposit-form").forEach(function(form) {
+  const amountInput = form.elements.amount;
+  const message = form.querySelector(".deposit-form-message");
+  const submitButton = form.querySelector('[type="submit"]');
+  const clearButton = form.querySelector('[type="reset"]');
+  let submitting = false;
+
+  form.addEventListener("reset", function(event) {
+    if (submitting) {
+      event.preventDefault();
+      return;
+    }
+    message.textContent = "";
+  });
+
+  form.addEventListener("submit", async function(event) {
+    event.preventDefault();
+    if (submitting || !form.reportValidity()) return;
+    const amount = Number(amountInput.value);
+    if (!Number.isFinite(amount) || amount <= 0) {
+      message.textContent = "Enter an amount greater than zero.";
+      return;
+    }
+
+    submitting = true;
+    submitButton.disabled = true;
+    clearButton.disabled = true;
+    amountInput.disabled = true;
+    message.textContent = "Submitting deposit request...";
+
+    try {
+      const { data, error: userError } = await supabaseClient.auth.getUser();
+      if (userError || !data.user) {
+        message.textContent = "Please log in before submitting a deposit request.";
+        return;
+      }
+      const { error } = await supabaseClient.from("deposits").insert({
+        user_id: data.user.id,
+        amount: amount,
+        payment_method: form.dataset.paymentMethod,
+        status: "pending"
+      });
+      if (error) {
+        message.textContent = "Unable to submit your deposit request. Your amount has been kept. Please try again.";
+        return;
+      }
+      amountInput.value = "";
+      message.textContent = "Deposit request submitted for admin review. Your balance has not changed.";
+    } catch (error) {
+      message.textContent = "Connection problem. Check Transaction History before retrying, to avoid a duplicate request.";
+    } finally {
+      submitting = false;
+      submitButton.disabled = false;
+      clearButton.disabled = false;
+      amountInput.disabled = false;
+    }
   });
 });
 
