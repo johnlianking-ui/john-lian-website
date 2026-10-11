@@ -193,22 +193,33 @@
 
   <h2>Create Your Account</h2>
 
- <form id="register-form">
+ <form id="registration-email-form">
+  <label for="register-email">Email address</label>
+  <input type="email" id="register-email" autocomplete="email" required>
+    <label>
+      <input
+        type="checkbox"
+        id="register-age"
+        required
+      >
+      I confirm that I am 18 years old or older.
+    </label>
+  <button type="submit" id="send-registration-code">Send Code</button>
+ </form>
 
-  <input
-    type="email"
-    id="register-email"
-    placeholder="Email address"
-    required
-  >
+ <form id="registration-code-form" hidden>
+  <label for="registration-code">Verification code</label>
+  <input id="registration-code" type="text" inputmode="numeric" autocomplete="one-time-code" pattern="[0-9]{6,10}" maxlength="10" required aria-describedby="registration-code-help">
+  <p id="registration-code-help">Enter the code sent to your email. Check your spam folder too.</p>
+  <button type="submit" id="verify-registration-code">Verify Email</button>
+  <button type="button" id="resend-registration-code">Resend Code</button>
+  <button type="button" id="change-registration-email">Change Email</button>
+ </form>
 
-  <input
-    type="text"
-    id="register-invitation"
-    placeholder="Invitation Code"
-    required
-  >
-
+ <form id="register-form" hidden>
+  <p id="verified-registration-email"></p>
+  <p>Email verified. Set your password to finish. If you already have an account, this replaces its password.</p>
+  <label for="register-password">Password</label>
   <div class="password-field">
       <input
         type="password"
@@ -242,20 +253,13 @@
       </button>
     </div>
 
-    <label>
-      <input
-        type="checkbox"
-        id="register-age"
-        required
-      >
-      I confirm that I am 18 years old or older.
-    </label>
 
-    <button type="submit">Create Account</button>
+
+    <button type="submit">Save Password and Continue</button>
 
   </form>
 
-  <p id="register-message"></p>
+  <p id="register-message" role="status" aria-live="polite"></p>
 
 </section>
 
@@ -355,30 +359,6 @@
 
   <p id="dashboard-email"></p>
 
-<div class="dashboard-card">
-  <h3>My Invitation Code</h3>
-
-  <p id="dashboard-invitation-code">
-    Loading...
-  </p>
-
-  <button
-    type="button"
-    id="copy-invitation-button"
-  >
-    Copy Invitation Code
-  </button>
-
-  <button
-    type="button"
-    id="share-invitation-button"
-  >
-    Share Invitation
-  </button>
-
-  <p id="invitation-message"></p>
-</div>
-    
   <div class="dashboard-card" id="available-tasks-section" tabindex="-1">
   <h3>Available Tasks</h3>
 
@@ -752,103 +732,6 @@
       );
 
 
-// =========================
-// REGISTER
-// =========================
-
-const registerForm =
-  document.getElementById("register-form");
-
-registerForm.addEventListener(
-  "submit",
-  async function(event) {
-
-    event.preventDefault();
-
-   const email =
-  document.getElementById(
-    "register-email"
-  ).value.trim();
-
-const invitationCode =
-  document.getElementById(
-    "register-invitation"
-  ).value.trim();
-
-const password =
-  document.getElementById(
-    "register-password"
-  ).value;
-
-const confirmPassword =
-  document.getElementById(
-    "register-confirm-password"
-  ).value;
-    
-   const message =
-  document.getElementById(
-    "register-message"
-  );
-
-if (password !== confirmPassword) {
-  message.textContent =
-    "Passwords do not match.";
-  return;
-}
-
-const ageCheckbox =
-  document.getElementById(
-    "register-age"
-  );
-
-if (!ageCheckbox) {
-
-  message.textContent =
-    "Age confirmation is required.";
-
-  return;
-}
-
-if (!ageCheckbox.checked) {
-
-  message.textContent =
-    "You must confirm that you are 18 years old or older to create an account.";
-
-  return;
-}
-
-    message.textContent =
-      "Creating your account...";
-
-    const {
-      data,
-      error
-    } =
-      await supabaseClient.auth.signUp({
-  email: email,
-  password: password,
-  options: {
-    data: {
-      invitation_code: invitationCode
-    }
-  }
-});
-
-   if (error) {
-
-      message.textContent =
-        error.message;
-
-      return;
-    }
-
-    message.textContent =
-      "Account created. Check your email if email confirmation is required.";
-
-    registerForm.reset();
-
-  }
-);
     // =========================
     // LOGIN
     // =========================
@@ -1074,120 +957,6 @@ logoutButton.addEventListener(
 // SHOW / HIDE DASHBOARD
 // =========================
     
-async function loadInvitationCode() {
-  const codeElement =
-    document.getElementById("dashboard-invitation-code");
-
-  if (!codeElement) {
-    return;
-  }
-
-  const {
-    data: { user },
-    error: userError
-  } = await supabaseClient.auth.getUser();
-
-  if (userError || !user) {
-    return;
-  }
-
-  const {
-    data: profile,
-    error
-  } = await supabaseClient
-    .from("profiles")
-    .select("invitation_code")
-    .eq("id", user.id)
-    .single();
-
- if (error) {
-  console.error(
-    "Error loading invitation code:",
-    error
-  );
-
-  codeElement.textContent =
-    "Unable to load code: " + error.message;
-
-  return;
-}
-
-  codeElement.textContent =
-    profile.invitation_code;
-}
-    
-const copyInvitationButton =
-  document.getElementById("copy-invitation-button");
-
-if (copyInvitationButton) {
-  copyInvitationButton.addEventListener(
-    "click",
-    async function() {
-
-      const code =
-        document.getElementById(
-          "dashboard-invitation-code"
-        ).textContent.trim();
-
-      if (!code || code === "Loading...") {
-        return;
-      }
-
-      await navigator.clipboard.writeText(code);
-
-      document.getElementById(
-        "invitation-message"
-      ).textContent =
-        "Invitation code copied.";
-    }
-  );
-}
- 
-// SHARE INVITATION
-const shareInvitationButton =
-  document.getElementById("share-invitation-button");
-
-if (shareInvitationButton) {
-  shareInvitationButton.addEventListener(
-    "click",
-    async function() {
-
-      const code =
-        document.getElementById(
-          "dashboard-invitation-code"
-        ).textContent.trim();
-
-      if (!code || code === "Loading...") {
-        return;
-      }
-
-      const shareText =
-        "Join John Lian - Online Easy Earning. Use my invitation code: " +
-        code;
-
-      if (navigator.share) {
-        try {
-          await navigator.share({
-            title: "Join John Lian",
-            text: shareText
-          });
-        } catch (error) {
-          if (error.name !== "AbortError") {
-            console.error(error);
-          }
-        }
-      } else {
-        await navigator.clipboard.writeText(shareText);
-
-        document.getElementById(
-          "invitation-message"
-        ).textContent =
-          "Invitation message copied. You can paste it into WhatsApp, Telegram, SMS, or another app.";
-      }
-    }
-  );
-}
-
 function showDashboard() {
   const dashboard =
     document.getElementById("user-dashboard");
@@ -1195,7 +964,6 @@ function showDashboard() {
   if (dashboard) {
     dashboard.style.display = "block";
 
-    loadInvitationCode();
 
     const referenceElement =
       document.getElementById("deposit-reference");
@@ -3001,6 +2769,8 @@ if (Number(amount) > availableBalance) {
 
 }  
   </script>
+
+<script src="registration.js"></script>
 
 </body>
 
