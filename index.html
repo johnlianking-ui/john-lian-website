@@ -332,7 +332,6 @@
 <button
   type="button"
   id="withdrawal-nav-button"
-  onclick="document.getElementById('withdraw-form').style.display='block'"
 >
   Withdrawal
 </button>
@@ -347,7 +346,6 @@
  <button
   type="button"
   id="internal-transfer-button"
-  onclick="document.getElementById('transaction-history-section').style.setProperty('display','none','important')"
 >
   Internal Transfer
 </button>
@@ -1196,94 +1194,56 @@ function showDashboard() {
   }
 }
 
-// AVAILABLE TASKS NAVIGATION
+// EXPANDABLE PANELS
 
-const availableTasksButton = document.getElementById("available-tasks-button");
-const availableTasksSection = document.getElementById("available-tasks-section");
+function setPanelExpanded(panel, expanded) {
+  panel.style.display = expanded ? "block" : "none";
+  document.querySelectorAll('[aria-controls="' + panel.id + '"]').forEach(function(button) {
+    button.setAttribute("aria-expanded", String(expanded));
+  });
+}
 
-availableTasksButton.addEventListener("click", function() {
-  availableTasksSection.focus({ preventScroll: true });
-  availableTasksSection.scrollIntoView({ behavior: "smooth", block: "start" });
+function bindPanelToggle(button, panel, options = {}) {
+  if (!button || !panel) return;
+
+  button.setAttribute("aria-controls", panel.id);
+  button.setAttribute("aria-expanded", String(getComputedStyle(panel).display !== "none"));
+  const originalLabel = button.textContent.trim();
+
+  button.addEventListener("click", function() {
+    const expanded = getComputedStyle(panel).display === "none";
+    setPanelExpanded(panel, expanded);
+
+    if (options.closeLabel) {
+      button.textContent = expanded ? options.closeLabel : originalLabel;
+    }
+    if (expanded) {
+      if (options.onOpen) options.onOpen();
+      if (options.scroll) {
+        panel.setAttribute("tabindex", "-1");
+        panel.focus({ preventScroll: true });
+        panel.scrollIntoView({ behavior: "smooth", block: "start" });
+      }
+    }
+  });
+}
+
+[
+  ["available-tasks-button", "available-tasks-section"],
+  ["deposit-nav-button", "deposit-section"],
+  ["withdrawal-nav-button", "withdraw-form"],
+  ["withdraw-button", "withdraw-form"],
+  ["transaction-history-button", "transaction-history-section", loadWithdrawalHistory],
+  ["internal-transfer-button", "internal-transfer-section"],
+  ["deposit-method-button", "deposit-methods"],
+  ["bank-deposit-button", "bank-transfer-section"],
+  ["mobile-money-deposit-button", "mobile-money-section"]
+].forEach(function([buttonId, panelId, onOpen]) {
+  bindPanelToggle(document.getElementById(buttonId), document.getElementById(panelId), {
+    scroll: true,
+    onOpen: onOpen
+  });
 });
-
-// DEPOSIT NAVIGATION
-
-const depositNavButton =
-  document.getElementById("deposit-nav-button");
-
-const depositSection =
-  document.getElementById("deposit-section");
-
-if (depositNavButton && depositSection) {
-  depositNavButton.addEventListener(
-    "click",
-    function() {
-
-      depositSection.style.display = "block";
-
-      depositSection.scrollIntoView({
-        behavior: "smooth"
-      });
-
-    }
-  );
-}
-
-// TRANSACTION HISTORY NAVIGATION
-
-const transactionHistoryButton =
-  document.getElementById("transaction-history-button");
-
-const transactionHistorySection =
-  document.getElementById("transaction-history-section");
-
-if (
-  transactionHistoryButton &&
-  transactionHistorySection
-) {
-  transactionHistoryButton.addEventListener(
-    "click",
-    function() {
-
-      transactionHistorySection.style.display = "block";
-
-      loadWithdrawalHistory();
-
-      transactionHistorySection.scrollIntoView({
-        behavior: "smooth"
-      });
-
-    }
-  );
-}
-
-// INTERNAL TRANSFER NAVIGATION
-
-const internalTransferButton =
-  document.getElementById("internal-transfer-button");
-
-const internalTransferSection =
-  document.getElementById("internal-transfer-section");
-
-if (
-  internalTransferButton &&
-  internalTransferSection
-) {
-  internalTransferButton.addEventListener(
-    "click",
-    function() {
-
-      transactionHistorySection.style.display = "none";
-
-      internalTransferSection.style.display = "block";
-
-      internalTransferSection.scrollIntoView({
-        behavior: "smooth"
-      });
-
-    }
-  );
-}
 
 // INTERNAL TRANSFER SUBMISSION
 
@@ -1361,71 +1321,6 @@ if (submitTransferButton) {
       document.getElementById(
         "transfer-amount"
       ).value = "";
-
-    }
-  );
-}
-    
-// BANK TRANSFER BUTTON
-
-const bankDepositButton =
-  document.getElementById("bank-deposit-button");
-
-const bankTransferSection =
-  document.getElementById("bank-transfer-section");
-
-if (bankDepositButton && bankTransferSection) {
-  bankDepositButton.addEventListener(
-    "click",
-    function() {
-
-      bankTransferSection.style.display = "block";
-
-      bankTransferSection.scrollIntoView({
-        behavior: "smooth"
-      });
-
-    }
-  );
-}
-
-// MOBILE MONEY DEPOSIT BUTTON
-
-const mobileMoneyDepositButton =
-  document.getElementById("mobile-money-deposit-button");
-
-const mobileMoneySection =
-  document.getElementById("mobile-money-section");
-
-if (mobileMoneyDepositButton && mobileMoneySection) {
-  mobileMoneyDepositButton.addEventListener(
-    "click",
-    function() {
-
-      mobileMoneySection.style.display = "block";
-
-      mobileMoneySection.scrollIntoView({
-        behavior: "smooth"
-      });
-
-    }
-  );
-}
-    
-// DEPOSIT METHOD BUTTON
-
-const depositMethodButton =
-  document.getElementById("deposit-method-button");
-
-const depositMethods =
-  document.getElementById("deposit-methods");
-
-if (depositMethodButton && depositMethods) {
-  depositMethodButton.addEventListener(
-    "click",
-    function() {
-
-      depositMethods.style.display = "block";
 
     }
   );
@@ -1889,21 +1784,9 @@ function setupTaskButtons() {
     .querySelectorAll(".start-task-button")
     .forEach(function(button) {
 
-      button.addEventListener("click", function() {
-
-        const taskId =
-          button.getAttribute("data-task-id");
-
-        const form =
-          document.getElementById(
-            "submission-form-" + taskId
-          );
-
-        if (form) {
-          form.style.display = "block";
-          button.style.display = "none";
-        }
-
+      const taskId = button.getAttribute("data-task-id");
+      bindPanelToggle(button, document.getElementById("submission-form-" + taskId), {
+        closeLabel: "Close Proof Form"
       });
 
     });
@@ -2948,26 +2831,6 @@ function togglePassword(inputId, button) {
   }
 }
 // =========================
-// WITHDRAW BUTTON
-// =========================
-
-const withdrawButton =
-  document.getElementById("withdraw-button");
-
-const withdrawForm =
-  document.getElementById("withdraw-form");
-
-if (withdrawButton && withdrawForm) {
-
-  withdrawButton.addEventListener("click", function() {
-
-    withdrawForm.style.display = "block";
-    withdrawButton.style.display = "none";
-
-  });
-
-}
-  // =========================
 // SUBMIT WITHDRAWAL REQUEST
 // =========================
 
