@@ -1717,12 +1717,14 @@ tasks.forEach(function(task) {
       $${Number(task.reward).toFixed(2)}
     </p>
 
-    ${taskStatusHTML}
+       ${taskStatusHTML}
 
     ${actionHTML}
   `;
 
-  tasksList.appendChild(taskCard);
+  console.log("TASK CARD HTML:", taskCard.innerHTML);
+
+  tasksList.appendChild(taskCard);;
 
 });
 
