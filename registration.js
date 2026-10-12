@@ -9,6 +9,7 @@
   const message = document.getElementById('register-message');
   let step = 'email';
   let pendingEmail = '';
+  let pendingGender = '';
   let verifiedUserId = null;
   let busy = false;
   let resendAt = 0;
@@ -19,6 +20,7 @@
     codeForm.hidden = step !== 'code';
     passwordForm.hidden = step !== 'password';
     emailInput.readOnly = step !== 'email';
+    emailForm.querySelectorAll('input[type=checkbox], input[type=radio]').forEach(el => { el.disabled = busy || step !== 'email'; });
     emailForm.querySelector('button').disabled = busy || step !== 'email';
     codeForm.querySelectorAll('button, input').forEach(el => { el.disabled = busy; });
     passwordForm.querySelectorAll('button, input').forEach(el => { el.disabled = busy || step !== 'password'; });
@@ -52,6 +54,7 @@
     event.preventDefault();
     if (busy || step !== 'email' || !emailForm.reportValidity()) return;
     pendingEmail = emailInput.value.trim();
+    pendingGender = emailForm.querySelector('input[name=register-gender]:checked')?.value || '';
     busy = true;
     render();
     message.textContent = 'Sending verification code...';
@@ -84,6 +87,7 @@
     if (busy || step !== 'code') return;
     step = 'email';
     pendingEmail = '';
+    pendingGender = '';
     verifiedUserId = null;
     codeForm.reset();
     message.textContent = '';
@@ -140,12 +144,16 @@
         step = 'email';
         verifiedUserId = null;
         pendingEmail = '';
+        pendingGender = '';
         passwordForm.reset();
         const { error: signOutError } = await supabaseClient.auth.signOut({ scope: 'local' });
         if (signOutError) throw new Error('Your session changed. Please sign out and verify your email again.');
         throw new Error('Your session changed or expired. Verify your email again.');
       }
-      const { error: passwordError } = await supabaseClient.auth.updateUser({ password });
+      const { error: passwordError } = await supabaseClient.auth.updateUser({
+        password,
+        ...(pendingGender ? { data: { gender: pendingGender } } : {})
+      });
       if (passwordError) throw passwordError;
       passwordForm.reset();
       step = 'done';
