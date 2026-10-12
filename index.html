@@ -11,7 +11,7 @@
 
 <title>John Lian - Online Easy Earning</title>
 
-<link rel="stylesheet" href="./style.css?v=20261012-signup-options">
+<link rel="stylesheet" href="./style.css?v=20261012-dark-dashboard">
   <!-- Supabase -->
   <script
     src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"
@@ -326,10 +326,20 @@
      USER DASHBOARD
 ========================== -->
 
-<section class="section">
+<section class="section dashboard-shell">
 <div id="user-dashboard" style="display:none;">
 
-<div class="dashboard-nav">
+<div class="dashboard-header">
+  <div>
+    <p class="dashboard-eyebrow">MEMBER WORKSPACE</p>
+    <h2>Your dashboard</h2>
+    <p class="dashboard-intro">Your tasks, rewards and payments in one place.</p>
+    <p id="dashboard-email"></p>
+  </div>
+  <span class="dashboard-currency">USD · provisional</span>
+</div>
+
+<div class="dashboard-nav" aria-label="Dashboard actions">
 
   <button type="button" id="available-tasks-button" aria-controls="available-tasks-section">
     Available Tasks
@@ -364,28 +374,36 @@
 </button>
 </div>
 
-<h2>Welcome to Your Dashboard</h2>
-
-  <p id="dashboard-email"></p>
-
 <div class="dashboard-summary" aria-label="Account summary">
   <div class="dashboard-card summary-card">
-    <h3>Program Rewards</h3>
+    <div class="summary-heading">
+      <h3>Program Rewards</h3>
+      <svg class="summary-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3 3 8l9 5 9-5-9-5Z"/><path d="m3 12 9 5 9-5M3 16l9 5 9-5"/></svg>
+    </div>
     <p id="dashboard-earnings">$0.00</p>
-    <span>New program: Available + Pending rewards, before spending</span>
+    <span>Approved program rewards, before spending</span>
   </div>
   <div class="dashboard-card summary-card">
-    <h3>Available Balance</h3>
+    <div class="summary-heading">
+      <h3>Available Balance</h3>
+      <svg class="summary-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 6h14a2 2 0 0 1 2 2v11H4a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h12"/><path d="M20 11h-5v4h5"/></svg>
+    </div>
     <p id="dashboard-balance">$0.00</p>
     <span>Withdrawable balance (USD, provisional)</span>
   </div>
   <div class="dashboard-card summary-card">
-    <h3>Pending Rewards</h3>
+    <div class="summary-heading">
+      <h3>Pending Rewards</h3>
+      <svg class="summary-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg>
+    </div>
     <p id="dashboard-pending">—</p>
     <span>Released only after Task 6 approval</span>
   </div>
   <div class="dashboard-card summary-card">
-    <h3>Completed Tasks</h3>
+    <div class="summary-heading">
+      <h3>Completed Tasks</h3>
+      <svg class="summary-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="4" y="3" width="16" height="18" rx="3"/><path d="m8 12 3 3 5-6"/></svg>
+    </div>
     <p id="dashboard-completed">0</p>
     <span>New six-task program</span>
   </div>
