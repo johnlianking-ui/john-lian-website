@@ -492,13 +492,13 @@ footer {
 #user-dashboard {
   display: none;
   width: 100%;
-  max-width: 700px;
+  max-width: 1100px;
   margin: 40px auto;
   padding: 30px;
   background: #ffffff;
   border-radius: 16px;
   box-shadow: 0 8px 25px rgba(0, 0, 0, 0.08);
-  text-align: center;
+  text-align: left;
 }
 
 #user-dashboard h2 {
@@ -795,4 +795,164 @@ footer {
 
 #register-message {
   overflow-wrap: anywhere;
+}
+
+/* Dashboard cards, task forms, and payment controls share the same spacing. */
+#user-dashboard h2,
+#dashboard-email {
+  text-align: center;
+}
+
+.dashboard-summary {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 16px;
+  margin-bottom: 24px;
+}
+
+#user-dashboard .summary-card {
+  margin: 0;
+  border: 1px solid #dce6f7;
+}
+
+#user-dashboard .summary-card h3 {
+  font-size: 15px;
+  color: #4b5565;
+  margin-bottom: 8px;
+}
+
+#user-dashboard .summary-card p {
+  font-size: 28px;
+  font-weight: 700;
+  color: #17213a;
+  margin: 0 0 4px;
+}
+
+.summary-card span {
+  font-size: 13px;
+  color: #5e6879;
+}
+
+#tasks-list {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 16px;
+}
+
+.task-card {
+  min-width: 0;
+  padding: 22px;
+}
+
+.task-card h4 {
+  font-size: 18px;
+  margin: 0 0 12px;
+}
+
+#user-dashboard input,
+#user-dashboard select,
+#user-dashboard textarea {
+  display: block;
+  width: 100%;
+  min-width: 0;
+  padding: 12px;
+  margin: 8px 0 16px;
+  border: 1px solid #cbd8ef;
+  border-radius: 8px;
+  background: #ffffff;
+  color: #172033;
+  font: inherit;
+}
+
+#user-dashboard textarea {
+  resize: vertical;
+}
+
+#user-dashboard input[type="file"] {
+  font-size: 14px;
+}
+
+#user-dashboard label {
+  display: block;
+  font-weight: 600;
+}
+
+button:focus-visible,
+a:focus-visible,
+#user-dashboard input:focus-visible,
+#user-dashboard select:focus-visible,
+#user-dashboard textarea:focus-visible {
+  outline: 3px solid #1d72f2;
+  outline-offset: 3px;
+}
+
+#user-dashboard button:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.transaction-history-item {
+  padding: 16px 20px;
+  margin-top: 12px;
+  border: 1px solid #dce6f7;
+  border-radius: 12px;
+  background: #ffffff;
+}
+
+.transaction-history-item p {
+  margin: 4px 0;
+}
+
+#admin-withdrawals,
+#admin-deposits {
+  max-width: 100%;
+  overflow-x: auto;
+}
+
+.admin-withdrawals-table,
+.admin-deposits-table {
+  width: 100%;
+  min-width: 750px;
+  border-collapse: collapse;
+}
+
+.admin-withdrawals-table th,
+.admin-withdrawals-table td,
+.admin-deposits-table th,
+.admin-deposits-table td {
+  padding: 14px 18px;
+  border: 1px solid #e2e8f0;
+  text-align: left;
+  overflow-wrap: anywhere;
+}
+
+@media (max-width: 600px) {
+  #user-dashboard {
+    margin: 16px auto;
+    padding: 16px;
+  }
+
+  #user-dashboard h2 {
+    font-size: 26px;
+  }
+
+  .dashboard-summary,
+  #tasks-list {
+    grid-template-columns: 1fr;
+  }
+
+  #user-dashboard .dashboard-card,
+  .task-card,
+  .deposit-form {
+    padding: 16px;
+  }
+
+  .dashboard-nav button {
+    flex-basis: 120px;
+  }
+
+  .bank-transfer-details strong {
+    display: block;
+    min-width: 0;
+  }
 }
