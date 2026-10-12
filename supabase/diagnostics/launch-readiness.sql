@@ -66,7 +66,7 @@ select jsonb_build_object(
     ) order by p.oid::regprocedure::text), '[]'::jsonb)
     from pg_proc p join pg_namespace n on n.oid = p.pronamespace
     where n.nspname = 'public' and p.prokind = 'f'
-      and (p.proname in ('handle_new_user', 'generate_invitation_code')
+      and (p.proname in ('handle_new_user', 'generate_invitation_code', 'find_user_by_reference')
         or p.proname ~* '(approv|reject|reward|bonus|claim|balance|transfer|withdraw|deposit|admin|unlock)')
   ),
   'views', (
