@@ -2,6 +2,7 @@
 <html lang="en">
 
 <head>
+  <meta charset="UTF-8">
 
  <meta
     name="viewport"
@@ -10,7 +11,7 @@
 
 <title>John Lian - Online Easy Earning</title>
 
-<link rel="stylesheet" href="./style.css">  
+<link rel="stylesheet" href="./style.css?v=20261012-rewards">
   <!-- Supabase -->
   <script
     src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"
@@ -359,23 +360,52 @@
 
   <p id="dashboard-email"></p>
 
+<div class="dashboard-summary" aria-label="Account summary">
+  <div class="dashboard-card summary-card">
+    <h3>Program Rewards</h3>
+    <p id="dashboard-earnings">$0.00</p>
+    <span>New program: Available + Pending rewards, before spending</span>
+  </div>
+  <div class="dashboard-card summary-card">
+    <h3>Available Balance</h3>
+    <p id="dashboard-balance">$0.00</p>
+    <span>Withdrawable balance (USD, provisional)</span>
+  </div>
+  <div class="dashboard-card summary-card">
+    <h3>Pending Rewards</h3>
+    <p id="dashboard-pending">—</p>
+    <span>Released only after Task 6 approval</span>
+  </div>
+  <div class="dashboard-card summary-card">
+    <h3>Completed Tasks</h3>
+    <p id="dashboard-completed">0</p>
+    <span>New six-task program</span>
+  </div>
+</div>
+
+
   <div class="dashboard-card" id="available-tasks-section" tabindex="-1">
   <h3>Available Tasks</h3>
+  <div class="reward-conditions">
+    <h4>Read before starting</h4>
+    <p>Amounts use USD provisionally. Your group link and reading instructions are shared separately after login.</p>
+    <ul>
+      <li>Tasks 1–3: submit three screenshots, one per task. Approval of all three makes 100 available to withdraw immediately.</li>
+      <li>Submit your 20–30 reward claim with a screenshot. Once verified, it stays Pending.</li>
+      <li>Tasks 4–5: approval of both screenshots adds 100 Pending.</li>
+      <li>Task 6: request a final admin check of your approved evidence. Approval releases only your 120–130 Pending. No additional bonus.</li>
+    </ul>
+    <p><strong>No payment is required to earn or unlock these rewards.</strong> Total program rewards: 220–230. Deposits are separate from task eligibility.</p>
+    <p>Only approved evidence earns rewards. If rejected, read the admin feedback and resubmit. Rewards are credited once per stage.</p>
+  </div>
+  <button type="button" id="refresh-rewards">Refresh tasks and balances</button>
+  <p id="reward-summary-message" role="status"></p>
 
   <div id="tasks-list">
     <p>Loading tasks...</p>
   </div>
 </div>
 
-  <div class="dashboard-card">
-  <h3>My Earnings</h3>
-  <p id="dashboard-earnings">$0.00</p>
-</div>
-
-<div class="dashboard-card">
-  <h3>Available Balance</h3>
-  <p id="dashboard-balance">$0.00</p>
-</div>
 
   <div
   class="dashboard-card"
@@ -584,13 +614,6 @@
 
   <p id="transfer-message"></p>
 
- <p>
-  View your recent account transactions below.
-</p>
-
-<div id="transaction-history-list">
-  <p>No transactions yet.</p>
-</div>
 
 </div>
   
@@ -646,10 +669,7 @@
 
   </div>
 </div>
-<div class="dashboard-card">
-  <h3>Completed Tasks</h3>
-  <p id="dashboard-completed">0</p>
-</div>
+
 </div>
 </section>
 
@@ -665,6 +685,12 @@
     Review submitted tasks and manage approvals.
   </p>
 
+  <h3>Six-task reward reviews</h3>
+  <p>Check screenshots and claimed amounts before approving. Task 6 is a final evidence check; never request a payment to release rewards.</p>
+  <button type="button" id="refresh-reward-reviews">Refresh reward reviews</button>
+  <div id="admin-rewards"></div>
+  <h3>Earlier task submissions</h3>
+  <p>These belong to the previous task system and do not earn the new stage bonuses.</p>
   <div id="admin-submissions">
 
     <p>Loading submissions...</p>
@@ -722,6 +748,7 @@
        SUPABASE JAVASCRIPT
   ========================== -->
 
+  <script src="rewards.js?v=20261012-1"></script>
   <script>
 
     // Create Supabase client
@@ -731,6 +758,13 @@
         SUPABASE_ANON_KEY
       );
 
+
+    // Database values and customer proof text must remain text when rendered.
+    function escapeHTML(value) {
+      return String(value ?? "").replace(/[&<>"']/g, function(character) {
+        return { "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[character];
+      });
+    }
 
     // =========================
     // LOGIN
@@ -797,137 +831,9 @@ loadAdminDeposits();
  // LOAD WITHDRAWAL TRANSACTION HISTORY
 
 async function loadWithdrawalHistory() {
-
-  const historyList =
-    document.getElementById("transaction-history-list");
-
-  if (!historyList) {
-    return;
-  }
-
-  const {
-    data: { user },
-    error: userError
-  } = await supabaseClient.auth.getUser();
-
-  if (userError || !user) {
-    historyList.innerHTML =
-      "<p>Please log in to view your transactions.</p>";
-    return;
-  }
-
-  const {
-    data: withdrawals,
-    error
-  } = await supabaseClient
-    .from("withdrawals")
-    .select("id, amount, payment_method, status, created_at")
-    .eq("user_id", user.id)
-    .order("created_at", {
-      ascending: false
-    });
-  
-  const {
-    data: deposits,
-    error: depositError
-  } = await supabaseClient
-    .from("deposits")
-    .select("id, amount, payment_method, status, created_at")
-    .eq("user_id", user.id)
-    .order("created_at", {
-      ascending: false
-    });
-  
-if (depositError) {
-  console.error(
-    "Error loading deposit history:",
-    depositError
-  );
-
-  historyList.innerHTML =
-    "<p>Unable to load deposit history.</p>";
-
-  return;
-}
-  
-  if (error) {
-    console.error(
-      "Error loading withdrawal history:",
-      error
-    );
-
-    historyList.innerHTML =
-      "<p>Unable to load transaction history.</p>";
-
-    return;
-  }
-
- const transactions = [
-  ...(deposits || []).map(function(deposit) {
-    return {
-      type: "Deposit",
-      amount: deposit.amount,
-      payment_method: deposit.payment_method,
-      status: deposit.status,
-      created_at: deposit.created_at
-    };
-  }),
-
-  ...(withdrawals || []).map(function(withdrawal) {
-    return {
-      type: "Withdrawal",
-      amount: withdrawal.amount,
-      payment_method: withdrawal.payment_method,
-      status: withdrawal.status,
-      created_at: withdrawal.created_at
-    };
-  })
-];
-
-transactions.sort(function(a, b) {
-  return new Date(b.created_at) -
-         new Date(a.created_at);
-});
-
-if (transactions.length === 0) {
-  historyList.innerHTML =
-    "<p>No transactions yet.</p>";
-  return;
+  return RewardProgram.loadHistory(supabaseClient);
 }
 
-  historyList.innerHTML = "";
-
- transactions.forEach(function(transactionData) {
-
-    const transaction =
-      document.createElement("div");
-
-    transaction.className =
-      "transaction-history-item";
-
-    transaction.innerHTML =
-  "<p><strong>" +
-  transactionData.type +
-  "</strong></p>" +
-  "<p>Amount: $" +
-    Number(transactionData.amount).toFixed(2) +
-      "</p>" +
-      "<p>Method: " +
-      transactionData.payment_method +
-      "</p>" +
-      "<p>Status: " +
-      transactionData.status +
-      "</p>" +
-      "<p>Date: " +
-      new Date(transactionData.created_at)
-        .toLocaleString() +
-      "</p>";
-
-    historyList.appendChild(transaction);
-
-  });
-}
-   
 // =========================
 // LOGOUT
 // =========================
@@ -1178,6 +1084,8 @@ if (submitTransferButton) {
 }
     
 function hideDashboard() {
+  RewardProgram.reset();
+  document.getElementById("admin-dashboard").style.display = "none";
   const dashboard = document.getElementById("user-dashboard");
 
   if (dashboard) {
@@ -1189,608 +1097,12 @@ function hideDashboard() {
 // =========================
 
 async function loadTasks() {
-
-  console.log("LOAD TASKS STARTED");
-
-  const tasksList =
-    document.getElementById("tasks-list");
-
-if (!tasksList) {
-  return;
+  return RewardProgram.loadTasks(supabaseClient);
 }
-
-tasksList.innerHTML =
-  "<p>Loading tasks...</p>";
-
-// Get current logged-in user
-const {
-  data: { user },
-  error: userError
-} = await supabaseClient.auth.getUser();
-
-if (userError || !user) {
-  tasksList.innerHTML =
-    "<p>Please log in to view available tasks.</p>";
-  return;
-}
-
-// Load active tasks
-const {
-  data: tasks,
-  error
-} =
-  await supabaseClient
-    .from("Tasks")
-    .select("id, title, description, reward, status")
-    .eq("status", "active")
-    .order("id", {
-      ascending: true
-    });
-
-if (error) {
-
-  console.error(
-    "Error loading tasks:",
-    error
-  );
-
-  tasksList.innerHTML =
-    "<p>Unable to load tasks.</p>";
-
-  return;
-}
-
-if (!tasks || tasks.length === 0) {
-
-  tasksList.innerHTML =
-    "<p>No tasks are available right now.</p>";
-
-  return;
-}
-
-// Load this user's submissions
-const {
-  data: submissions,
-  error: submissionsError
-} =
-  await supabaseClient
-    .from("task_submissions")
-    .select("task_id, status")
-    .eq("user_id", user.id);
-
-if (submissionsError) {
-
-  console.error(
-    "Error loading task submissions:",
-    submissionsError
-  );
-
-  tasksList.innerHTML =
-    "<p>Unable to load your task status.</p>";
-
-  return;
-}
-
-tasksList.innerHTML = "";
-
-tasks.forEach(function(task) {
-
-  const taskCard = document.createElement("article");
-  taskCard.className = "task-card";
-
-  console.log("TASK DATA:", task);
-
-  // Find this user's submission for this task
-  const submission =
-    submissions?.find(function(item) {
-      return Number(item.task_id) === Number(task.id);
-    });
-
-  let taskStatusHTML = "";
-  let actionHTML = "";
-
-  // APPROVED
-  if (submission && submission.status === "approved") {
-
-    taskStatusHTML = `
-      <p>
-        <strong>Status:</strong>
-        <span>✅ Completed</span>
-      </p>
-    `;
-
-    actionHTML = `
-      <p>
-        <strong>Task completed and approved.</strong>
-      </p>
-    `;
-
-  }
-
-  // PENDING
-  else if (submission && submission.status === "pending") {
-
-    taskStatusHTML = `
-      <p>
-        <strong>Status:</strong>
-        <span>⏳ Pending Approval</span>
-      </p>
-    `;
-
-    actionHTML = `
-      <p>
-        Your submission is waiting for admin approval.
-      </p>
-    `;
-
-  }
-
-  // REJECTED
-  else if (submission && submission.status === "rejected") {
-
-    taskStatusHTML = `
-      <p>
-        <strong>Status:</strong>
-        <span>❌ Rejected</span>
-      </p>
-    `;
-
-    actionHTML = `
-      <button
-        type="button"
-        class="start-task-button"
-        data-task-id="${task.id}"
-      >
-        Try Again
-      </button>
-
-      <div
-        class="task-submission-form"
-        id="submission-form-${task.id}"
-        style="display:none;"
-      >
-
-        <hr>
-
-        <h4>Submit Task Proof</h4>
-
-        <p>
-          Complete the task, then provide your proof below.
-        </p>
-
-        <label>
-          Screenshot proof
-        </label>
-
-        <input
-          type="file"
-          accept="image/*"
-          class="proof-image"
-        >
-
-        <label>
-          Additional details
-        </label>
-
-        <textarea
-          class="proof-text"
-          placeholder="Tell us anything important about your completed task..."
-          rows="4"
-        ></textarea>
-
-        <button
-          type="button"
-          class="submit-proof-button"
-          data-task-id="${task.id}"
-        >
-          Submit Proof
-        </button>
-
-        <p class="submission-message"></p>
-
-      </div>
-    `;
-
-  }
-
-  // NOT SUBMITTED
-  else {
-
-    actionHTML = `
-      <button
-        type="button"
-        class="start-task-button"
-        data-task-id="${task.id}"
-      >
-        Start Task
-      </button>
-
-      <div
-        class="task-submission-form"
-        id="submission-form-${task.id}"
-        style="display:none;"
-      >
-
-        <hr>
-
-        <h4>Submit Task Proof</h4>
-
-        <p>
-          Complete the task, then provide your proof below.
-        </p>
-
-        <label>
-          Screenshot proof
-        </label>
-
-        <input
-          type="file"
-          accept="image/*"
-          class="proof-image"
-        >
-
-        <label>
-          Additional details
-        </label>
-
-        <textarea
-          class="proof-text"
-          placeholder="Tell us anything important about your completed task..."
-          rows="4"
-        ></textarea>
-
-        <button
-          type="button"
-          class="submit-proof-button"
-          data-task-id="${task.id}"
-        >
-          Submit Proof
-        </button>
-
-        <p class="submission-message"></p>
-
-      </div>
-    `;
-  }
-
-  taskCard.innerHTML = `
-    <h4>${task.title}</h4>
-
-    <p>${task.description}</p>
-
-    <p>
-      <strong>Reward:</strong>
-      $${Number(task.reward).toFixed(2)}
-    </p>
-
-       ${taskStatusHTML}
-
-    ${actionHTML}
-  `;
-
-  console.log("TASK CARD HTML:", taskCard.innerHTML);
-
-  tasksList.appendChild(taskCard);;
-
-});
-
-setupTaskButtons();
-
-}
-
 async function loadDashboardStats() {
-
-  const earningsElement =
-    document.getElementById("dashboard-earnings");
-
-  const balanceElement =
-    document.getElementById("dashboard-balance");
-
-  const completedElement =
-    document.getElementById("dashboard-completed");
-
-  if (
-    !earningsElement ||
-    !balanceElement ||
-    !completedElement
-  ) {
-    return;
-  }
-
-  // Get current logged-in user
-  const {
-    data: { user },
-    error: userError
-  } = await supabaseClient.auth.getUser();
-
-  if (userError || !user) {
-    return;
-  }
-
-  // Load this user's approved submissions
-  const {
-    data: approvedSubmissions,
-    error: submissionsError
-  } =
-    await supabaseClient
-      .from("task_submissions")
-      .select("task_id, status")
-      .eq("user_id", user.id)
-      .eq("status", "approved");
-
-  if (submissionsError) {
-
-    console.error(
-      "Error loading approved submissions:",
-      submissionsError
-    );
-
-    return;
-  }
-
-  // Number of completed tasks
-  const completedCount =
-    approvedSubmissions
-      ? approvedSubmissions.length
-      : 0;
-
-  // Calculate total task earnings
-  let totalEarnings = 0;
-
-  if (
-    approvedSubmissions &&
-    approvedSubmissions.length > 0
-  ) {
-
-    const taskIds =
-      approvedSubmissions.map(function(submission) {
-        return submission.task_id;
-      });
-
-    // Load rewards for approved tasks
-    const {
-      data: completedTasks,
-      error: tasksError
-    } =
-      await supabaseClient
-        .from("Tasks")
-        .select("id, reward")
-        .in("id", taskIds);
-
-    if (tasksError) {
-
-      console.error(
-        "Error loading completed task rewards:",
-        tasksError
-      );
-
-      return;
-    }
-
-    if (completedTasks) {
-
-      completedTasks.forEach(function(task) {
-
-        totalEarnings +=
-          Number(task.reward) || 0;
-
-      });
-
-    }
-  }
-
-  // Load the user's real account balance
-  const {
-    data: balanceAccount,
-    error: balanceError
-  } =
-    await supabaseClient
-      .from("account_balances")
-      .select("balance")
-      .eq("user_id", user.id)
-      .single();
-
-  if (balanceError) {
-
-    console.error(
-      "Error loading account balance:",
-      balanceError
-    );
-
-    return;
-  }
-
-  const availableBalance =
-    Number(balanceAccount.balance) || 0;
-
-  // Update dashboard
-  earningsElement.textContent =
-    "$" + totalEarnings.toFixed(2);
-
-  balanceElement.textContent =
-    "$" + availableBalance.toFixed(2);
-
-  completedElement.textContent =
-    completedCount;
-
-  console.log(
-    "Dashboard earnings:",
-    totalEarnings
-  );
-
-  console.log(
-    "Dashboard available balance:",
-    availableBalance
-  );
+  return RewardProgram.loadStats(supabaseClient);
 }
-    
-// =========================
-// TASK SUBMISSION
-// =========================
 
-function setupTaskButtons() {
-
-  // START TASK BUTTONS
-  document
-    .querySelectorAll(".start-task-button")
-    .forEach(function(button) {
-
-      const taskId = button.getAttribute("data-task-id");
-      bindPanelToggle(button, document.getElementById("submission-form-" + taskId), {
-        closeLabel: "Close Proof Form"
-      });
-
-    });
-
-
-  // SUBMIT PROOF BUTTONS
-  document
-    .querySelectorAll(".submit-proof-button")
-    .forEach(function(button) {
-
-      button.addEventListener("click", async function() {
-
-        const taskId =
-          button.getAttribute("data-task-id");
-
-        const form =
-          document.getElementById(
-            "submission-form-" + taskId
-          );
-
-        if (!form) {
-          return;
-        }
-
-        const fileInput =
-          form.querySelector(".proof-image");
-
-        const proofText =
-          form.querySelector(".proof-text");
-
-        const message =
-          form.querySelector(".submission-message");
-
-        const file =
-          fileInput.files[0];
-
-        if (!file) {
-
-          message.textContent =
-            "Please select a screenshot first.";
-
-          return;
-        }
-
-        message.textContent =
-          "Submitting proof...";
-
-        button.disabled = true;
-
-
-        // GET CURRENT USER
-        const {
-          data: {
-            user
-          },
-          error: userError
-        } =
-          await supabaseClient.auth.getUser();
-
-        if (userError || !user) {
-
-          message.textContent =
-            "Please log in again.";
-
-          button.disabled = false;
-
-          return;
-        }
-
-
-        // CREATE UNIQUE FILE NAME
-        const safeFileName =
-  file.name.replace(
-    /[^a-zA-Z0-9._-]/g,
-    "_"
-  );
-
-const fileName =
-  user.id +
-  "/" +
-  Date.now() +
-  "-" +
-  safeFileName;
-
-
-        // UPLOAD SCREENSHOT
-        const {
-          error: uploadError
-        } =
-          await supabaseClient.storage
-            .from("task-proofs")
-            .upload(
-              fileName,
-              file
-            );
-
-
-        if (uploadError) {
-
-          console.error(uploadError);
-
-          message.textContent =
-            "Screenshot upload failed.";
-
-          button.disabled = false;
-
-          return;
-        }
-
-
-        // SAVE SUBMISSION
-        const {
-          error: submissionError
-        } =
-          await supabaseClient
-            .from("task_submissions")
-            .insert({
-              user_id: user.id,
-              task_id: Number(taskId),
-              proof_text: proofText.value,
-              proof_image_url: fileName,
-              status: "pending"
-            });
-
-
-        if (submissionError) {
-
-          console.error(submissionError);
-
-          message.textContent =
-            "Could not submit the task.";
-
-          button.disabled = false;
-
-          return;
-        }
-
-
-        // SUCCESS
-        message.textContent =
-          "Task submitted successfully. Waiting for approval.";
-
-        button.style.display = "none";
-
-        fileInput.disabled = true;
-        proofText.disabled = true;
-
-        });
-      
-    });
-
-}
-    
 // =========================
 // ADMIN DASHBOARD
 // =========================
@@ -1831,6 +1143,7 @@ async function loadAdminDashboard() {
 
   // Show admin dashboard
   adminDashboard.style.display = "block";
+  RewardProgram.loadAdmin(supabaseClient);
 
   submissionsList.innerHTML =
     "<p>Loading submissions...</p>";
@@ -1913,7 +1226,7 @@ async function loadAdminDashboard() {
         <button
           type="button"
           class="admin-approve-button"
-          data-submission-id="${submission.id}"
+          data-submission-id="${escapeHTML(submission.id)}"
         >
           Approve
         </button>
@@ -1921,7 +1234,7 @@ async function loadAdminDashboard() {
         <button
           type="button"
           class="admin-reject-button"
-          data-submission-id="${submission.id}"
+          data-submission-id="${escapeHTML(submission.id)}"
         >
           Reject
         </button>
@@ -1931,7 +1244,7 @@ async function loadAdminDashboard() {
 
       actionHTML = `
         <span class="admin-reviewed-status">
-          ${status}
+          ${escapeHTML(status)}
         </span>
       `;
 
@@ -1939,19 +1252,19 @@ async function loadAdminDashboard() {
 
     row.innerHTML = `
       <td data-label="User ID">
-        ${submission.user_id}
+        ${escapeHTML(submission.user_id)}
       </td>
 
       <td data-label="Task ID">
-        ${submission.task_id}
+        ${escapeHTML(submission.task_id)}
       </td>
 
       <td data-label="Proof">
-        ${submission.proof_text || "No additional details."}
+        ${escapeHTML(submission.proof_text || "No additional details.")}
       </td>
 
       <td data-label="Status">
-        <strong>${status}</strong>
+        <strong>${escapeHTML(status)}</strong>
       </td>
 
       <td data-label="Submitted">
@@ -2069,7 +1382,7 @@ if (status === "pending") {
     <button
       type="button"
       class="admin-withdraw-approve-button"
-      data-withdrawal-id="${withdrawal.id}"
+      data-withdrawal-id="${escapeHTML(withdrawal.id)}"
     >
       Approve
     </button>
@@ -2077,7 +1390,7 @@ if (status === "pending") {
     <button
       type="button"
       class="admin-withdraw-reject-button"
-      data-withdrawal-id="${withdrawal.id}"
+      data-withdrawal-id="${escapeHTML(withdrawal.id)}"
     >
       Reject
     </button>
@@ -2087,7 +1400,7 @@ if (status === "pending") {
 
   actionHTML = `
     <span class="admin-reviewed-status">
-      ${status}
+      ${escapeHTML(status)}
     </span>
   `;
 
@@ -2096,7 +1409,7 @@ if (status === "pending") {
 row.innerHTML = `
 
       <td data-label="User ID">
-        ${withdrawal.user_id}
+        ${escapeHTML(withdrawal.user_id)}
       </td>
 
       <td data-label="Amount">
@@ -2104,11 +1417,11 @@ row.innerHTML = `
       </td>
 
       <td data-label="Payment Method">
-        ${withdrawal.payment_method}
+        ${escapeHTML(withdrawal.payment_method)}
       </td>
 
       <td data-label="Status">
-        <strong>${status}</strong>
+        <strong>${escapeHTML(status)}</strong>
       </td>
 
            <td data-label="Requested">
@@ -2229,7 +1542,7 @@ if (status === "pending") {
     <button
       type="button"
       class="admin-deposit-approve-button"
-      data-deposit-id="${deposit.id}"
+      data-deposit-id="${escapeHTML(deposit.id)}"
     >
       Approve
     </button>
@@ -2237,7 +1550,7 @@ if (status === "pending") {
     <button
       type="button"
       class="admin-deposit-reject-button"
-      data-deposit-id="${deposit.id}"
+      data-deposit-id="${escapeHTML(deposit.id)}"
     >
       Reject
     </button>
@@ -2247,7 +1560,7 @@ if (status === "pending") {
 
   actionHTML = `
     <span class="admin-reviewed-status">
-      ${status}
+      ${escapeHTML(status)}
     </span>
   `;
 
@@ -2256,7 +1569,7 @@ if (status === "pending") {
 row.innerHTML = `
 
       <td data-label="User ID">
-        ${deposit.user_id}
+        ${escapeHTML(deposit.user_id)}
       </td>
 
       <td data-label="Amount">
@@ -2264,11 +1577,11 @@ row.innerHTML = `
       </td>
 
       <td data-label="Payment Method">
-        ${deposit.payment_method}
+        ${escapeHTML(deposit.payment_method)}
       </td>
 
       <td data-label="Status">
-        <strong>${status}</strong>
+        <strong>${escapeHTML(status)}</strong>
       </td>
 
       <td data-label="Requested">
@@ -2376,11 +1689,7 @@ function setupDepositButtons() {
 
           const { error } =
             await supabaseClient
-              .from("deposits")
-              .update({
-                status: "rejected"
-              })
-              .eq("id", depositId);
+              .rpc("reject_deposit", { deposit_id: depositId });
 
           if (error) {
 
@@ -2468,11 +1777,7 @@ function setupWithdrawalButtons() {
 
         const { error } =
           await supabaseClient
-            .from("withdrawals")
-            .update({
-              status: "rejected"
-            })
-            .eq("id", withdrawalId);
+            .rpc("reject_withdrawal", { withdrawal_id: withdrawalId });
 
         if (error) {
 
@@ -2573,12 +1878,7 @@ function setupAdminButtons() {
 
         const { error } =
           await supabaseClient
-            .from("task_submissions")
-            .update({
-              status: "rejected",
-              reviewed_at: new Date().toISOString()
-            })
-            .eq("id", submissionId);
+            .rpc("reject_task_submission", { submission_id: submissionId });
 
         if (error) {
 
@@ -2650,6 +1950,13 @@ function setupAdminButtons() {
 
     }
 
+
+    document.getElementById("refresh-rewards").addEventListener("click", function() {
+      loadTasks(); loadDashboardStats();
+    });
+    document.getElementById("refresh-reward-reviews").addEventListener("click", function() {
+      RewardProgram.loadAdmin(supabaseClient);
+    });
 
     // Check login when page opens
     updateUserStatus();
