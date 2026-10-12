@@ -11,7 +11,7 @@
 
 <title>John Lian - Online Easy Earning</title>
 
-<link rel="stylesheet" href="./style.css?v=20261012-rewards">
+<link rel="stylesheet" href="./style.css?v=20261012-signup-options">
   <!-- Supabase -->
   <script
     src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"
@@ -197,14 +197,22 @@
  <form id="registration-email-form">
   <label for="register-email">Email address</label>
   <input type="email" id="register-email" autocomplete="email" required>
-    <label>
-      <input
-        type="checkbox"
-        id="register-age"
-        required
-      >
-      I confirm that I am 18 years old or older.
+  <div class="registration-options">
+    <label for="register-age">
+      <input type="checkbox" id="register-age" required>
+      <span>I'm 18 or older</span>
     </label>
+    <div class="registration-gender" role="radiogroup" aria-label="Gender (optional)">
+      <label for="register-male">
+        <input type="radio" id="register-male" name="register-gender" value="male">
+        <span>Male</span>
+      </label>
+      <label for="register-female">
+        <input type="radio" id="register-female" name="register-gender" value="female">
+        <span>Female</span>
+      </label>
+    </div>
+  </div>
   <button type="submit" id="send-registration-code">Send Code</button>
  </form>
 
@@ -2077,7 +2085,7 @@ if (Number(amount) > availableBalance) {
 }  
   </script>
 
-<script src="registration.js"></script>
+<script src="registration.js?v=20261012-profile"></script>
 
 </body>
 

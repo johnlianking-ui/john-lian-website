@@ -972,3 +972,36 @@ a:focus-visible,
 .reward-status { font-weight: 700; }
 .reward-lock { color: #475569; }
 @media (max-width: 600px) { .dashboard-summary { grid-template-columns: 1fr; } }
+
+
+/* Age confirmation and gender choices share one signup row. */
+#register .registration-options,
+#register .registration-gender {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+#register .registration-options { margin: 0 0 14px; }
+#register .registration-options label {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  min-height: 44px;
+  margin: 0;
+  white-space: nowrap;
+  cursor: pointer;
+}
+#register .registration-options input[type="radio"],
+#register .registration-options input[type="checkbox"] {
+  width: 18px !important;
+  height: 18px !important;
+  padding: 0 !important;
+  margin: 0 !important;
+  flex: 0 0 auto;
+  accent-color: #2474ed;
+}
+@media (max-width: 400px) {
+  #register .registration-options,
+  #register .registration-gender { gap: 7px; }
+  #register .registration-options label { font-size: 12px; gap: 4px; }
+}
