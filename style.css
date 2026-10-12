@@ -9,8 +9,8 @@ html {
 body {
   margin: 0;
   font-family: Arial, sans-serif;
-  color: #172033;
-  background: #ffffff;
+  color: #edf0ff;
+  background: #15213c;
   line-height: 1.6;
 }
 
@@ -24,8 +24,8 @@ body {
   align-items: center;
   justify-content: space-between;
   padding: 0 6%;
-  border-bottom: 1px solid #edf0f5;
-  background: #ffffff;
+  border-bottom: 1px solid #354266;
+  background: #15213c;
   position: sticky;
   top: 0;
   z-index: 100;
@@ -34,12 +34,12 @@ body {
 .logo {
   font-size: 24px;
   font-weight: 800;
-  color: #172033;
+  color: #edf0ff;
   text-decoration: none;
 }
 
 .logo span {
-  color: #1d72f2;
+  color: #c1b1ff;
 }
 
 .nav nav {
@@ -49,13 +49,13 @@ body {
 }
 
 .nav nav a {
-  color: #4b5565;
+  color: #b7c0df;
   text-decoration: none;
   font-weight: 500;
 }
 
 .nav nav a:hover {
-  color: #1d72f2;
+  color: #c1b1ff;
 }
 
 /* =========================
@@ -66,7 +66,7 @@ body {
   display: inline-block;
   border: 0;
   border-radius: 10px;
-  background: #1d72f2;
+  background: #c1b1ff;
   color: #ffffff;
   padding: 13px 22px;
   font-weight: 700;
@@ -76,14 +76,14 @@ body {
 }
 
 .btn:hover {
-  background: #155dcc;
+  background: #7a50d8;
   transform: translateY(-1px);
 }
 
 .btn.outline {
-  background: #ffffff;
-  color: #1d72f2;
-  border: 1px solid #cbd8ef;
+  background: #15213c;
+  color: #c1b1ff;
+  border: 1px solid #57658a;
 }
 
 .btn.small {
@@ -100,14 +100,14 @@ body {
   grid-template-columns: 1.3fr 0.7fr;
   gap: 60px;
   align-items: center;
-  background: linear-gradient(135deg, #f5f9ff, #ffffff);
+  background: linear-gradient(135deg, #1c2543, #15213c);
 }
 
 .eyebrow {
   font-size: 13px;
   font-weight: 800;
   letter-spacing: 1.5px;
-  color: #1d72f2;
+  color: #c1b1ff;
 }
 
 .hero h1 {
@@ -118,7 +118,7 @@ body {
 
 .lead {
   font-size: 19px;
-  color: #5e6879;
+  color: #b7c0df;
   max-width: 650px;
 }
 
@@ -131,18 +131,19 @@ body {
 .hero-card {
   padding: 38px;
   border-radius: 24px;
-  background: #172033;
+  background: #101b33;
   color: #ffffff;
   box-shadow: 0 20px 50px rgba(23, 32, 51, 0.15);
 }
 
 .circle {
+  color: #0d1730;
   width: 90px;
   height: 90px;
   border-radius: 50%;
   display: grid;
   place-items: center;
-  background: #1d72f2;
+  background: #c1b1ff;
   font-size: 28px;
   font-weight: 800;
   margin-bottom: 30px;
@@ -166,7 +167,7 @@ body {
 
 .alt {
   max-width: none;
-  background: #f7f9fc;
+  background: #101b33;
 }
 
 .grid {
@@ -180,20 +181,20 @@ body {
 
 article {
   padding: 28px;
-  background: #ffffff;
-  border: 1px solid #e8edf4;
+  background: #15213c;
+  border: 1px solid #354266;
   border-radius: 16px;
 }
 
 article b {
-  color: #1d72f2;
+  color: #c1b1ff;
 }
 
 .center {
   max-width: 800px;
   margin: auto;
   text-align: center;
-  color: #5e6879;
+  color: #b7c0df;
 }
 
 /* =========================
@@ -205,7 +206,7 @@ article b {
   max-width: 600px;
   margin: 40px auto;
   padding: 30px;
-  background: #ffffff;
+  background: #15213c;
   border-radius: 16px;
   box-shadow: 0 8px 30px rgba(0, 0, 0, 0.08);
 }
@@ -215,7 +216,7 @@ article b {
   margin-top: 0;
   margin-bottom: 20px;
   font-size: 28px;
-  color: #17213a;
+  color: #edf0ff;
 }
 
 #register input,
@@ -223,7 +224,7 @@ article b {
   width: 100%;
   padding: 14px 16px;
   margin-bottom: 14px;
-  border: 1px solid #d6dbe5;
+  border: 1px solid #57658a;
   border-radius: 10px;
   font-size: 16px;
   outline: none;
@@ -232,7 +233,7 @@ article b {
 
 #register input:focus,
 #login input:focus {
-  border-color: #2474ed;
+  border-color: #6942c6;
   box-shadow: 0 0 0 3px rgba(36, 116, 237, 0.12);
 }
 
@@ -242,7 +243,7 @@ article b {
   padding: 14px 20px;
   border: none;
   border-radius: 10px;
-  background: #2474ed;
+  background: #6942c6;
   color: #ffffff;
   font-size: 16px;
   font-weight: 600;
@@ -252,7 +253,7 @@ article b {
 
 #register button:hover,
 #login button:hover {
-  background: #155dcc;
+  background: #7a50d8;
   transform: translateY(-1px);
 }
 
@@ -278,7 +279,7 @@ article b {
   padding: 6px 8px !important;
   margin: 0 !important;
   background: transparent !important;
-  color: #667085 !important;
+  color: #c1b1ff !important;
   border: none !important;
   font-size: 18px !important;
   cursor: pointer;
@@ -287,7 +288,7 @@ article b {
 
 .toggle-password:hover {
   background: transparent !important;
-  color: #1d72f2 !important;
+  color: #c1b1ff !important;
   transform: translateY(-50%) !important;
 }
 
@@ -316,7 +317,7 @@ article b {
   padding: 3px 5px !important;
 
   background: transparent !important;
-  color: #2474ed !important;
+  color: #6942c6 !important;
   border: none !important;
 
   font-size: 12px !important;
@@ -327,7 +328,7 @@ article b {
 
 .password-field .password-toggle:hover {
   background: transparent !important;
-  color: #155dcc !important;
+  color: #7a50d8 !important;
 }
 
 /* AGE CONFIRMATION */
@@ -337,7 +338,7 @@ article b {
   align-items: center;
   gap: 10px;
   margin: 6px 0 18px;
-  color: #17213a;
+  color: #edf0ff;
   font-size: 14px;
   line-height: 1.4;
 }
@@ -358,13 +359,13 @@ article b {
   max-width: 600px;
   margin: 40px auto;
   padding: 30px;
-  background: #f5f8ff;
+  background: #15213c;
   border-radius: 16px;
   text-align: center;
 }
 
 #account h2 {
-  color: #17213a;
+  color: #edf0ff;
 }
 
 /* =========================
@@ -380,7 +381,7 @@ article b {
 
 .form-section input {
   padding: 14px;
-  border: 1px solid #d6dce7;
+  border: 1px solid #57658a;
   border-radius: 9px;
   font-size: 16px;
 }
@@ -396,8 +397,8 @@ article b {
 footer {
   padding: 30px;
   text-align: center;
-  background: #172033;
-  color: #cbd2df;
+  background: #101b33;
+  color: #b7c0df;
 }
 
 /* =========================
@@ -465,7 +466,7 @@ footer {
   padding: 2px 4px !important;
 
   background: transparent !important;
-  color: #2474ed !important;
+  color: #6942c6 !important;
 
   border: 0 !important;
   border-radius: 0 !important;
@@ -479,7 +480,7 @@ footer {
 }
 .password-field .password-toggle:hover {
   background: transparent !important;
-  color: #155dcc !important;
+  color: #7a50d8 !important;
 }
 .password-field + button[type="submit"] {
   margin-top: 18px !important;
@@ -495,7 +496,7 @@ footer {
   max-width: 1100px;
   margin: 40px auto;
   padding: 30px;
-  background: #ffffff;
+  background: #15213c;
   border-radius: 16px;
   box-shadow: 0 8px 25px rgba(0, 0, 0, 0.08);
   text-align: left;
@@ -514,7 +515,7 @@ footer {
   width: 100%;
   margin: 15px 0;
   padding: 20px;
-  background: #f5f8ff;
+  background: #15213c;
   border-radius: 12px;
   overflow-wrap: anywhere;
 }
@@ -534,7 +535,7 @@ footer {
   margin-top: 12px;
   border: none;
   border-radius: 8px;
-  background: #2474ed;
+  background: #6942c6;
   color: white;
   cursor: pointer;
 }
@@ -650,7 +651,7 @@ footer {
   padding: 3px 5px !important;
 
   background: transparent !important;
-  color: #2474ed !important;
+  color: #6942c6 !important;
   border: none !important;
 
   font-size: 12px !important;
@@ -678,7 +679,7 @@ footer {
   border: 1px solid var(--dashboard-border, transparent) !important;
   border-radius: 12px !important;
 
-  background: var(--dashboard-nav-bg, #2474ed) !important;
+  background: var(--dashboard-nav-bg, #6942c6) !important;
   color: var(--dashboard-text, white) !important;
 
   font-size: 14px;
@@ -687,7 +688,7 @@ footer {
 }
 
 .dashboard-nav button:hover {
-  background: var(--dashboard-nav-hover, #155dcc) !important;
+  background: var(--dashboard-nav-hover, #7a50d8) !important;
 }
   
 /* =========================
@@ -697,15 +698,15 @@ footer {
 .bank-transfer-details {
   margin-top: 18px;
   padding: 18px;
-  background: #f8fafc;
-  border: 1px solid #e2e8f0;
+  background: #101b33;
+  border: 1px solid #354266;
   border-radius: 12px;
 }
 
 .bank-transfer-details p {
   margin: 10px 0;
   padding-bottom: 10px;
-  border-bottom: 1px solid #e5e7eb;
+  border-bottom: 1px solid #354266;
   font-size: 14px;
 }
 
@@ -717,11 +718,11 @@ footer {
 .bank-transfer-details strong {
   display: inline-block;
   min-width: 130px;
-  color: #17213a;
+  color: #edf0ff;
 }
 
 .bank-transfer-details span {
-  color: #374151;
+  color: #c7d0eb;
 }
 
 #available-tasks-section {
@@ -732,7 +733,7 @@ footer {
 .deposit-form {
   margin-top: 24px;
   padding: 20px;
-  border: 1px solid #d6dbe5;
+  border: 1px solid #57658a;
   border-radius: 12px;
   text-align: left;
 }
@@ -747,7 +748,7 @@ footer {
   width: 100%;
   min-width: 0;
   padding: 12px;
-  border: 1px solid #d6dbe5;
+  border: 1px solid #57658a;
   border-radius: 8px;
   font: inherit;
 }
@@ -764,8 +765,8 @@ footer {
 }
 
 #user-dashboard .deposit-form button[type="reset"] {
-  background: #e2e8f0;
-  color: #172033;
+  background: #354266;
+  color: #edf0ff;
 }
 
 .deposit-form button:disabled {
@@ -812,25 +813,25 @@ footer {
 
 #user-dashboard .summary-card {
   margin: 0;
-  border: 1px solid #dce6f7;
+  border: 1px solid #354266;
 }
 
 #user-dashboard .summary-card h3 {
   font-size: 15px;
-  color: #4b5565;
+  color: #b7c0df;
   margin-bottom: 8px;
 }
 
 #user-dashboard .summary-card p {
   font-size: 28px;
   font-weight: 700;
-  color: #17213a;
+  color: #edf0ff;
   margin: 0 0 4px;
 }
 
 .summary-card span {
   font-size: 13px;
-  color: #5e6879;
+  color: #b7c0df;
 }
 
 #tasks-list {
@@ -857,10 +858,10 @@ footer {
   min-width: 0;
   padding: 12px;
   margin: 8px 0 16px;
-  border: 1px solid #cbd8ef;
+  border: 1px solid #57658a;
   border-radius: 8px;
-  background: #ffffff;
-  color: #172033;
+  background: #15213c;
+  color: #edf0ff;
   font: inherit;
 }
 
@@ -882,7 +883,7 @@ a:focus-visible,
 #user-dashboard input:focus-visible,
 #user-dashboard select:focus-visible,
 #user-dashboard textarea:focus-visible {
-  outline: 3px solid #1d72f2;
+  outline: 3px solid #c1b1ff;
   outline-offset: 3px;
 }
 
@@ -894,9 +895,9 @@ a:focus-visible,
 .transaction-history-item {
   padding: 16px 20px;
   margin-top: 12px;
-  border: 1px solid #dce6f7;
+  border: 1px solid #354266;
   border-radius: 12px;
-  background: #ffffff;
+  background: #15213c;
 }
 
 .transaction-history-item p {
@@ -921,7 +922,7 @@ a:focus-visible,
 .admin-deposits-table th,
 .admin-deposits-table td {
   padding: 14px 18px;
-  border: 1px solid #e2e8f0;
+  border: 1px solid #354266;
   text-align: left;
   overflow-wrap: anywhere;
 }
@@ -959,18 +960,18 @@ a:focus-visible,
 
 /* Staged reward program */
 .dashboard-summary { grid-template-columns: repeat(2, minmax(0, 1fr)); }
-.reward-conditions { padding: 16px; margin-bottom: 16px; background: #edf5ff; border-radius: 12px; }
+.reward-conditions { padding: 16px; margin-bottom: 16px; background: #1c2543; border-radius: 12px; }
 .reward-conditions ul { padding-left: 22px; }
 .reward-conditions li { margin-bottom: 10px; }
 .reward-task fieldset, .reward-review fieldset { border: 0; margin: 0; padding: 0; min-width: 0; }
 .reward-task [hidden], .reward-review [hidden] { display: none !important; }
 .reward-task img, .reward-review img { display: block; max-width: 100%; max-height: 600px; object-fit: contain; margin: 12px 0; }
 .reward-task, .reward-review { min-width: 0; overflow-wrap: anywhere; }
-.reward-review { padding: 20px; border: 1px solid #cbd8ef; border-radius: 12px; margin: 16px 0; }
+.reward-review { padding: 20px; border: 1px solid #57658a; border-radius: 12px; margin: 16px 0; }
 .reward-review textarea { display: block; width: 100%; box-sizing: border-box; font: inherit; padding: 10px; margin: 8px 0; }
 .reward-review button, .reward-task button { margin: 6px 8px 6px 0; }
 .reward-status { font-weight: 700; }
-.reward-lock { color: #475569; }
+.reward-lock { color: #b7c0df; }
 @media (max-width: 600px) { .dashboard-summary { grid-template-columns: 1fr; } }
 
 
@@ -998,7 +999,7 @@ a:focus-visible,
   padding: 0 !important;
   margin: 0 !important;
   flex: 0 0 auto;
-  accent-color: #2474ed;
+  accent-color: #6942c6;
 }
 @media (max-width: 400px) {
   #register .registration-options,
@@ -1119,4 +1120,39 @@ a:focus-visible,
   #user-dashboard .task-card { padding: 16px; }
   #user-dashboard .reward-conditions { padding: 16px; }
   #admin-dashboard { margin: 0 12px 24px; padding: 18px; }
+}
+
+/* Shared public pages use the same palette as the member workspace. */
+:root { color-scheme: dark; }
+body { background: #0d1730; }
+a { color: #c1b1ff; }
+.nav { background: #0d1730; }
+.nav nav a:hover { color: #ddd2ff; }
+.btn, .nav nav a.btn { background: #6942c6; color: #ffffff; }
+.btn:hover, .nav nav a.btn:hover { background: #7a50d8; }
+.btn.outline, .btn.secondary { background: #192543; color: #edf0ff; border: 1px solid #57658a; }
+.btn.outline:hover, .btn.secondary:hover { background: #303056; }
+.hero { grid-template-columns: 1fr; }
+.hero-content { max-width: 850px; }
+.hero-content > div { display: flex; flex-wrap: wrap; gap: 12px; }
+.tagline { color: #c1b1ff; font-weight: 700; }
+#how, #opportunities, #about { max-width: 1180px; margin: auto; padding: 40px 24px; scroll-margin-top: 80px; }
+#how > div { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 18px; }
+#how article h3 { color: #e4ddff; }
+#how article p, #opportunities p, #about p { color: #b7c0df; }
+#register, #login, #account { border: 1px solid #354266; scroll-margin-top: 90px; }
+#register input, #login input, .form-section input { background: #0d1730; color: #edf0ff; }
+input::placeholder, textarea::placeholder { color: #a3afcf; opacity: 1; }
+#register input:focus, #login input:focus { border-color: #c5a7ff; box-shadow: 0 0 0 3px rgb(197 167 255 / 20%); }
+#register button, #login button { background: #6942c6; color: #ffffff; border: 1px solid #9170e1; border-radius: 10px; padding: 10px 14px; min-height: 44px; cursor: pointer; }
+#register button:hover, #login button:hover { background: #7a50d8; }
+#register .password-field .password-toggle, #login .password-field .password-toggle { color: #c1b1ff !important; }
+#register .password-field .password-toggle:hover, #login .password-field .password-toggle:hover { color: #ddd2ff !important; }
+#register .registration-options input { accent-color: #a483fa; }
+#register input:focus-visible, #login input:focus-visible, :is(button, a, input, select, textarea):focus-visible { outline: 3px solid #c5a7ff; outline-offset: 3px; }
+footer { background: #101b33; border-top: 1px solid #354266; }
+@media (max-width: 600px) {
+  #how > div { grid-template-columns: 1fr; }
+  #how, #opportunities, #about { padding: 28px 18px; }
+  .hero h1 { font-size: clamp(36px, 9vw, 54px); }
 }
