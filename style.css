@@ -675,11 +675,11 @@ footer {
   padding: 11px 14px !important;
   margin: 0 !important;
 
-  border: none !important;
-  border-radius: 8px !important;
+  border: 1px solid var(--dashboard-border, transparent) !important;
+  border-radius: 12px !important;
 
-  background: #2474ed !important;
-  color: white !important;
+  background: var(--dashboard-nav-bg, #2474ed) !important;
+  color: var(--dashboard-text, white) !important;
 
   font-size: 14px;
   font-weight: 600;
@@ -687,7 +687,7 @@ footer {
 }
 
 .dashboard-nav button:hover {
-  background: #155dcc !important;
+  background: var(--dashboard-nav-hover, #155dcc) !important;
 }
   
 /* =========================
@@ -1004,4 +1004,119 @@ a:focus-visible,
   #register .registration-options,
   #register .registration-gender { gap: 7px; }
   #register .registration-options label { font-size: 12px; gap: 4px; }
+}
+
+
+/* Dark blue and purple dashboard theme. */
+#user-dashboard,
+#admin-dashboard {
+  --dashboard-text: #edf0ff;
+  --dashboard-muted: #b7c0df;
+  --dashboard-border: #354266;
+  --dashboard-nav-bg: #192543;
+  --dashboard-nav-hover: #303056;
+  color: var(--dashboard-text);
+  background: #0d1730;
+  border: 1px solid #293758;
+  border-radius: 24px;
+  box-shadow: 0 24px 60px rgba(13, 23, 48, 0.18);
+  color-scheme: dark;
+}
+.section.dashboard-shell { padding: 32px 24px; }
+#user-dashboard { max-width: 1180px; margin: 0 auto; padding: 32px; }
+#user-dashboard .dashboard-header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 16px;
+  margin-bottom: 28px;
+}
+#user-dashboard .dashboard-header h2 { text-align: left; margin: 4px 0 8px; font-size: clamp(28px, 4vw, 38px); line-height: 1.2; }
+#user-dashboard .dashboard-eyebrow { color: #c1b1ff; font-size: 11px; font-weight: 700; letter-spacing: 2px; margin: 0; }
+#user-dashboard .dashboard-intro { color: var(--dashboard-muted); margin: 0; }
+#dashboard-email { text-align: left; margin: 8px 0 0; color: var(--dashboard-muted); }
+#dashboard-email:empty { display: none; }
+#user-dashboard .dashboard-currency { padding: 6px 12px; border: 1px solid #4b426f; border-radius: 100px; color: #ddd2ff; background: #252346; font-size: 12px; white-space: nowrap; }
+#user-dashboard .dashboard-nav { justify-content: flex-start; gap: 10px; margin-bottom: 24px; }
+#user-dashboard .dashboard-nav button { min-height: 48px; flex: 1 1 145px; }
+#user-dashboard .dashboard-nav button[aria-expanded="true"] { background: #6942c6 !important; border-color: #9876ee !important; }
+#user-dashboard .dashboard-summary { gap: 14px; margin-bottom: 24px; }
+#user-dashboard .dashboard-card { background: #15213c; border: 1px solid var(--dashboard-border); border-radius: 18px; padding: 24px; margin: 20px 0; }
+#user-dashboard .summary-card { background: linear-gradient(135deg, #1c294b, #17203c); margin: 0; padding: 20px; }
+#user-dashboard .summary-card:nth-child(2) { background: linear-gradient(135deg, #332254, #222447); border-color: #685091; }
+#user-dashboard .summary-heading { display: flex; align-items: flex-start; justify-content: space-between; gap: 8px; margin-bottom: 18px; }
+#user-dashboard .summary-card h3 { font-size: 13px; font-weight: 600; color: #c3cbea; margin: 0; }
+#user-dashboard .summary-icon { width: 24px; height: 24px; flex: 0 0 auto; color: #bb9eff; }
+#user-dashboard .summary-card p { color: #f5f2ff; font-size: clamp(25px, 2.4vw, 32px); letter-spacing: -0.7px; line-height: 1.3; margin: 0 0 12px; }
+#user-dashboard .summary-card span { color: var(--dashboard-muted); font-size: 12px; line-height: 1.6; }
+#user-dashboard h3 { color: #f2efff; }
+#user-dashboard h4 { color: #e4ddff; }
+#user-dashboard button,
+#admin-dashboard button {
+  background: #6942c6;
+  color: #ffffff;
+  padding: 12px 16px;
+  min-height: 44px;
+  border: 1px solid #9170e1;
+  border-radius: 10px;
+  font: inherit;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 160ms ease, border-color 160ms ease;
+}
+#user-dashboard .dashboard-card button { background: #6942c6; border: 1px solid #9170e1; border-radius: 10px; }
+#user-dashboard button:hover:not(:disabled),
+#admin-dashboard button:hover:not(:disabled) { background: #7a50d8; border-color: #af90ff; }
+#user-dashboard .deposit-form button[type="reset"] { background: #25304c; color: #e0e5fa; border-color: #5f6c8e; }
+#user-dashboard input,
+#user-dashboard select,
+#user-dashboard textarea,
+#admin-dashboard textarea { background: #0d1730; color: #edf0ff; border: 1px solid #57658a; border-radius: 10px; }
+#user-dashboard input::placeholder,
+#user-dashboard textarea::placeholder { color: #a3afcf; }
+#user-dashboard input[type="file"] { padding: 10px; }
+#user-dashboard input[type="file"]::file-selector-button { background: #283456; color: #f0ebff; border: 1px solid #626b99; border-radius: 6px; padding: 8px; margin-right: 8px; cursor: pointer; }
+#user-dashboard :is(button, input, select, textarea):focus-visible,
+#admin-dashboard :is(button, textarea):focus-visible { outline: 3px solid #c5a7ff; outline-offset: 3px; }
+#user-dashboard .reward-conditions { background: #1c2543; border: 1px solid #514771; border-left: 3px solid #a483fa; padding: 20px; border-radius: 12px; color: #d2d9f2; }
+#user-dashboard .reward-conditions h4 { margin: 0 0 12px; }
+#user-dashboard .reward-conditions strong { color: #f1eaff; }
+#user-dashboard .task-card { background: #0f1b34; border: 1px solid #344267; border-radius: 14px; padding: 20px; }
+#user-dashboard .task-card p { color: #bdc7e3; }
+#user-dashboard .task-card .reward-status { color: #d5bfff; border-bottom: 1px solid #354266; padding-bottom: 12px; }
+#user-dashboard .task-card .reward-lock { color: #b7c0df; }
+#user-dashboard .deposit-form,
+#user-dashboard .bank-transfer-details { background: #101b33; border-color: #354266; border-radius: 14px; }
+#user-dashboard .bank-transfer-details p { border-color: #354266; }
+#user-dashboard .bank-transfer-details strong { color: #e6ddff; }
+#user-dashboard .bank-transfer-details span { color: #c7d0eb; }
+#user-dashboard .transaction-history-item { background: #101b33; border-color: #354266; border-radius: 12px; }
+#user-dashboard .transaction-history-item h4 { margin: 0 0 8px; }
+#user-dashboard hr,
+#admin-dashboard hr { border: 0; border-top: 1px solid #354266; margin: 24px 0; }
+#admin-dashboard { padding: 32px; margin-bottom: 40px; }
+#admin-dashboard h2 { color: #f2efff; }
+#admin-dashboard .reward-review { background: #15213c; border-color: #354266; }
+#admin-dashboard .reward-review textarea { color: #edf0ff; }
+#admin-dashboard table th { background: #222846; color: #e9e1ff; }
+#admin-dashboard table td { background: #15213c; color: #d4ddf6; }
+#admin-dashboard #admin-submissions table :is(th, td) { border-color: #354266 !important; }
+#admin-dashboard :is(.admin-deposits-table, .admin-withdrawals-table) :is(th, td) { border-color: #354266; }
+@media (min-width: 1000px) { #user-dashboard .dashboard-summary { grid-template-columns: repeat(4, minmax(0, 1fr)); } }
+@media (min-width: 1100px) { #user-dashboard #tasks-list { grid-template-columns: repeat(3, minmax(0, 1fr)); } }
+@media (max-width: 600px) {
+  .section.dashboard-shell { padding: 20px 12px; }
+  #user-dashboard { padding: 18px; border-radius: 18px; }
+  #user-dashboard .dashboard-header { margin-bottom: 20px; }
+  #user-dashboard .dashboard-nav { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 8px; }
+  #user-dashboard .dashboard-nav button { min-width: 0; padding: 10px 8px !important; font-size: 12px; }
+  #user-dashboard .dashboard-nav button:last-child { grid-column: 1 / -1; }
+  #user-dashboard .dashboard-card { padding: 18px; border-radius: 14px; }
+  #user-dashboard .summary-card { padding: 18px; }
+  #user-dashboard .summary-heading { margin-bottom: 12px; }
+  #user-dashboard .summary-card p { font-size: 30px; }
+  #user-dashboard .task-card { padding: 16px; }
+  #user-dashboard .reward-conditions { padding: 16px; }
+  #admin-dashboard { margin: 0 12px 24px; padding: 18px; }
 }
