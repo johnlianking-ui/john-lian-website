@@ -956,3 +956,19 @@ a:focus-visible,
     min-width: 0;
   }
 }
+
+/* Staged reward program */
+.dashboard-summary { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+.reward-conditions { padding: 16px; margin-bottom: 16px; background: #edf5ff; border-radius: 12px; }
+.reward-conditions ul { padding-left: 22px; }
+.reward-conditions li { margin-bottom: 10px; }
+.reward-task fieldset, .reward-review fieldset { border: 0; margin: 0; padding: 0; min-width: 0; }
+.reward-task [hidden], .reward-review [hidden] { display: none !important; }
+.reward-task img, .reward-review img { display: block; max-width: 100%; max-height: 600px; object-fit: contain; margin: 12px 0; }
+.reward-task, .reward-review { min-width: 0; overflow-wrap: anywhere; }
+.reward-review { padding: 20px; border: 1px solid #cbd8ef; border-radius: 12px; margin: 16px 0; }
+.reward-review textarea { display: block; width: 100%; box-sizing: border-box; font: inherit; padding: 10px; margin: 8px 0; }
+.reward-review button, .reward-task button { margin: 6px 8px 6px 0; }
+.reward-status { font-weight: 700; }
+.reward-lock { color: #475569; }
+@media (max-width: 600px) { .dashboard-summary { grid-template-columns: 1fr; } }
